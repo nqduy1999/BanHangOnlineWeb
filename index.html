@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dụng cụ học sinh</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="overlaySearch" class="overlay">
+        <span class="closebtn" onclick="closesearch()" title="Close Overlay">×</span>
+        <div class="overlay-content">
+          <form action="/action_page.php" class="searchform">
+            <input type="text" class="form-control" placeholder="SEARCH.." name="search" >
+            <span class="input-gr-btn">
+            <button type="submit"><i class="fa fa-search"></i></button>
+            </span>
+          </form>
+        </div>
+      </div>
+    <header>
+        <nav class="navbar navbar-expand-sm nav-header bg-light">
+            <!-- <div class="logo-div">
+                <div class="logo">
+            <span class="dot">
+            <img src="resources/img/logo.png" alt="hong có hình">
+            </span> -->
+            </div>
+            <div class="name-shop">
+            <h2>Giải Pháp Văn Phòng </h2>
+            </div>
+            <div class="clear"></div>
+            </div>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-1 ml-5">
+           					
+						<li class="nav-item">
+                            <a href="#">Văn phòng phẩm <i class="fa fa-angle-down"></i></a>
+									<ul class="sup-menu">
+										
+										
+										<li>
+                                            <a class="arrow" href="#">GIẤY CÁC LOẠI <i class="fa fa-angle-down"></i></a>
+                                            <div>
+                                            <ul class="sup-menu-child ">
+												
+												<li><a href="https://tangphu.com.vn/giay-in-an">Giấy in ấn</a></li>
+												
+												<li><a href="https://tangphu.com.vn/khan-giay">Khăn giấy</a></li>
+												
+												<li><a href="https://tangphu.com.vn/bao-thu">Bao thư</a></li>
+												
+												<li><a href="https://tangphu.com.vn/giay-decal">Giấy Decal</a></li>
+												
+												<li><a href="https://tangphu.com.vn/giay-bia-mau">Giấy bìa màu</a></li>
+												
+												<li><a href="https://tangphu.com.vn/giay-fax">Giấy Fax</a></li>
+												
+												<li><a href="https://tangphu.com.vn/giay-photo">Giấy Photo</a></li>
+												
+												<li><a href="https://tangphu.com.vn/giay-in-lien-tuc">Giấy in liên tục</a></li>
+												
+												<li><a href="https://tangphu.com.vn/giay-than">Giấy than</a></li>
+												
+												<li><a href="https://tangphu.com.vn/ghi-chu-niem-phong">Ghi chú - Niêm Phong</a></li>
+												
+                                            </ul>
+                                            </div>
+										</li>			
+										<li>
+											<a class="arrow" href="">BÚT VIẾT CÁC LOẠI</a>
+										
+										</li>	
+										
+										
+										
+										<li>
+											<a class="arrow" href="">BẤM - KIM - KẸP</a>
+										</li>	
+										
+										
+										
+										<li>
+											<a class="arrow" href="">BÌA CÁC LOẠI</a>
+										</li>	
+										
+										
+										
+										<li>
+											<a class="arrow" href="">TẬP - SỔ SÁCH KẾ TOÁN</a>
+										</li>	
+										
+										
+										
+										<li>
+											<a class="arrow" href="">DỤNG CỤ HỌC SINH</a>
+
+										</li>	
+										
+										
+										
+										<li>
+											<a class="arrow" href="">DỤNG CỤ VP</a>
+										</li>	
+										
+										
+										
+										<li>
+											<a class="arrow" href="">HÓA MỸ PHẨM</a>
+										</li>	
+										
+										
+										
+										<li>
+											<a class="arrow" href="">VPP KHÁC</a>
+										</li>	
+										
+										
+									</ul>
+								</li>
+								
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dịch vụ văn phòng </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Tin Tức 
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">VỀ CHÚNG TÔI</a>
+                    </li>
+                </ul>
+                <div class="icon">
+                    <span class="search-icon ">
+                        <button class="btn" onclick="searchform()">
+                    <i class="fa fa-search"></i>
+                    </button>
+                    </span>
+                    <span class="shopping-cart ml-4">
+                        <button class="btn">
+                    <i class="fa fa-shopping-cart "></i>
+                    </button>
+                    </span>
+                    <span class="ml-4 account">
+                        <button class="btn btn-account"> ĐĂNG NHẬP</button>
+                        <button class="btn btn-account"> ĐĂNG KÝ</button>
+                    </span>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
