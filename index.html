@@ -7,6 +7,7 @@
     <title>Dụng cụ học sinh</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="resources/css/mdb.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,7 +23,7 @@
         </div>
       </div>
     <header>
-        <nav class="navbar navbar-expand-sm nav-header bg-light">
+        <nav class="navbar navbar-expand-sm nav-header">
             <!-- <div class="logo-div">
                 <div class="logo">
             <span class="dot">
@@ -73,10 +74,7 @@
 										<li>
 											<a class="arrow" href="">BÚT VIẾT CÁC LOẠI</a>
 										
-										</li>	
-										
-										
-										
+										</li>								
 										<li>
 											<a class="arrow" href="">BẤM - KIM - KẸP</a>
 										</li>	
@@ -135,21 +133,90 @@
                 </ul>
                 <div class="icon">
                     <span class="search-icon ">
-                        <button class="btn" onclick="searchform()">
+                        <a onclick="searchform()">
                     <i class="fa fa-search"></i>
-                    </button>
+                    </a>
                     </span>
                     <span class="shopping-cart ml-4">
-                        <button class="btn">
+                    <a>
                     <i class="fa fa-shopping-cart "></i>
-                    </button>
+                    </a>
                     </span>
                     <span class="ml-4 account">
-                        <button class="btn btn-account"> ĐĂNG NHẬP</button>
-                        <button class="btn btn-account"> ĐĂNG KÝ</button>
+                        <a class=" btn btn-success btn-account"  data-toggle="modal" data-target="#modalLoginForm"> ĐĂNG NHẬP</a>
+                        <a class=" btn btn-danger btn-account" data-toggle="modal" data-target="#modalRegisterForm"> ĐĂNG KÝ</a>
                     </span>
                 </div>
+                <!-- Login Form -->
+                <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input type="email" id="defaultForm-email" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+        </div>
+
+        <div class="md-form mb-4">
+          <i class="fas fa-lock prefix grey-text"></i>
+          <input type="password" id="defaultForm-pass" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+        </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-default">Login</button>
+      </div>
+    </div>
+  </div>
+</div>
             </div>
+             <!--//-->
+             <!--SignUp Form -->
+             <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Sign up</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <i class="fas fa-user prefix grey-text"></i>
+          <input type="text" id="orangeForm-name" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="orangeForm-name">Your name</label>
+        </div>
+        <div class="md-form mb-5">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input type="email" id="orangeForm-email" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="orangeForm-email">Your email</label>
+        </div>
+
+        <div class="md-form mb-4">
+          <i class="fas fa-lock prefix grey-text"></i>
+          <input type="password" id="orangeForm-pass" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="orangeForm-pass">Your password</label>
+        </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-deep-orange">Sign up</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--// -->
         </nav>
     </header>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

@@ -93,9 +93,18 @@ body{
     width: 35%;
     cursor: pointer;
 }
-.navbar-collapse .icon .account button{
+.navbar-collapse .icon .account a{
     font-size: 15px;
 }
+header .btn-deep-orange {
+  color: #fff;
+  background-color: #ff7043 !important;
+}
+header .md-form .prefix {
+  top: .25rem;
+  font-size: 1.75rem;
+}
+
 .overlay {
     height: 100%;
     width: 100%;
