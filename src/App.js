@@ -1,14 +1,22 @@
 import React from 'react';
 
+import { BrowserRouter } from 'react-router-dom';
+
 import './App.css';
 
-import Home from './pages/Home';
+import Footer from './component/Footer';
+import Header from './component/Header';
+import Direction from './router/Direction';
 
 function App() {
   return (
+    <BrowserRouter>
     <div className="App">
-      <Home/>
+      <Header/>
+      <Direction/>
+      <Footer/>
     </div>
+    </BrowserRouter>
   );
 }
 
