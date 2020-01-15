@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import bia from '../resource/images/bia.jpg'
+import React from 'react';
+import bia from '../../resource/images/bia.jpg'
 const ServiceContent = () => {
     // let bia = require("../resource/images/bia.jpg");
     return (
