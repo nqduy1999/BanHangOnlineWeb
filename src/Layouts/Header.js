@@ -17,7 +17,7 @@ const Header = () => {
     <div className="container">
       <div className="row align-items-center">
         <div className="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-          <form action className="site-block-top-search">
+          <form className="site-block-top-search">
             <span className="icon icon-search2" />
             <input type="text" className="form-control border-0" placeholder="Tìm Kiếm" />
           </form>
@@ -31,7 +31,7 @@ const Header = () => {
           <div className="site-top-icons">
             <ul>
               <li><a href="#" data-toggle="modal" data-target="#modalLoginForm"><span className="icon icon-person" /></a></li>
-              <li><a href><span className="icon icon-heart-o" /></a></li>
+              <li><a><span className="icon icon-heart-o" /></a></li>
               <li>
                 <a href="./html/cart.html" className="site-cart">
                   <span className="icon icon-shopping_cart" />
@@ -125,58 +125,58 @@ const Header = () => {
               <a href="#">Máy tính - Thiết bị văn phòng </a>
               <i className="fa fa-angle-down" />
               <ul className="dropdown">
-                <li><a href>Máy tính casio </a></li>
-                <li><a href>Chuột máy tính bàn phím </a></li>
-                <li><a href>Ổ cắm điện - phích cắm </a></li>
-                <li><a href>Pin - CD - DVD - USB - Điện thoại bàn </a></li>
+                <li><a>Máy tính casio </a></li>
+                <li><a>Chuột máy tính bàn phím </a></li>
+                <li><a>Ổ cắm điện - phích cắm </a></li>
+                <li><a>Pin - CD - DVD - USB - Điện thoại bàn </a></li>
               </ul>
             </li>
             <li className="has-children">
               <a href="#">Mực in - Bút</a>
               <ul className="dropdown">
-                <li><a href>Bút bi thiên long</a></li>
-                <li><a href>Bút bi - Bút nước - Bút ký</a></li>
-                <li><a href>Bút dạ quang - Lông bảng - Lông dầu</a></li>
-                <li><a href>Bút xoá</a></li>
-                <li><a href>Bút chì  - Ruột chì - Tẩy - Chuốt</a></li>
-                <li><a href>Mực dấu - Mực lông bản - Mực dầu</a></li>
+                <li><a>Bút bi thiên long</a></li>
+                <li><a>Bút bi - Bút nước - Bút ký</a></li>
+                <li><a>Bút dạ quang - Lông bảng - Lông dầu</a></li>
+                <li><a>Bút xoá</a></li>
+                <li><a>Bút chì  - Ruột chì - Tẩy - Chuốt</a></li>
+                <li><a>Mực dấu - Mực lông bản - Mực dầu</a></li>
               </ul>
             </li>
             <li className="has-children">
               <a href="#">Sổ - Tập</a>
               <ul className="dropdown">
-                <li><a href>Tập vở - Bao thư</a></li>
-                <li><a href>Sổ Namecard - Hộp Đựng Namecard</a></li>
-                <li><a href>Ổ cắm điện - phích cắm</a></li>
-                <li><a href>Phiếu thu chi - Phiếu xuất nhập kho</a></li>
+                <li><a>Tập vở - Bao thư</a></li>
+                <li><a>Sổ Namecard - Hộp Đựng Namecard</a></li>
+                <li><a>Ổ cắm điện - phích cắm</a></li>
+                <li><a>Phiếu thu chi - Phiếu xuất nhập kho</a></li>
               </ul>
             </li>
             <li className="has-children">
               <a href="#">Bách hoá văn phòng </a>
               <ul className="dropdown">
-                <li><a href>Chăm sóc sức khoẻ và sắc đẹp</a></li>
-                <li><a href>Thực phẩm văn phòng</a></li>
-                <li><a href>Chất tẩy rửa - giấy vệ sinh - Khăn giấy</a></li>
-                <li><a href>Bảo hộ lao động</a></li>
-                <li><a href>Văn phòng phẩm khác</a></li>
+                <li><a>Chăm sóc sức khoẻ và sắc đẹp</a></li>
+                <li><a >Thực phẩm văn phòng</a></li>
+                <li><a >Chất tẩy rửa - giấy vệ sinh - Khăn giấy</a></li>
+                <li><a >Bảo hộ lao động</a></li>
+                <li><a >Văn phòng phẩm khác</a></li>
               </ul>
             </li>
             <li className="has-children">
               <a href="#">Bảng viết - Bút lông</a>
               <ul className="dropdown">
-                <li><a href>Máy tính casio</a></li>
-                <li><a href>Chuột máy tính bàn phím</a></li>
-                <li><a href>Ổ cắm điện - phích cắm</a></li>
-                <li><a href>Pin - CD - DVD - USB - Điện thoại bàn</a></li>
+                <li><a>Máy tính casio</a></li>
+                <li><a>Chuột máy tính bàn phím</a></li>
+                <li><a >Ổ cắm điện - phích cắm</a></li>
+                <li><a>Pin - CD - DVD - USB - Điện thoại bàn</a></li>
               </ul>
             </li>
             <li className="has-children">
               <a href="#">Giấy in văn phòng</a>
               <ul className="dropdown">
-                <li><a href>Giấy văn phòng phẩm - Giấy photo</a></li>
-                <li><a href>Bìa thái - Giấy FO màu - Bìa kiếng</a></li>
-                <li><a href>Giấy in màu - In ảnh - Giấy kẻ ngang</a></li>
-                <li><a href>Pin - CD - DVD - USB - Điện thoại bàn</a></li>
+                <li><a >Giấy văn phòng phẩm - Giấy photo</a></li>
+                <li><a >Bìa thái - Giấy FO màu - Bìa kiếng</a></li>
+                <li><a >Giấy in màu - In ảnh - Giấy kẻ ngang</a></li>
+                <li><a >Pin - CD - DVD - USB - Điện thoại bàn</a></li>
               </ul>
             </li>
             <li><a href="#">Combo Văn phòng phẩm</a></li>
