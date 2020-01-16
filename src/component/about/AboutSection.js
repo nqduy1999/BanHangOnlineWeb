@@ -4,7 +4,7 @@ import bia from '../../resource/images/bia.jpg';
 const AboutSection = () => {
     return (
         <div>
-        <div className="site-section border-bottom">
+        <div className="site-section border-bottom" data-aos="fade-up">
         <div className="container">
             <div className="row mb-5">
             <div className="col-md-6">

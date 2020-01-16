@@ -27,7 +27,7 @@ const Header = () => {
         </div>
         <div className="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
           <div className="site-logo">
-            <a href="index.html" className="js-logo-clone">Ananas</a>
+            <Link to="/" className="js-logo-clone">Ananas</Link>
           </div>
         </div>
         <div className="col-6 col-md-4 order-3 order-md-3 text-right">
@@ -36,10 +36,10 @@ const Header = () => {
               <li><Link to="/" data-toggle="modal" data-target="#modalLoginForm"><span className="icon icon-person" /></Link></li>
               <li><Link to="/"><span className="icon icon-heart-o" /></Link></li>
               <li>
-                <a href="./html/cart.html" className="site-cart">
+                <Link to="/giohang" className="site-cart">
                   <span className="icon icon-shopping_cart" />
                   <span className="count">2</span>
-                </a>
+                </Link>
               </li>
               <li className="d-inline-block d-md-none ml-md-0"><Link to="/" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></Link></li>
             </ul>

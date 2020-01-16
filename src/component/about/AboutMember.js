@@ -1,8 +1,11 @@
 import React from 'react';
 
+import duyImg from '../../resource/images/duydeptrai.jpg';
+import hungImg from '../../resource/images/duyhung.jpg';
+import truongImg from '../../resource/images/truong.jpg';
 const AboutMember = () => {
     return (
-        <div className="site-section border-bottom">
+        <div className="site-section border-bottom" data-aos="fade-up">
         <div className="container">
             <div className="row justify-content-center mb-5">
             <div className="col-md-7 site-section-heading text-center pt-4">
@@ -14,7 +17,7 @@ const AboutMember = () => {
                 <div className="block-38 text-center">
                 <div className="block-38-img">
                     <div className="block-38-header">
-                    <img src="../images/truongml.jpg" alt="Image placeholder" className="mb-4" />
+                    <img className="mb-4" alt="" src={truongImg} />
                     <h3 className="block-38-heading h4">Đặng Lê Minh Trường </h3>
                     <p className="block-38-subheading">Trưởng Nhóm</p>
                     <p className="block-38-subheading">17019711</p>
@@ -29,7 +32,7 @@ const AboutMember = () => {
                 <div className="block-38 text-center">
                 <div className="block-38-img">
                     <div className="block-38-header">
-                    <img src="../images/duydeptrai.jpg" alt="Image placeholder" className="mb-4" />
+                    <img src={duyImg} alt="Image placeholder" className="mb-4" />
                     <h3 className="block-38-heading h4">Nguyễn Quốc Duy</h3>
                     <p className="block-38-subheading">Thành Viên</p>
                     <p className="block-38-subheading">17018481</p>
@@ -44,7 +47,7 @@ const AboutMember = () => {
                 <div className="block-38 text-center">
                 <div className="block-38-img">
                     <div className="block-38-header">
-                    <img src="../images/duyhung.jpg" alt="Image placeholder" className="mb-4" />
+                    <img src={hungImg} alt="Image placeholder" className="mb-4" />
                     <h3 className="block-38-heading h4">Nguyễn Duy Hưng</h3>
                     <p className="block-38-subheading">Thành Viên</p>
                     <p className="block-38-subheading">17043131</p>

@@ -1,15 +1,15 @@
 import React from 'react';
 
 import AboutMember from '../component/about/AboutMember';
-import AboutReview from '../component/about/AboutReview';
 import AboutSection from '../component/about/AboutSection';
+import AboutService from '../component/about/AboutService';
 
 const About = () => {
     return (
         <div>
             <AboutSection/>
             <AboutMember/>
-            <AboutReview/>
+            <AboutService/>
         </div>
     );
 };
