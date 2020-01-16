@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { Link } from 'react-router-dom';
 import "../resource/icomoon/style.css"
 import "../resource/css/style.css"
 import "../resource/css/bootstrap.min.css"
@@ -9,6 +11,7 @@ import "../resource/css/owl.carousel.min.css"
 import "../resource/css/owl.theme.default.min.css"
 import "../resource/css/mdb.min.css"
 import "../resource/css/mdb.lite.min.css"
+
 const Header = () => {
     return (
         <div>
@@ -30,17 +33,17 @@ const Header = () => {
         <div className="col-6 col-md-4 order-3 order-md-3 text-right">
           <div className="site-top-icons">
             <ul>
-              <li><a href="#" data-toggle="modal" data-target="#modalLoginForm"><span className="icon icon-person" /></a></li>
-              <li><a><span className="icon icon-heart-o" /></a></li>
+              <li><Link to="/" data-toggle="modal" data-target="#modalLoginForm"><span className="icon icon-person" /></Link></li>
+              <li><Link to="/"><span className="icon icon-heart-o" /></Link></li>
               <li>
                 <a href="./html/cart.html" className="site-cart">
                   <span className="icon icon-shopping_cart" />
                   <span className="count">2</span>
                 </a>
-              </li> 
-              <li className="d-inline-block d-md-none ml-md-0"><a href="#" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></a></li>
+              </li>
+              <li className="d-inline-block d-md-none ml-md-0"><Link to="/" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></Link></li>
             </ul>
-          </div> 
+          </div>
         </div>
       </div>
     </div>
@@ -113,76 +116,76 @@ const Header = () => {
     <div className="container">
       <ul className="site-menu js-clone-nav d-none d-md-block">
         <li className="active">
-          <a href="../index.html">Trang chủ</a>
+          <Link to="/">Trang chủ</Link>
         </li>
         <li>
-          <a href="./html/about.html">Giới thiệu</a>
+          <Link to="/gioithieu">Giới thiệu</Link>
         </li>
         <li className="has-children">
-          <a href="./html/sanpham.html">Sản phẩm</a>
+          <Link to="/sanpham">Sản phẩm</Link>
           <ul className="dropdown">
             <li className="has-children">
-              <a href="#">Máy tính - Thiết bị văn phòng </a>
+              <Link to="/may-tinh-thiet-bi-van-phong">Máy tính - Thiết bị văn phòng </Link>
               <i className="fa fa-angle-down" />
               <ul className="dropdown">
-                <li><a>Máy tính casio </a></li>
-                <li><a>Chuột máy tính bàn phím </a></li>
-                <li><a>Ổ cắm điện - phích cắm </a></li>
-                <li><a>Pin - CD - DVD - USB - Điện thoại bàn </a></li>
+                <li><Link to="/may-tinh-casio">Máy tính casio </Link></li>
+                <li><Link to="/chuot-banphim">Chuột máy tính bàn phím </Link></li>
+                <li><Link to="/o-cam-dien">Ổ cắm điện - phích cắm </Link></li>
+                <li><Link to="/pin-cd-dvd-usb">Pin - CD - DVD - USB - Điện thoại bàn </Link></li>
               </ul>
             </li>
             <li className="has-children">
-              <a href="#">Mực in - Bút</a>
+              <Link to="muc-in-but">Mực in - Bút</Link>
               <ul className="dropdown">
-                <li><a>Bút bi thiên long</a></li>
-                <li><a>Bút bi - Bút nước - Bút ký</a></li>
-                <li><a>Bút dạ quang - Lông bảng - Lông dầu</a></li>
-                <li><a>Bút xoá</a></li>
-                <li><a>Bút chì  - Ruột chì - Tẩy - Chuốt</a></li>
-                <li><a>Mực dấu - Mực lông bản - Mực dầu</a></li>
+                <li><Link to="/but-bi-thien-long">Bút bi thiên long</Link></li>
+                <li><Link to="/but-bi-but-nuoc-but-ky">Bút bi - Bút nước - Bút ký</Link></li>
+                <li><Link to="/but-da-quang">Bút dạ quang - Lông bảng - Lông dầu</Link></li>
+                <li><Link to="/but-xoa">Bút xoá</Link></li>
+                <li><Link to="/but-chi">Bút chì  - Ruột chì - Tẩy - Chuốt</Link></li>
+                <li><Link to="/muc-dau-muc-long-ban">Mực dấu - Mực lông bản - Mực dầu</Link></li>
               </ul>
             </li>
             <li className="has-children">
-              <a href="#">Sổ - Tập</a>
+              <Link to="/sotap">Sổ - Tập</Link>
               <ul className="dropdown">
-                <li><a>Tập vở - Bao thư</a></li>
-                <li><a>Sổ Namecard - Hộp Đựng Namecard</a></li>
-                <li><a>Ổ cắm điện - phích cắm</a></li>
-                <li><a>Phiếu thu chi - Phiếu xuất nhập kho</a></li>
+                <li><Link to="/tap-vo">Tập vở - Bao thư</Link></li>
+                <li><Link to="/namecard">Sổ Namecard - Hộp Đựng Namecard</Link></li>
+                <li><Link to="/o-cam-dien">Ổ cắm điện - phích cắm</Link></li>
+                <li><Link to="/phieuthuchi">Phiếu thu chi - Phiếu xuất nhập kho</Link></li>
               </ul>
             </li>
             <li className="has-children">
-              <a href="#">Bách hoá văn phòng </a>
+              <Link to="/bachhoavanphong">Bách hoá văn phòng </Link>
               <ul className="dropdown">
-                <li><a>Chăm sóc sức khoẻ và sắc đẹp</a></li>
-                <li><a >Thực phẩm văn phòng</a></li>
-                <li><a >Chất tẩy rửa - giấy vệ sinh - Khăn giấy</a></li>
-                <li><a >Bảo hộ lao động</a></li>
-                <li><a >Văn phòng phẩm khác</a></li>
+                <li><Link to="/chamsocsuckhoe">Chăm sóc sức khoẻ và sắc đẹp</Link></li>
+                <li><Link to="/thucphamvanphong">Thực phẩm văn phòng</Link></li>
+                <li><Link to="/chattayrua">Chất tẩy rửa - giấy vệ sinh - Khăn giấy</Link></li>
+                <li><Link to="/baoholaodong">Bảo hộ lao động</Link></li>
+                <li><Link to="/vanphongphamkhac">Văn phòng phẩm khác</Link></li>
               </ul>
             </li>
             <li className="has-children">
-              <a href="#">Bảng viết - Bút lông</a>
+              <Link to="/bangviet">Bảng viết - Bút lông</Link>
               <ul className="dropdown">
-                <li><a>Máy tính casio</a></li>
-                <li><a>Chuột máy tính bàn phím</a></li>
-                <li><a >Ổ cắm điện - phích cắm</a></li>
-                <li><a>Pin - CD - DVD - USB - Điện thoại bàn</a></li>
+                <li><Link to="/maytinhcasio">Máy tính casio</Link></li>
+                <li><Link to="/chuotmaytinh">Chuột máy tính bàn phím</Link></li>
+                <li><Link to="/ocamdien">Ổ cắm điện - phích cắm</Link></li>
+                <li><Link to="/pincd">Pin - CD - DVD - USB - Điện thoại bàn</Link></li>
               </ul>
             </li>
             <li className="has-children">
-              <a href="#">Giấy in văn phòng</a>
+              <Link to="/giayinvanphong">Giấy in văn phòng</Link>
               <ul className="dropdown">
-                <li><a >Giấy văn phòng phẩm - Giấy photo</a></li>
-                <li><a >Bìa thái - Giấy FO màu - Bìa kiếng</a></li>
-                <li><a >Giấy in màu - In ảnh - Giấy kẻ ngang</a></li>
-                <li><a >Pin - CD - DVD - USB - Điện thoại bàn</a></li>
+                <li><Link to="/giayvanphong">Giấy văn phòng phẩm - Giấy photo</Link></li>
+                <li><Link to="/biathai">Bìa thái - Giấy FO màu - Bìa kiếng</Link></li>
+                <li><Link to="/giayinmau">Giấy in màu - In ảnh - Giấy kẻ ngang</Link></li>
+                <li><Link to="/pincddvd">Pin - CD - DVD - USB - Điện thoại bàn</Link></li>
               </ul>
             </li>
-            <li><a href="#">Combo Văn phòng phẩm</a></li>
+            <li><Link to="/combovanphongpham">Combo Văn phòng phẩm</Link></li>
           </ul>
         </li>
-        <li><a href="./html/contact.html">Liên Hệ</a></li>
+        <li><Link to="/lienhe">Liên Hệ</Link></li>
       </ul>
     </div>
   </nav>
