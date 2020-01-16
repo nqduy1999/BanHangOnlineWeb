@@ -1,5 +1,12 @@
 import React from 'react';
 
+import ReactOwlCarousel from 'react-owl-carousel';
+
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+
+import { Link } from 'react-router-dom';
+
 import bao_thu_trang from '../../resource/images/bao_thu_trang.jpg';
 import bia from '../../resource/images/bia.jpg';
 import cuonso from '../../resource/images/cuon_so.jpeg';
@@ -9,6 +16,14 @@ import mucin from '../../resource/images/muc_in.jpg';
 import nuoc_suc_mieng from '../../resource/images/nuoc_suc_mieng.jpg';
 import truong from '../../resource/images/truong.jpg';
 const PopularArea = () => {
+  // const options = {
+  //     items: 3,
+  //     loop: true,
+  //     margin: 0,
+  //     autoplayHoverPause: true,
+  //     dots: true,
+  //     autoplay: 2000,
+  // }
   return (
     <div>
     <div className="site-section site-blocks-2">
@@ -59,7 +74,7 @@ const PopularArea = () => {
         </div>
         <div className="row">
           <div className="col-md-12">
-            <div className="nonloop-block-3 owl-carousel">
+            <ReactOwlCarousel className="owl-theme">
               <div className="item">
                 <div className="block-4 text-center">
                   <figure className="block-4-image">
@@ -114,13 +129,13 @@ const PopularArea = () => {
                     <img src={nuoc_suc_mieng} alt="Image placeholder" className="img-fluid" />
                   </figure>
                   <div className="block-4-text p-4">
-                    <h3><a href="#">Nước súc miệng </a></h3>
+                    <h3><Link to="/">Nước súc miệng </Link></h3>
                     <p className="mb-0">Dành cho ~ đỗ nghèo khỉ miệng thúi</p>
                     <p className="text-primary font-weight-bold">40000d</p>
                   </div>
                 </div>
               </div>
-            </div>
+            </ReactOwlCarousel>
           </div>
         </div>
       </div>
