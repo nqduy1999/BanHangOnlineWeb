@@ -1,5 +1,6 @@
 import React from 'react';
 
+import bia from '../../resource/images/bia.jpg';
 const AboutSection = () => {
     return (
         <div>
@@ -9,7 +10,7 @@ const AboutSection = () => {
             <div className="col-md-6">
                 <div className="block-16">
                 <figure>
-                    <img src="../images/bia.jpg" alt="Image placeholder" className="img-fluid rounded" />
+                    <img src={bia} alt="Image placeholder" className="img-fluid rounded"/>
                 </figure>
                 </div>
             </div>

@@ -45,7 +45,7 @@ const ProductSection = () => {
                 </div>
               </div>
               <div className="row mb-5">
-                <div className="col-sm-6 col-lg-4 mb-4">
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={bao_thu_a3} alt="Image placeholder" className="img-fluid" /></a>
@@ -57,7 +57,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4">
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={bao_thu_trang} alt="Image placeholder" className="img-fluid" /></a>
@@ -69,19 +69,19 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4" >
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={but_3_cay} alt="Image placeholder" className="img-fluid" /></a>
                     </figure>
                     <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Bút bi thiên long TL034 - Xanh</a></h3>
-                      <p className="mb-0">Loại bút thiên long viết cực tốt</p>
+                      <h3><a href="shop-single.html">Bút bi thiên long</a></h3>
+                      <p className="mb-0">Loại bút viết cực tốt</p>
                       <p className="text-primary font-weight-bold">10.000đ</p>
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4">
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={but_bi_xanh} alt="Image placeholder" className="img-fluid" /></a>
@@ -93,7 +93,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4" >
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={but_bi} alt="Image placeholder" className="img-fluid" /></a>
@@ -105,7 +105,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4" >
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={but_do} alt="Image placeholder" className="img-fluid" /></a>
@@ -117,7 +117,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4" >
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={giay_in_mau} alt="Image placeholder" className="img-fluid" /></a>
@@ -129,7 +129,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4">
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={giay_ke_ngang} alt="Image placeholder" className="img-fluid" /></a>
@@ -141,7 +141,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4" >
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={kiem_cat_da} alt="Image placeholder" className="img-fluid" /></a>
@@ -153,7 +153,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4">
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={luoc_chai_dau} alt="Image placeholder" className="img-fluid" /></a>
@@ -165,7 +165,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4">
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={nuoc_suc_mieng} alt="Image placeholder" className="img-fluid" /></a>
@@ -177,7 +177,7 @@ const ProductSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-lg-4 mb-4" >
+                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
                       <a href="shop-single.html"><img src={tam_xia_rang} alt="Image placeholder" className="img-fluid" /></a>
@@ -190,7 +190,7 @@ const ProductSection = () => {
                   </div>
                 </div>
               </div>
-              <div className="row" >
+              <div className="row" data-aos="fade-up">
                 <div className="col-md-12 text-center">
                   <div className="site-block-27">
                     <ul>
@@ -233,7 +233,7 @@ const ProductSection = () => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" >
+                  <div className="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay={100}>
                     <a className="block-2-item" href="#">
                       <figure className="image">
                         <img src={bao_thu_trang} alt="" className="img-fluid" />
@@ -243,7 +243,7 @@ const ProductSection = () => {
                       </div>
                     </a>
                   </div>
-                  <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
+                  <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay={100}>
                     <a className="block-2-item" href="#">
                       <figure className="image">
                         <img src={but_3_cay} alt="" className="img-fluid" />
@@ -253,7 +253,7 @@ const ProductSection = () => {
                       </div>
                     </a>
                   </div>
-                  <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
+                  <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay={200}>
                     <a className="block-2-item" href="#">
                       <figure className="image">
                         <img src={but_bi_xanh} alt="" className="img-fluid" />
