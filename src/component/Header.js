@@ -115,7 +115,7 @@ const Header = () => {
   <nav className="site-navigation text-right text-md-center " id="header-nav" role="navigation">
     <div className="container">
       <ul className="site-menu js-clone-nav d-none d-md-block">
-        <li className="active">
+        <li >
           <Link to="/">Trang chủ</Link>
         </li>
         <li>

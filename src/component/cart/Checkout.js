@@ -221,7 +221,7 @@ const Checkout = () => {
                       </div>
                     </div>
                     <div className="form-group">
-                      <button className="btn btn-primary btn-lg py-3 btn-block"><Link to ="/thongbao">Đặt hàng</Link></button>
+                      <Link to ="/thongbao" className="btn btn-primary btn-lg py-3 btn-block">Đặt hàng</Link>
                     </div>
                   </div>
                 </div>

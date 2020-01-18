@@ -9,6 +9,7 @@ import Product from '../pages/Product';
 import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';
+import ShopSingle from '../pages/ShopSingle';
 
 const Direction = () => {
     return (
@@ -30,6 +31,9 @@ const Direction = () => {
             </Route>
             <Route path="/thongbao">
                 <Noti/>
+            </Route>
+            <Route path="/shopsingle">
+                <ShopSingle/>
             </Route>
             <Route exact path="/trangchu">
             <Home/>

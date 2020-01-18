@@ -12,6 +12,7 @@ import kiem_cat_da from '../../resource/images/kiem_cat_da.jpg';
 import luoc_chai_dau from '../../resource/images/luoc_chai_dau.png';
 import nuoc_suc_mieng from '../../resource/images/nuoc_suc_mieng.jpg';
 import tam_xia_rang from '../../resource/images/tam_xia_rang.jpg';
+import { Link } from 'react-router-dom';
 const ProductSection = () => {
     return (
         <div className="site-section">
@@ -48,10 +49,10 @@ const ProductSection = () => {
                 <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                   <div className="block-4 text-center border">
                     <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={bao_thu_a3} alt="Image placeholder" className="img-fluid" /></a>
+                    <Link to="/shopsingle"><img src={bao_thu_a3} alt="Image placeholder" className="img-fluid" /></Link>
                     </figure>
                     <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Bao thư A3</a></h3>
+                      <h3><Link to="/shopsingle">Bao thư A3</Link></h3>
                       <p className="mb-0">Bao thư A3 chất lượng tốt</p>
                       <p className="text-primary font-weight-bold">4.000đ</p>
                     </div>

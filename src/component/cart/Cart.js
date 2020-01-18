@@ -121,7 +121,7 @@ const Cart = () => {
                   </div>
                   <div className="row">
                     <div className="col-md-12">
-                      <button className="btn btn-primary btn-lg py-3 btn-block" ><Link to="/thanhtoan">Tiến Hành Kiểm TRA</Link></button>
+                   <Link to="/thanhtoan" className="btn btn-primary btn-lg py-3 btn-block">Tiến Hành Kiểm TRA</Link>
                     </div>
                   </div>
                 </div>
