@@ -25,10 +25,13 @@ const defaultValues = {
 };
 const Signup = () => {
     const { handleSubmit, register, reset, control } = useForm({ defaultValues });
-    const [data, setData] = useState(null);
+    const onSubmit= data =>{
+      console.log(data);
+      
+    }
     return (
         <ThemeProvider theme={theme}>
-          <form onSubmit={handleSubmit(data => setData(data))}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <h1>Đăng Ký</h1>
             <div className="container">
               <section>
@@ -77,13 +80,6 @@ const Signup = () => {
                 <input name="ngaysinh" type="date" ref={register} />
               </section>
             </div>
-    
-            {console.log(data && (
-              <pre >
-                {JSON.stringify(data, null, 2)}
-              </pre>
-            ))}
-    
             <button
               type="button"
               onClick={() => {
