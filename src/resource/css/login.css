@@ -66,10 +66,11 @@ body {
     font-weight: 100;
     letter-spacing: 10px;
   }
-  
+
   button[type="submit"]:hover,
   input[type="submit"]:hover {
     background: #bf1650;
+    cursor: pointer;
   }
   
   button[type="submit"]:active,

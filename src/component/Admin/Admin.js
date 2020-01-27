@@ -1,9 +1,10 @@
 import React from 'react';
-
+import "../../resource/css/sb-admin-2.min.css"
+import NavAdmin from './ToolboxAdmin';
 const Admin = () => {
     return (
-        <div>
-            hihihihi
+        <div id="wrapper">
+            <NavAdmin/>
         </div>
     );
 };

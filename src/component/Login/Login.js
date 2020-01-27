@@ -12,7 +12,7 @@ const Login = () => {
             <form onSubmit={handleSubmit(onSubmit)} >
                 <label>Email</label>
                 <input name="email" type="email" ref={register}/>
-                {errors.pass && <p>Email không được để trống</p>}
+                {errors.email && <p>Email không được để trống</p>}
                 <label>Mật Khẩu</label>
                 <input name="pass" type="password" ref={register({ required: true, maxLength: 10 })}/>
                 {errors.pass && <p>Mật khẩu không được để trống</p>}
