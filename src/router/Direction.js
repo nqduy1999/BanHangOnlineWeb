@@ -10,6 +10,8 @@ import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';
 import ProductDetails from '../component/product/ProductDetails';
+import Login from '../component/Login/Login';
+import Signup from '../component/Login/Signup';
 
 const Direction = () => {
     return (
@@ -31,6 +33,12 @@ const Direction = () => {
             </Route>
             <Route path="/thongbao">
                 <Noti/>
+            </Route>
+            <Route path="/dangnhap">
+                <Login/>
+            </Route>
+            <Route path="/dangky">
+                <Signup/>
             </Route>
             <Route path="/sanpham:/id">
                 <ProductDetails/>

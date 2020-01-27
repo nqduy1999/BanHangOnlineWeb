@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 
 import './App.css';
 
-import Footer from './component/Footer';
-import Header from './component/Header';
-import Direction from './router/Direction';
 import AOS from 'aos'
+import Admin from './component/Admin/Admin';
+import Main from './router/Main';
 function App() {
   useEffect(() => {
     AOS.init();
@@ -17,11 +16,10 @@ function App() {
   })
   return (
     <BrowserRouter>
-    <div className="App">
-      <Header/>
-      <Direction/>
-      <Footer/>
-    </div>
+    <Switch>
+      <Admin path="/admin"/>
+      <Main path="/"></Main>
+    </Switch>
     </BrowserRouter>
   );
 }
