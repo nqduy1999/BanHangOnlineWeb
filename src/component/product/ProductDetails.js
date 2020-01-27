@@ -1,7 +1,9 @@
 import React from 'react';
-import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
+
 import { Link } from 'react-router-dom';
-const Shop = () => {
+
+import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
+const ProductDetails = () => {
     return (
         <div>
 <div className="site-section">
@@ -36,4 +38,4 @@ const Shop = () => {
     );
 };
 
-export default Shop;
+export default ProductDetails;

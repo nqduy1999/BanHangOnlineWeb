@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import "../resource/icomoon/style.css"
@@ -13,6 +13,15 @@ import "../resource/css/mdb.min.css"
 import "../resource/css/mdb.lite.min.css"
 
 const Header = () => {
+  const [taiKhoan, setTaiKhoan] = useState(null);
+  const [matKhau, setMatKhau] = useState(null);
+  let registration = () => {
+    const user = {
+
+    }
+  }
+  const submitForm = data => console.log(data);
+  
     return (
         <div>
     <header className="site-navbar" role="banner">
@@ -82,7 +91,8 @@ const Header = () => {
   <div className="modal fade" id="modalRegisterForm" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div className="modal-dialog" role="document">
       <div className="modal-content">
-        <div className="modal-header text-center">
+        <form onSubmit={submitForm}>
+          <div className="modal-header text-center">
           <h4 className="modal-title w-100 font-weight-bold">Đăng Ký</h4>
           <button type="button" className="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
@@ -106,8 +116,9 @@ const Header = () => {
           </div>
         </div>
         <div className="modal-footer d-flex justify-content-center">
-          <button className="btn btn-deep-orange">Đăng Ký</button>
+          <button type="submit" className="btn btn-deep-orange">Đăng Ký</button>
         </div>
+      </form>
       </div>
     </div>
   </div>

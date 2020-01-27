@@ -9,7 +9,7 @@ import Product from '../pages/Product';
 import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';
-import ShopSingle from '../pages/ShopSingle';
+import ProductDetails from '../component/product/ProductDetails';
 
 const Direction = () => {
     return (
@@ -32,8 +32,8 @@ const Direction = () => {
             <Route path="/thongbao">
                 <Noti/>
             </Route>
-            <Route path="/shopsingle">
-                <ShopSingle/>
+            <Route path="/sanpham:/id">
+                <ProductDetails/>
             </Route>
             <Route exact path="/trangchu">
             <Home/>
