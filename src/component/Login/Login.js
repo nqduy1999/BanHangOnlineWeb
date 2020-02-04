@@ -1,6 +1,6 @@
 import React, {useState}from 'react';
 import { Link } from 'react-router-dom';
-import "../../resource/css/login.css"
+//import "../../resource/css/login.css"
 import { useForm } from "react-hook-form";
 const Login = () => {
     const { register, handleSubmit, errors } = useForm();
