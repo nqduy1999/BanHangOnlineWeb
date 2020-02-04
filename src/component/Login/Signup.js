@@ -1,59 +1,41 @@
 import React, {useState} from 'react';
+
 import { useForm, Controller } from "react-hook-form";
 //import "../../resource/css/signup.css"
-import {
-  RadioGroup,
-  FormControlLabel,
-  ThemeProvider,
-  Radio,
-  createMuiTheme
-} from "@material-ui/core";
+import axios from 'axios'
 
-const theme = createMuiTheme({
-  palette: {
-    type: "dark"
-  }
-});
 const defaultValues = {
   email: "",
   pass: "",
   repass: "",
 };
 const Signup = () => {
-    const { handleSubmit, register, reset, control } = useForm({ defaultValues });
+    const { handleSubmit, register, errors } = useForm();
+    const url = "http://localhost:8080/dangky";
     const onSubmit= data =>{
-      console.log(data);
-      
+      axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
+      .then(function (response) {
+        console.log(response.data.message);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
     return (
-        <ThemeProvider theme={theme}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <h1>Đăng Ký</h1>
             <div className="container">
-              <section>
-                <label>Email:</label>
-                <input name="email" type="email" ref={register} />
-              </section>
-              <section>
-                <label>Mật khẩu:</label>
-                <input name="pass" type="password" ref={register} />
-              </section>
-              <section>
-                <label>Nhập lại mật khẩu :</label>
-                <input name="repass" type="password" ref={register} />
-              </section>
+            <label>Tên tài khoản:</label>
+            <input name="taiKhoan" type="text" ref={register({required: true})} />
+              <label>Email:</label>
+              <input name="email" type="email" ref={register({required: true})} />
+              <label>Mật khẩu:</label>
+              <input name="matKhau" type="password" ref={register({required: true})} />
+              <label>Nhập lại mật khẩu :</label>
+              <input name="matKhauXacNhan" type="password" ref={register({required: true})} />
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                reset(defaultValues);
-              }}
-            >
-              Thử lại 
-            </button>
-            <button>Đăng Ký</button>
+            <input type="submit" value="Đăng Ký"/>
           </form>
-        </ThemeProvider>
       );
 };
 
