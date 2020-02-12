@@ -7,9 +7,9 @@ const AsideAdmin = () => {
         <div>
   <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
   {/* Sidebar - Brand */}
-  <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+  <Link className="sidebar-brand d-flex align-items-center justify-content-center"  to ="/admin">
     <div className="sidebar-brand-text mx-3">Ananas Admin </div>
-  </a>
+  </Link>
   {/* Divider */}
   <hr className="sidebar-divider my-0" />
   {/* Nav Item - Dashboard */}
@@ -25,8 +25,8 @@ const AsideAdmin = () => {
     </a>
     <div id="sanpham" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div className="bg-white py-2 collapse-inner rounded">
-        <a className="collapse-item" href="buttons.html">Thêm sản phẩm</a>
-        <a className="collapse-item" href="cards.html">Danh sách sản phẩm</a>
+      <Link to ="/admin/themsanpham"className="collapse-item" >Thêm sản phẩm</Link>
+        <Link to ="/admin/danhsachsanpham"className="collapse-item" >Danh sách sản phẩm</Link>
       </div>
     </div>
   </li>
@@ -37,8 +37,7 @@ const AsideAdmin = () => {
     </a>
     <div id="khachhang" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div className="bg-white py-2 collapse-inner rounded">
-        <a className="collapse-item" href="buttons.html">Thêm khách hàng</a>
-        <a className="collapse-item" href="cards.html">Danh sách khách hàng</a>
+      <Link to ="/admin/danhsachkhachhang"className="collapse-item" >Danh sách khách hàng</Link>
       </div>
     </div>
   </li>

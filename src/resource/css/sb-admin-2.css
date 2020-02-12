@@ -158,28 +158,28 @@ sup {
   top: -.5em;
 }
 
-a {
+Link {
   color: #4e73df;
   text-decoration: none;
   background-color: transparent;
 }
 
-a:hover {
+Link:hover {
   color: #224abe;
   text-decoration: underline;
 }
 
-a:not([href]):not([tabindex]) {
+Link:not([href]):not([tabindex]) {
   color: inherit;
   text-decoration: none;
 }
 
-a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+Link:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
   color: inherit;
   text-decoration: none;
 }
 
-a:not([href]):not([tabindex]):focus {
+Link:not([href]):not([tabindex]):focus {
   outline: 0;
 }
 
@@ -516,7 +516,7 @@ code {
   word-break: break-word;
 }
 
-a > code {
+Link > code {
   color: inherit;
 }
 
