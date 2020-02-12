@@ -1,5 +1,6 @@
 import React from 'react';
-
+import duy from "../../resource/images/duyyy.png"
+import {Link} from "react-router-dom"
 const AdminSearch = () => {
     return (
         <div>
@@ -11,9 +12,9 @@ const AdminSearch = () => {
   {/* Topbar Search */}
   <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
     <div className="input-group">
-      <input type="text" className="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+      <input type="text" className="form-control bg-light border-0 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2" />
       <div className="input-group-append">
-        <button className="btn btn-primary" type="button">
+        <button className=" btn-primary" type="button">
           <i className="fas fa-search fa-sm" />
         </button>
       </div>
@@ -99,29 +100,21 @@ const AdminSearch = () => {
     {/* Nav Item - User Information */}
     <li className="nav-item dropdown no-arrow mt-5">
       <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span className="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-        <img className="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60" />
+        <span className="mr-2 d-none d-lg-inline text-gray-600 small">Quốc Duy</span>
+        <img className="img-profile rounded-circle" src={duy} />
       </a>
       {/* Dropdown - User Information */}
       <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
         <a className="dropdown-item" href="#">
           <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400" />
-          Profile
-        </a>
-        <a className="dropdown-item" href="#">
-          <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" />
-          Settings
-        </a>
-        <a className="dropdown-item" href="#">
-          <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400" />
-          Activity Log
+          Thông tin
         </a>
         <div className="dropdown-divider" />
-        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+        <Link to="/">
           <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" />
-          Logout
-        </a>
-      </div>
+          Đăng Xuất
+          </Link>
+                </div>
     </li>
   </ul>
 </nav>

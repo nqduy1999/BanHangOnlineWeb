@@ -6,7 +6,7 @@ const FooterAdmin = () => {
 <footer className="sticky-footer bg-white">
   <div className="container my-auto">
     <div className="copyright text-center my-auto">
-      <span>Copyright © Your Website 2019</span>
+      <span>Nhóm 4 - Website bán văn phòng phẩm</span>
     </div>
   </div>
 </footer>
