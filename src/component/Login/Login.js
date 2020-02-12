@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios'
 const Login = () => {
     const { register, handleSubmit, errors } = useForm();
-    const url = "http://localhost:8080/dangnhap";
+    const url = "http://localhost:8080/api/dangnhap";
     const onSubmit = data => {
       axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
       .then(function (response) {
@@ -19,9 +19,9 @@ const Login = () => {
   
     return (
             <form onSubmit={handleSubmit(onSubmit)} >
-                <label>Email</label>
-                <input name="email" type="email" ref={register({ required: true })}/>
-                {errors.email && <p>Email không được để trống</p>}
+                <label>Tài Khoản</label>
+                <input name="taiKhoan" type="text" ref={register({ required: true })}/>
+                {errors.taiKhoan && <p>Tài khoản không được để trống</p>}
                 <label>Mật Khẩu</label>
                 <input name="matKhau" type="password" ref={register({ required: true })}/>
                 {errors.pass && <p>Mật khẩu không được để trống</p>}

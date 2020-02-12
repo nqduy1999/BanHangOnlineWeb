@@ -1,12 +1,17 @@
 import React from 'react';
-
-const NavAdmin = () => {
+import duyImg from "../../resource/images/duyyy.png";
+import {Link} from "react-router-dom";
+import "../../resource/css/sb-admin-2.css"
+const AsideAdmin = () => {
     return (
         <div>
-<ul className="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+  <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
   {/* Sidebar - Brand */}
   <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-    <div className="sidebar-brand-text mx-3">Ananas Admin </div>
+    <div className="sidebar-brand-icon rotate-n-15">
+      <i className="fas fa-laugh-wink" />
+    </div>
+    <div className="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
   </a>
   {/* Divider */}
   <hr className="sidebar-divider my-0" />
@@ -101,4 +106,4 @@ const NavAdmin = () => {
     );
 };
 
-export default NavAdmin;
+export default AsideAdmin;
