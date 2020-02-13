@@ -11,7 +11,7 @@ const defaultValues = {
 };
 const Signup = () => {
     const { handleSubmit, register, errors } = useForm();
-    const url = "http://localhost:8080/dangky";
+    const url = "http://localhost:8080/api/dangky";
     const onSubmit= data =>{
       axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
       .then(function (response) {

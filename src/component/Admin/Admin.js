@@ -1,21 +1,21 @@
 import React from 'react';
-import "../../resource/css/sb-admin-2.min.css"
-import '../../resource/css/fontawesome-free/css/all.min.css'
-import NavAdmin from './ToolboxAdmin';
-import AdminSearch from './AdminSearch';
+import AsideAdmin from './AsideAdmin';
+import TopNavAdmin from './TopnavAdmin';
+import "../../resource/css/fontawesome-free/css/all.min.css";
+import FooterAdmin from './FooterAdmin';
+import DirectionAdmin from './DirectionAdmin';
 const Admin = () => {
     return (
-<div id="wrapper">
-       <NavAdmin/>
-    <div id="content-wrapper" className="d-flex flex-column">
-      {/* Main Content */}
-      <div id="content">
-<nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-          <AdminSearch/>
-</nav>      </div>
-    </div>
-</div>
-
+        <div id="wrapper">
+            <AsideAdmin/>
+            <div id="content-wrapper" className="d-flex flex-column">
+            <div id="content">
+                <TopNavAdmin/>
+                <DirectionAdmin/>
+                <FooterAdmin/>
+            </div>
+            </div>
+        </div>
     );
 };
 
