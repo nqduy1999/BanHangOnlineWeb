@@ -63,7 +63,15 @@ const ListCustomer = () => {
         <div className="md-form mt-3">
                 <input type="text" id="materialContactFormName" className="form-control" />
                 <label htmlFor="materialContactFormName">Tên khách hàng</label>
-              </div>
+        </div>
+        <div className="md-form mt-3">
+                <input type="text" id="materialContactFormName" className="form-control" />
+                <label htmlFor="materialContactFormName">Số điện thoại </label>
+        </div>
+        <div className="md-form mt-3">
+                <input type="text" id="materialContactFormName" className="form-control" />
+                <label htmlFor="materialContactFormName">Tên khách hàng</label>
+        </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseCn}>

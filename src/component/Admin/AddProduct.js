@@ -37,6 +37,10 @@ const AddProduct = () => {
         <input type="email" id="materialContactFormEmail" className="form-control" />
         <label htmlFor="materialContactFormEmail">Loại sản phẩm</label>
       </div>
+      <div className="md-form">
+        <input type="file" id="materialContactFormEmail"  />
+        <label htmlFor="materialContactFormEmail">Hình Ảnh</label>
+      </div>
       {/* Send button */}
       <button className="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect" type="submit">Thêm </button>
     </form>
