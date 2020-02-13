@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios'
 const Login = () => {
     const { register, handleSubmit, errors } = useForm();
-    const url = "http://localhost:8080/dangnhap";
+    const url = "http://localhost:8080/api/dangnhap";
     const onSubmit = data => {
       axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
       .then(function (response) {

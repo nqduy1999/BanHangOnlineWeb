@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
-import bao_thu_trang from '../../resource/images/bao_thu_trang.jpg';
-import but_3_cay from '../../resource/images/but_3_cay.jpg';
-import but_bi from '../../resource/images/but_bi.jpg';
-import but_bi_xanh from '../../resource/images/but_bi_xanh.jpg';
-import but_do from '../../resource/images/but_do.jpg';
-import giay_in_mau from '../../resource/images/giay_in_mau.jpg';
-import giay_ke_ngang from '../../resource/images/giay_ke_ngang.jpg';
-import kiem_cat_da from '../../resource/images/kiem_cat_da.jpg';
-import luoc_chai_dau from '../../resource/images/luoc_chai_dau.png';
-import nuoc_suc_mieng from '../../resource/images/nuoc_suc_mieng.jpg';
-import tam_xia_rang from '../../resource/images/tam_xia_rang.jpg';
 import { Link } from 'react-router-dom';
+
+import Axios from 'axios';
+
+import ProductCard from './ProductCard';
+import dataTest from './datatest.json'
 const ProductSection = () => {
+    const [data, setData] = useState({products: []});
+    const urlProduct = "http://localhost:8080/api/sanpham/trang?index=0";
+    let getListProduct = async (source) => {
+      await Axios.get(urlProduct, {
+        cancelToken: source.token
+      })
+      .then(async res => {
+        const products = await res.data;
+        await setData({products});
+      }).catch(err => {
+        if(Axios.isCancel(err)) {
+          console.log(`Canceled`, err);
+        } else {
+          console.log('err', err)
+        }
+      })
+    }
+    useEffect(() => {
+      const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
+      getListProduct(source);
+      return () => {
+        source.cancel();
+      };
+    }, [urlProduct])
     return (
         <div className="site-section">
         <div className="container">
@@ -46,150 +63,9 @@ const ProductSection = () => {
                 </div>
               </div>
               <div className="row mb-5">
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                    <Link to="/shopsingle"><img src={bao_thu_a3} alt="Image placeholder" className="img-fluid" /></Link>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><Link to="/shopsingle">Bao thư A3</Link></h3>
-                      <p className="mb-0">Bao thư A3 chất lượng tốt</p>
-                      <p className="text-primary font-weight-bold">4.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={bao_thu_trang} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Bao thư trắng</a></h3>
-                      <p className="mb-0">Bao thư trắng tinh</p>
-                      <p className="text-primary font-weight-bold">2.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={but_3_cay} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Bút bi thiên long</a></h3>
-                      <p className="mb-0">Loại bút viết cực tốt</p>
-                      <p className="text-primary font-weight-bold">10.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={but_bi_xanh} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Bút bi Thiên Long - Xanh</a></h3>
-                      <p className="mb-0">Bút fake giá rẻ</p>
-                      <p className="text-primary font-weight-bold">1.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={but_bi} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Bút bi tầm thường</a></h3>
-                      <p className="mb-0">Loại siêu dỏm bán theo lô, 1 lô 10 cây</p>
-                      <p className="text-primary font-weight-bold">5.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={but_do} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Bút bi đỏ</a></h3>
-                      <p className="mb-0">Bút đỏ sắc nét</p>
-                      <p className="text-primary font-weight-bold">3.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={giay_in_mau} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Giáy in màu</a></h3>
-                      <p className="mb-0">Giấy in các loại màu</p>
-                      <p className="text-primary font-weight-bold">2.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={giay_ke_ngang} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Giấy kẻ ngang</a></h3>
-                      <p className="mb-0">Giấy kẻ ngang siêu rõ</p>
-                      <p className="text-primary font-weight-bold">3.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={kiem_cat_da} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Kiềm cắt da - cắt móng</a></h3>
-                      <p className="mb-0">Cắt da, cắt móc làm đẹp</p>
-                      <p className="text-primary font-weight-bold">15.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={luoc_chai_dau} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Lược chải đầu</a></h3>
-                      <p className="mb-0">Chải xong đẹp trai, đẹp gái</p>
-                      <p className="text-primary font-weight-bold">12.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={nuoc_suc_mieng} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Nước súc miệng</a></h3>
-                      <p className="mb-0">Nước súc miệng giệt sạch sâu trong răng</p>
-                      <p className="text-primary font-weight-bold">40.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                  <div className="block-4 text-center border">
-                    <figure className="block-4-image">
-                      <a href="shop-single.html"><img src={tam_xia_rang} alt="Image placeholder" className="img-fluid" /></a>
-                    </figure>
-                    <div className="block-4-text p-4">
-                      <h3><a href="shop-single.html">Tâm xỉa răng</a></h3>
-                      <p className="mb-0">Xỉa tới từng khe</p>
-                      <p className="text-primary font-weight-bold">17.000đ</p>
-                    </div>
-                  </div>
-                </div>
+                {data.products.map((item, i) => (
+                    <ProductCard key={i} data={dataTest.data} content={item.moTa} name={item.tenSanPham} description={item.moTa} price={item.giaSanPham}/>
+                  ))}
               </div>
               <div className="row" data-aos="fade-up">
                 <div className="col-md-12 text-center">
@@ -237,7 +113,7 @@ const ProductSection = () => {
                   <div className="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay={100}>
                     <a className="block-2-item" href="#">
                       <figure className="image">
-                        <img src={bao_thu_trang} alt="" className="img-fluid" />
+                        <img src="" alt="" className="img-fluid" />
                       </figure>
                       <div className="text">
                         <h3>Bao thư trắng</h3>
@@ -247,7 +123,7 @@ const ProductSection = () => {
                   <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay={100}>
                     <a className="block-2-item" href="#">
                       <figure className="image">
-                        <img src={but_3_cay} alt="" className="img-fluid" />
+                        <img src="" alt="" className="img-fluid" />
                       </figure>
                       <div className="text">
                         <h3>Bút bi thiên long</h3>
@@ -257,7 +133,7 @@ const ProductSection = () => {
                   <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay={200}>
                     <a className="block-2-item" href="#">
                       <figure className="image">
-                        <img src={but_bi_xanh} alt="" className="img-fluid" />
+                        <img src="" alt="" className="img-fluid" />
                       </figure>
                       <div className="text">
                         <h3>Bút bi xanh</h3>
