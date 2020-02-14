@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 import Axios from 'axios';
 
@@ -8,14 +8,23 @@ import ProductCard from './ProductCard';
 import dataTest from './datatest.json'
 const ProductSection = () => {
     const [data, setData] = useState({products: []});
-    const urlProduct = "http://localhost:8080/api/sanpham/trang?index=0";
+    const [pages, setPages] = useState([]);
+    let useQuery = () => {
+      return new URLSearchParams(useLocation().search);
+    }
+
+    const id = useQuery();
+    const urlProduct = `http://localhost:8080/api/sanpham/trang?index=${id.get("index")}`;
+    const [currentPage, setCurrentPage] = useState(0);
     let getListProduct = async (source) => {
       await Axios.get(urlProduct, {
         cancelToken: source.token
       })
       .then(async res => {
-        const products = await res.data;
+        const products = await res.data.content;
+        const total = await res.data.totalPages;
         await setData({products});
+        genPage(total);
       }).catch(err => {
         if(Axios.isCancel(err)) {
           console.log(`Canceled`, err);
@@ -23,6 +32,19 @@ const ProductSection = () => {
           console.log('err', err)
         }
       })
+    }
+    let genPage = (total) => {
+      let array = [];
+      for (let index = 0; index < total; index++) {
+        array.push(index);
+      }
+      setPages(array);
+    }
+    let handleMoveLeft = () => {
+      return (currentPage - 1) < 0 ? currentPage : (currentPage - 1);
+    }
+    let handleMoveRight = () => {
+      return (currentPage + 1) > (pages.length - 1) ? currentPage : (currentPage + 1);
     }
     useEffect(() => {
       const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
@@ -71,13 +93,15 @@ const ProductSection = () => {
                 <div className="col-md-12 text-center">
                   <div className="site-block-27">
                     <ul>
-                      <li><a href="#">&lt;</a></li>
-                      <li className="active"><span>1</span></li>
-                      <li><a href="#">2</a></li>
-                      <li><a href="#">3</a></li>
-                      <li><a href="#">4</a></li>
-                      <li><a href="#">5</a></li>
-                      <li><a href="#">&gt;</a></li>
+                      <li><Link to={"sanpham?index=" + (handleMoveLeft())} onClick={() => {setCurrentPage(handleMoveLeft())}}>&lt;</Link></li>
+                      {
+                        pages.map((item, i) => (
+                          <li key={i} className={currentPage === item ? 'active' : ''}><Link to={"sanpham?index=" + item} onClick={() => {setCurrentPage(item)}}>{item}</Link></li>
+                        ))
+                      }
+                      <li><Link to={"sanpham?index=" + (handleMoveRight())}
+                      onClick={() => {setCurrentPage(handleMoveRight());
+                      }}>&gt;</Link></li>
                     </ul>
                   </div>
                 </div>

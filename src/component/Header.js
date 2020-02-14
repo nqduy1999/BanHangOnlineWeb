@@ -67,7 +67,7 @@ const Header = () => {
           <Link to="/gioithieu">Giới thiệu</Link>
         </li>
         <li className="has-children">
-          <Link to="/sanpham">Sản phẩm</Link>
+          <Link to="/sanpham?index=0">Sản phẩm</Link>
           <ul className="dropdown">
             <li className="has-children">
               <Link to="/may-tinh-thiet-bi-van-phong">Máy tính - Thiết bị văn phòng </Link>
