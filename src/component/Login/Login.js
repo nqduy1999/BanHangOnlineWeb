@@ -9,6 +9,8 @@ import { useCookies } from 'react-cookie';
 import Axios from 'axios';
 
 import Swal from 'sweetalert2';
+
+import AlertService from '../../services/AlertService';
 const Login = (props) => {
     const [cookies, setCookies] = useCookies(['authtoken']);
     const { register, handleSubmit, errors } = useForm();
@@ -22,12 +24,8 @@ const Login = (props) => {
         if(response.data.code !== 0) {
           setResutl(response.data.message);
         } else {
-          const {value: accept} = await Swal.fire({
-            title: "Thông báo",
-            text: "Đăng nhập thành công",
-            icon: "success"
-          })
-          if(accept) {
+          let alert = new AlertService();
+          if(alert.alertSucess("Thông báo", "Đăng nhập thành công", "success")) {
             props.history.push('/trangchu');
           }
         }

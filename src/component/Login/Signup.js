@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { withRouter } from 'react-router-dom';
 
 import Axios from 'axios';
 
-import Swal from 'sweetalert2';
+import AlertService from '../../services/AlertService';
 
 const Signup = (props) => {
     const { handleSubmit, register, errors, watch } = useForm();
@@ -19,12 +19,8 @@ const Signup = (props) => {
         if(response.data.code !== 0) {
           setResutl(response.data.message);
         } else {
-          const {value: accept} = await Swal.fire({
-            title: "Thông báo",
-            text: "Đăng ký thành công",
-            icon: "success"
-          })
-          if(accept) {
+          let alert = new AlertService();
+          if(alert.alertSucess("Thông báo", "Đăng ký thành công", "success")) {
             props.history.push('/dangnhap');
           }
         }
