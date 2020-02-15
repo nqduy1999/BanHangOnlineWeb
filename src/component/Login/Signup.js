@@ -6,20 +6,27 @@ import { withRouter } from 'react-router-dom';
 
 import Axios from 'axios';
 
+import Swal from 'sweetalert2';
+
 const Signup = (props) => {
     const { handleSubmit, register, errors, watch } = useForm();
     const url = "http://localhost:8080/api/dangky";
-    const [err, setErr] = useState();
-    const onSubmit= data =>{
+    const [resutl, setResutl] = useState();
+
+    const onSubmit = data =>{
       Axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
-      .then(function (response) {
+      .then(async function (response) {
         if(response.data.code !== 0) {
-          setErr(response.data.message);
+          setResutl(response.data.message);
         } else {
-          setErr((<div className='alert alert-success' role='alert'>Đăng ký thành công</div>))
-          setTimeout(() => {
-            props.history.push("/dangnhap");
-          }, 1000);
+          const {value: accept} = await Swal.fire({
+            title: "Thông báo",
+            text: "Đăng ký thành công",
+            icon: "success"
+          })
+          if(accept) {
+            props.history.push('/dangnhap');
+          }
         }
       })
       .catch(function (error) {
@@ -34,7 +41,7 @@ const Signup = (props) => {
               </div>
             </div>
             {
-              err ? <div className="alert alert-warning" role="alert">{err}</div> : ''
+              resutl ? <div className="alert alert-warning" role="alert">{resutl}</div> : ''
             }
               <div className="row">
                 <div className="col-md-3">
@@ -99,7 +106,7 @@ const Signup = (props) => {
                 </div>
             <div className="row">
               <div className="col-md-9">
-              <input className="btn btn-success" type="submit" value="Đăng Ký"/>
+              <input className="btn btn-info" type="submit" value="Đăng Ký"/>
               </div>
             </div>
           </form>
