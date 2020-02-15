@@ -1,22 +1,26 @@
 import React, {useState}from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 
 import { useForm } from "react-hook-form";
-import axios from 'axios'
-const Login = () => {
+
+import { useCookies } from 'react-cookie';
+
+import Axios from 'axios';
+const Login = (props) => {
+    const [cookies, setCookies] = useCookies(['authtoken']);
     const { register, handleSubmit, errors } = useForm();
     const url = "http://localhost:8080/api/dangnhap";
     const onSubmit = data => {
-      axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
+      Axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
       .then(function (response) {
-        console.log(response.data.message);
+        setCookies('authtoken', response.data.message, { path: '/'});
       })
       .catch(function (error) {
         console.log(error);
       });
+      props.history.push('/trangchu');
     }; // your form submit function which will invoke after successful validation
-  
     return (
             <form onSubmit={handleSubmit(onSubmit)} >
                 <label>Tài Khoản</label>
@@ -31,4 +35,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default withRouter(Login);

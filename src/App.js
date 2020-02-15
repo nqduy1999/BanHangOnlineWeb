@@ -4,9 +4,10 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 
 import './App.css';
 
-import AOS from 'aos'
-import Admin from './component/Admin/Admin';
 import Main from './router/Main';
+import Admin from './component/Admin/Admin';
+import AOS from 'aos'
+import { CookiesProvider } from 'react-cookie'
 function App() {
   useEffect(() => {
     AOS.init();
@@ -15,12 +16,14 @@ function App() {
     AOS.refresh();
   })
   return (
-    <BrowserRouter>
-    <Switch>
-      <Admin path="/admin"/>
-      <Main path="/"></Main>
-    </Switch>
-    </BrowserRouter>
+    <CookiesProvider>
+      <BrowserRouter>
+      <Switch>
+        <Admin path="/admin"/>
+        <Main path="/"></Main>
+      </Switch>
+      </BrowserRouter>
+    </CookiesProvider>
   );
 }
 

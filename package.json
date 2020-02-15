@@ -14,6 +14,7 @@
     "react": "^16.12.0",
     "react-aos": "^1.0.1",
     "react-bootstrap": "^1.0.0-beta.16",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.12.0",
     "react-hook-form": "^4.7.1",
     "react-js-pagination": "^3.0.2",
