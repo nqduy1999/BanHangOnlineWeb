@@ -4,29 +4,28 @@ import { useForm } from "react-hook-form";
 
 import { withRouter } from 'react-router-dom';
 
-import Axios from 'axios';
+import AuthService from '../../services/AuthService';
+import { useAlertService } from '../../services/useAlertService';
 
-import AlertService from '../../services/AlertService';
 
 const Signup = (props) => {
     const { handleSubmit, register, errors, watch } = useForm();
     const url = "http://localhost:8080/api/dangky";
     const [resutl, setResutl] = useState();
-
+    const [checkSuccess, setCheckSuccess] = useState(false);
+    useAlertService("Thông báo", "Đăng ký thành công", "success", checkSuccess);
+    const auth = new AuthService();
     const onSubmit = data =>{
-      Axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
-      .then(async function (response) {
+      auth.postWithRoleGuest(url, data).then( async (response) => {
         if(response.data.code !== 0) {
           setResutl(response.data.message);
         } else {
-          let alert = new AlertService();
-          if(alert.alertSucess("Thông báo", "Đăng ký thành công", "success")) {
-            props.history.push('/dangnhap');
-          }
+          await setCheckSuccess(true);
+          props.history.push('/dangnhap');
         }
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
     }
     return (

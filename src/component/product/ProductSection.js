@@ -4,15 +4,16 @@ import { useLocation, Link } from 'react-router-dom';
 
 import Axios from 'axios';
 
+import { withCookies } from 'react-cookie';
+
 import ProductCard from './ProductCard';
-import dataTest from './datatest.json'
-const ProductSection = () => {
+import dataTest from './datatest.json';
+const ProductSection = (props) => {
     const [data, setData] = useState({products: []});
     const [pages, setPages] = useState([]);
     let useQuery = () => {
       return new URLSearchParams(useLocation().search);
     }
-
     const id = useQuery();
     const urlProduct = `http://localhost:8080/api/sanpham/trang?index=${id.get("index")}`;
     const [currentPage, setCurrentPage] = useState(0);
@@ -173,4 +174,4 @@ const ProductSection = () => {
     );
 };
 
-export default ProductSection;
+export default withCookies(ProductSection);

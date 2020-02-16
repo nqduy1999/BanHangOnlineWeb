@@ -1,38 +1,34 @@
 import React, {useState}from 'react';
 
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import { useForm } from "react-hook-form";
 
 import { useCookies } from 'react-cookie';
 
-import Axios from 'axios';
-
-import Swal from 'sweetalert2';
-
-import AlertService from '../../services/AlertService';
+import AuthService from '../../services/AuthService';
+import  { useAlertService } from '../../services/useAlertService';
 const Login = (props) => {
     const [cookies, setCookies] = useCookies(['authtoken']);
     const { register, handleSubmit, errors } = useForm();
     const url = "http://localhost:8080/api/dangnhap";
     const [resutl, setResutl] = useState();
-
+    const [checkSuccess, setCheckSuccess] = useState(false);
+    useAlertService("Thông báo", "Đăng nhập thành công", "success", checkSuccess);
+    const auth = new AuthService();
     const onSubmit = data => {
-      Axios.post(url, data, {headers: { 'Content-Type': 'application/json' }})
-      .then(async function (response) {
-        setCookies('authtoken', response.data.message, { path: '/'});
-        if(response.data.code !== 0) {
-          setResutl(response.data.message);
-        } else {
-          let alert = new AlertService();
-          if(alert.alertSucess("Thông báo", "Đăng nhập thành công", "success")) {
+        auth.postWithRoleGuest(url, data).then( async (response) => {
+          await setCookies('authtoken', response.data.message, { path: '/'});
+          if(response.data.code !== 0) {
+            setResutl(response.data.message);
+          } else {
+            setCheckSuccess(true);
             props.history.push('/trangchu');
           }
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }; // your form submit function which will invoke after successful validation
     return (
             <form className="container" onSubmit={handleSubmit(onSubmit)} >
