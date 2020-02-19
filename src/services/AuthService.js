@@ -1,7 +1,5 @@
 import Axios from "axios";
 
-import { Cookies, withCookies } from "react-cookie";
-
 class AuthService {
     postWithRoleGuest = async (url, data) => {
         const response  = Axios.post(url, data, {headers: { 'Content-Type': 'application/json' }});

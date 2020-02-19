@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import { useForm } from "react-hook-form";
 
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import AuthService from '../../services/AuthService';
 import { useAlertService } from '../../services/useAlertService';
@@ -104,6 +104,7 @@ const Signup = (props) => {
               <input className="btn btn-info" type="submit" value="Đăng Ký"/>
               </div>
             </div>
+            <Link to="/dangnhap"><p>Đã có tài khoản? Đăng nhập ngay tại đây.</p></Link>
           </form>
       );
 };

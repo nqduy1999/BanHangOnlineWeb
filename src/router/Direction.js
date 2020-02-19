@@ -40,7 +40,7 @@ const Direction = () => {
             <Route path="/dangky">
                 <Signup/>
             </Route>
-            <Route path="/sanpham:/id">
+            <Route path="/chitiet">
                 <ProductDetails/>
             </Route>
             <Route exact path="/trangchu">

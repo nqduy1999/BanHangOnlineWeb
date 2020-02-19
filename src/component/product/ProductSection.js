@@ -86,8 +86,19 @@ const ProductSection = (props) => {
                 </div>
               </div>
               <div className="row mb-5">
-                {data.products.map((item, i) => (
-                    <ProductCard key={i} data={dataTest.data} content={item.moTa} name={item.tenSanPham} description={item.moTa} price={item.giaSanPham}/>
+                {data.products.sort((a, b) => {
+                  let nameA = a.tenSanPham.toUpperCase(); // bỏ qua hoa thường
+                  let nameB = b.tenSanPham.toUpperCase(); // bỏ qua hoa thường
+                  if (nameA < nameB) {
+                    return -1;
+                  }
+                  if (nameA > nameB) {
+                    return 1;
+                  }
+                  // name trùng nhau
+                  return 0;
+                }).map((item, i) => (
+                    <ProductCard key={i} id={item.maSanPham} data={dataTest.data} content={item.moTa} name={item.tenSanPham} description={item.moTa} price={item.giaSanPham}/>
                   ))}
               </div>
               <div className="row" data-aos="fade-up">
