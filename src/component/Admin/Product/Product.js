@@ -1,7 +1,20 @@
 import React from 'react';
 import ModalAddProduct from './ModalAddProduct.js';
 import SearchProduct from './SearchProduct.js';
+import { useState } from 'react';
 const Product = () => {
+    const [id, CountId]=useState(1);
+    const [userList, setUserList] = useState([
+        {
+            tenSanpham: "",
+            gia: 0,
+            soluong: 0,
+            hinhAnh:"",
+        },
+    ]);
+    const [user, updateUser]=useState(null);
+    const [filter, setFilter]= useState([]);
+    const [keyWord, setKeyWord]=useState('');
     return (
         <div>
         <div className="d-flex flex-row bd-highlight mb-3">

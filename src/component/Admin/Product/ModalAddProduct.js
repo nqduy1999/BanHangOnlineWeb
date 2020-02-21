@@ -18,7 +18,8 @@ const AddCustomer = (props) => {
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            {/* <h5 className="modal-title">{this.props.updateUser ? "Update User" : "Add User "}</h5> */}
+            <h5 className="modal-title">Thêm sản phẩm</h5>
+            {/* {this.props.updateUser ? "Update User" : "Add User "} */}
             <button
               type="button"
               className="close"
@@ -28,6 +29,7 @@ const AddCustomer = (props) => {
               <span aria-hidden="true">×</span>
             </button>
           </div>
+
           <div className="modal-body">
             <form >
             {/* onSubmit={this._handleSubmit} */}
