@@ -55,7 +55,7 @@ const AdminSearch = () => {
         </h6>
         <a className="dropdown-item d-flex align-items-center" href="#">
           <div className="dropdown-list-image mr-3">
-            <img className="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt />
+            <img className="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60"  />
             <div className="status-indicator bg-success" />
           </div>
           <div className="font-weight-bold">
@@ -65,7 +65,7 @@ const AdminSearch = () => {
         </a>
         <a className="dropdown-item d-flex align-items-center" href="#">
           <div className="dropdown-list-image mr-3">
-            <img className="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt />
+            <img className="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60"  />
             <div className="status-indicator" />
           </div>
           <div>
@@ -75,7 +75,7 @@ const AdminSearch = () => {
         </a>
         <a className="dropdown-item d-flex align-items-center" href="#">
           <div className="dropdown-list-image mr-3">
-            <img className="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt />
+            <img className="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60"  />
             <div className="status-indicator bg-warning" />
           </div>
           <div>
@@ -85,7 +85,7 @@ const AdminSearch = () => {
         </a>
         <a className="dropdown-item d-flex align-items-center" href="#">
           <div className="dropdown-list-image mr-3">
-            <img className="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt />
+            <img className="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"  />
             <div className="status-indicator bg-success" />
           </div>
           <div>
