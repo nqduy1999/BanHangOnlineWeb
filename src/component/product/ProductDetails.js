@@ -3,9 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import Axios from 'axios';
+
+import { withCookies } from 'react-cookie';
+
+import Cookies from 'js-cookie';
+
+import AuthService from '../../services/AuthService';
 import  { useAlertService } from '../../services/useAlertService';
 import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
-const ProductDetails = () => {
+const ProductDetails = (props) => {
   const [data, setData] = useState({
     maSanPham: '',
     tenSanPham: '',
@@ -27,9 +33,11 @@ const ProductDetails = () => {
   let useQuery = () => {
     return new URLSearchParams(useLocation().search);
   }
-  const [loading, setLoading] = useState(false);
+  const auth = new AuthService();
   const id = useQuery();
   const url = `http://localhost:8080/api/quanly/sanpham/chitiet?id=${id.get("id")}`;
+  const urlGioHang = "http://localhost:8080/api/giohang/them";
+
     let getProductDetail = async (source) => {
       await Axios.get(url)
       .then(async res => {
@@ -94,11 +102,20 @@ const ProductDetails = () => {
       }
     }
     let onAddOrderDetailsToShoppingCard = () => {
+      console.log("cao", Cookies.get('coo'));
       if(quantity > 0 && quantity <= data.soLuongTon) {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
           donGia: data.giaSanPham * quantity,
           soLuong: quantity
+        })
+        auth.postWithRoleGuest(urlGioHang, chiTietHoaDon).then( async (response) => {
+          console.log(response.data);
+        }).catch((err) => {
+          console.log(err);
+        });
+        Axios.get("http://localhost:8080/api/giohang/dulieu", {headers: { Cookie: `JSESSIONID=BDF6455F1C5E57681C28848C6562F6A1; path=/; domain=localhost; HttpOnly; Expires` } }).then(async(res) => {
+          await console.log("Get", res.data)
         })
       } else {
         setCheckQuantityErr(true);
@@ -111,7 +128,7 @@ const ProductDetails = () => {
         source.cancel();
       };
     }, [url])
-    return data.giaSanPham!=0 ? (
+    return data.giaSanPham !== 0 ? (
         <div>
           <div className="site-section">
             <div className="container">
@@ -125,7 +142,7 @@ const ProductDetails = () => {
                   <p className="mb-4">Ex numquam veritatis debitis minima quo error quam eos dolorum quidem perferendis. Quos repellat dignissimos minus, eveniet nam voluptatibus molestias omnis reiciendis perspiciatis illum hic magni iste, velit aperiam quis.</p>
                   <p><strong className="text-primary h4">{data.giaSanPham}</strong></p>
                   <div className="mb-5 ml-5">
-                    <div className="input-group mb-3" style={{maxWidth: 200}}>
+                    <div className="input-group mb-3" style={{maxWidth: 120}}>
                       <div className="input-group-prepend">
                         <button className=" btn-outline-primary js-btn-minus" type="button" onClick={() => {handleUpdateQuantity(quantity-1, "giam");}}>−</button>
                       </div>
@@ -135,7 +152,7 @@ const ProductDetails = () => {
                       </div>
                     </div>
                   </div>
-                  <p><Link to="/giohang"  className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Thêm vào giỏ</Link></p>
+                  <p><Link  className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Thêm vào giỏ</Link></p>
                 </div>
               </div>
             </div>

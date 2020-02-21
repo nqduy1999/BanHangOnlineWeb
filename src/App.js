@@ -7,7 +7,6 @@ import './App.css';
 import Main from './router/Main';
 import Admin from './component/Admin/Admin';
 import AOS from 'aos'
-import { CookiesProvider } from 'react-cookie'
 function App() {
   useEffect(() => {
     AOS.init();
@@ -16,14 +15,12 @@ function App() {
     AOS.refresh();
   })
   return (
-    <CookiesProvider>
       <BrowserRouter>
       <Switch>
         <Admin path="/admin"/>
         <Main path="/"></Main>
       </Switch>
       </BrowserRouter>
-    </CookiesProvider>
   );
 }
 

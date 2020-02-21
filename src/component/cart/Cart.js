@@ -1,10 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
+
+import Axios from 'axios';
 
 import bia_a3 from '../../resource/images/bia_a3.jpg';
 import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = () => {
+    const url = "http://localhost:8080/api/giohang/dulieu";
+    const [data, setData] = useState([]);
+    let getOrderFromSession = async () => {
+      await Axios.get(url)
+      .then(async res => {
+        const order = await res.data;
+        await setData(order);
+        console.log(order);
+      }).catch(err => {
+        if(Axios.isCancel(err)) {
+          console.log(`Canceled`, err);
+        } else {
+          console.log('err', err)
+        }
+      })
+    }
+    useEffect(() => {
+      const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
+      getOrderFromSession(source);
+      return () => {
+        source.cancel();
+      };
+    }, [url])
     return (
         <div className="site-section">
         <div className="container">
@@ -23,50 +48,32 @@ const Cart = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="product-thumbnail">
-                        <img src={but_bi} alt="Image" className="img-fluid"/>
-                      </td>
-                      <td className="product-name">
-                        <h2 className="h5 text-black">Bút bi</h2>
-                      </td>
-                      <td>4000 vnd</td>
-                      <td>
-                        <div className="input-group mb-3" style={{maxWidth: '120px'}}>
-                          <div className="input-group-prepend">
-                            <button className="btn-outline-primary js-btn-minus" type="button">−</button>
-                          </div>
-                          <input type="text" className="form-control text-center" defaultValue={1} aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                          <div className="input-group-append">
-                            <button className=" btn-outline-primary js-btn-plus" type="button">+</button>
-                          </div>
-                        </div>
-                      </td>
-                      <td>4000 vnd</td>
-                      <td><a href="#" className="btn btn-primary btn-sm">X</a></td>
-                    </tr>
-                    <tr>
-                      <td className="product-thumbnail">
-                        <img src={bia_a3} alt="Image" className="img-fluid" />
-                      </td>
-                      <td className="product-name">
-                        <h2 className="h5 text-black">Giấy A3</h2>
-                      </td>
-                      <td>5000 vnd</td>
-                      <td>
-                        <div className="input-group mb-3" style={{maxWidth: '120px'}}>
-                          <div className="input-group-prepend">
-                            <button className=" btn-outline-primary js-btn-minus" type="button">−</button>
-                          </div>
-                          <input type="text" className="form-control text-center" defaultValue={4} aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                          <div className="input-group-append">
-                            <button className=" btn-outline-primary js-btn-plus" type="button">+</button>
-                          </div>
-                        </div>
-                      </td>
-                      <td>20000 vnd</td>
-                      <td><a href="#" className="btn btn-primary btn-sm">X</a></td>
-                    </tr>
+                    {
+                    //   data.map((item) => (
+                    //     <tr>
+                    //     <td className="product-thumbnail">
+                    //       <img src={but_bi} alt="Image" className="img-fluid"/>
+                    //     </td>
+                    //     <td className="product-name">
+                    //       <h2 className="h5 text-black">{item.sanPham.tenSanPham}</h2>
+                    //     </td>
+                    //     <td>4000 vnd</td>
+                    //     <td>
+                    //       <div className="input-group mb-3" style={{maxWidth: '120px'}}>
+                    //         <div className="input-group-prepend">
+                    //           <button className="btn-outline-primary js-btn-minus" type="button">−</button>
+                    //         </div>
+                    //         <input type="text" className="form-control text-center" defaultValue={1} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                    //         <div className="input-group-append">
+                    //           <button className=" btn-outline-primary js-btn-plus" type="button">+</button>
+                    //         </div>
+                    //       </div>
+                    //     </td>
+                    //     <td>4000 vnd</td>
+                    //     <td><a href="#" className="btn btn-primary btn-sm">X</a></td>
+                    //   </tr>
+                    // ))
+                    }
                   </tbody>
                 </table>
               </div>
