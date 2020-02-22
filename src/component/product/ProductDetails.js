@@ -108,17 +108,12 @@ const ProductDetails = (props) => {
           donGia: data.giaSanPham * quantity,
           soLuong: quantity
         })
-        Axios.defaults.withCredentials = true
+        Axios.defaults.withCredentials = true;
         Axios.post(urlGioHang, chiTietHoaDon,  {header: {'Access-Control-Allow-Origin': "*"}}).then( async (response) => {
-          console.log(response.data);
+          console.log(response.data.message);
         }).catch((err) => {
           console.log(err);
         });
-        setTimeout(() => {
-          Axios.get("http://localhost:8080/api/giohang/dulieu", {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
-            await console.log("Get", res.data)
-          })
-        }, 2000);
       } else {
         setCheckQuantityErr(true);
       }
@@ -154,7 +149,7 @@ const ProductDetails = (props) => {
                       </div>
                     </div>
                   </div>
-                  <p><Link  className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Thêm vào giỏ</Link></p>
+                  <p><Link to="/giohang"  className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Thêm vào giỏ</Link></p>
                 </div>
               </div>
             </div>

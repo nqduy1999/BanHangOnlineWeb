@@ -4,23 +4,31 @@ import { Link } from 'react-router-dom';
 
 import Axios from 'axios';
 
-import bia_a3 from '../../resource/images/bia_a3.jpg';
 import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = () => {
     const url = "http://localhost:8080/api/giohang/dulieu";
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({
+      maHoaDon: '',
+      ngayLapHoaDon: '',
+      tongTien: 0,
+      danhsachCTHD: [],
+      khachHang: null
+    });
     let getOrderFromSession = async () => {
-      await Axios.get(url)
-      .then(async res => {
-        const order = await res.data;
-        await setData(order);
-        console.log(order);
-      }).catch(err => {
-        if(Axios.isCancel(err)) {
-          console.log(`Canceled`, err);
-        } else {
-          console.log('err', err)
+      Axios.defaults.withCredentials = true;
+      Axios.get(url, {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
+        const result = await res.data.resutl;
+        if(result.danhsachCTHD!=null) {
+          await setData({
+            maHoaDon: result.maHoaDon,
+            ngayLapHoaDon: result.ngayLapHoaDon,
+            tongTien: result.tongTien,
+            danhsachCTHD: result.danhsachCTHD,
+            khachHang: result.khachHang
+          });
         }
+      }).catch((err) => {
+        console.log(err);
       })
     }
     useEffect(() => {
@@ -49,31 +57,31 @@ const Cart = () => {
                   </thead>
                   <tbody>
                     {
-                    //   data.map((item) => (
-                    //     <tr>
-                    //     <td className="product-thumbnail">
-                    //       <img src={but_bi} alt="Image" className="img-fluid"/>
-                    //     </td>
-                    //     <td className="product-name">
-                    //       <h2 className="h5 text-black">{item.sanPham.tenSanPham}</h2>
-                    //     </td>
-                    //     <td>4000 vnd</td>
-                    //     <td>
-                    //       <div className="input-group mb-3" style={{maxWidth: '120px'}}>
-                    //         <div className="input-group-prepend">
-                    //           <button className="btn-outline-primary js-btn-minus" type="button">−</button>
-                    //         </div>
-                    //         <input type="text" className="form-control text-center" defaultValue={1} aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                    //         <div className="input-group-append">
-                    //           <button className=" btn-outline-primary js-btn-plus" type="button">+</button>
-                    //         </div>
-                    //       </div>
-                    //     </td>
-                    //     <td>4000 vnd</td>
-                    //     <td><a href="#" className="btn btn-primary btn-sm">X</a></td>
-                    //   </tr>
-                    // ))
-                    }
+                      data.danhsachCTHD.map((item, i) => (
+                        <tr key={i}>
+                        <td className="product-thumbnail">
+                          <img src={but_bi} alt="Image" className="img-fluid"/>
+                        </td>
+                        <td className="product-name">
+                          <h2 className="h5 text-black">{item.sanPham.tenSanPham}</h2>
+                        </td>
+                        <td>{item.sanPham.giaSanPham}</td>
+                        <td>
+                          <div className="input-group mb-3" style={{maxWidth: '120px'}}>
+                            <div className="input-group-prepend">
+                              <button className="btn-outline-primary js-btn-minus" type="button">−</button>
+                            </div>
+                            <input type="text" className="form-control text-center" defaultValue={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                            <div className="input-group-append">
+                              <button className=" btn-outline-primary js-btn-plus" type="button">+</button>
+                            </div>
+                          </div>
+                        </td>
+                        <td>{item.donGia}</td>
+                        <td><a href="#" className="btn btn-primary btn-sm">X</a></td>
+                      </tr>
+                    ))
+                  }
                   </tbody>
                 </table>
               </div>
