@@ -102,21 +102,23 @@ const ProductDetails = (props) => {
       }
     }
     let onAddOrderDetailsToShoppingCard = () => {
-      console.log("cao", Cookies.get('coo'));
       if(quantity > 0 && quantity <= data.soLuongTon) {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
           donGia: data.giaSanPham * quantity,
           soLuong: quantity
         })
-        auth.postWithRoleGuest(urlGioHang, chiTietHoaDon).then( async (response) => {
+        Axios.defaults.withCredentials = true
+        Axios.post(urlGioHang, chiTietHoaDon,  {header: {'Access-Control-Allow-Origin': "*"}}).then( async (response) => {
           console.log(response.data);
         }).catch((err) => {
           console.log(err);
         });
-        Axios.get("http://localhost:8080/api/giohang/dulieu", {headers: { Cookie: `JSESSIONID=BDF6455F1C5E57681C28848C6562F6A1; path=/; domain=localhost; HttpOnly; Expires` } }).then(async(res) => {
-          await console.log("Get", res.data)
-        })
+        setTimeout(() => {
+          Axios.get("http://localhost:8080/api/giohang/dulieu", {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
+            await console.log("Get", res.data)
+          })
+        }, 2000);
       } else {
         setCheckQuantityErr(true);
       }

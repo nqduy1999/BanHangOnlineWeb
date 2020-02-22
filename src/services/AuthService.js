@@ -3,7 +3,7 @@ import Axios from "axios";
 import Cookies from 'js-cookie';
 class AuthService {
     postWithRoleGuest = async (url, data) => {
-        const response  = Axios.post(url, data, {headers: { 'Content-Type': 'application/json' }});
+        const response  = Axios.post(url, data, {headers: { 'Content-Type': 'application/json'}});
         return await response;
     }
     // để id nếu có id hoặc để null
