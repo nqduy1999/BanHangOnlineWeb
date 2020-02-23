@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Axios from 'axios';
 
+import AuthService from '../../services/AuthService';
 import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = () => {
     const url = "http://localhost:8080/api/giohang/dulieu";
+    let useQuery = () => {
+      return new URLSearchParams(useLocation().search);
+    }
+    const id = useQuery();
+    const action = useQuery();
+    const urlUpdateCart = `http://localhost:8080/api/giohang/capnhat?action=${action.get("action")}&id=${id.get("id")}`;
     const [data, setData] = useState({
       maHoaDon: '',
       ngayLapHoaDon: '',
@@ -14,10 +21,13 @@ const Cart = () => {
       danhsachCTHD: [],
       khachHang: null
     });
+    const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
+    const auth = new AuthService();
     let getOrderFromSession = async () => {
       Axios.defaults.withCredentials = true;
       Axios.get(url, {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
         const result = await res.data.resutl;
+        console.log(result);
         if(result.danhsachCTHD!=null) {
           await setData({
             maHoaDon: result.maHoaDon,
@@ -31,13 +41,32 @@ const Cart = () => {
         console.log(err);
       })
     }
+    let updateCart = async (id) => {
+      // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
+      Axios.post(urlUpdateCart)
+      .then(async (res) => {
+        const result = await res.data.resutl;
+        console.log(res);
+        await setData({...data,
+          maHoaDon: result.maHoaDon,
+          ngayLapHoaDon: result.ngayLapHoaDon,
+          tongTien: result.tongTien,
+          danhsachCTHD: result.danhsachCTHD,
+          khachHang: result.khachHang
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }
     useEffect(() => {
-      const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
-      getOrderFromSession(source);
+      setTimeout(() => {
+        getOrderFromSession(source);
+      }, 200);
       return () => {
         source.cancel();
       };
-    }, [url])
+    }, [])
     return (
         <div className="site-section">
         <div className="container">
@@ -69,11 +98,11 @@ const Cart = () => {
                         <td>
                           <div className="input-group mb-3" style={{maxWidth: '120px'}}>
                             <div className="input-group-prepend">
-                              <button className="btn-outline-primary js-btn-minus" type="button">−</button>
+                              <Link to={`/giohang?action=giam&id=${item.sanPham.maSanPham}`}  onClick={() => {updateCart()}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</Link>
                             </div>
                             <input type="text" className="form-control text-center" defaultValue={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                             <div className="input-group-append">
-                              <button className=" btn-outline-primary js-btn-plus" type="button">+</button>
+                              <Link to={`/giohang?action=tang&id=${item.sanPham.maSanPham}`} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-plus" onClick={() => {updateCart(item.sanPham.maSanPham)}} type="button">+</Link>
                             </div>
                           </div>
                         </td>
@@ -91,7 +120,7 @@ const Cart = () => {
             <div className="col-md-6">
               <div className="row mb-5">
                 <div className="col-md-6 mb-3 mb-md-0">
-                  <button className="btn btn-primary btn-sm btn-block">Cập nhật giỏ hàng</button>
+                  <button className="btn btn-primary btn-sm btn-block" onClick={() => {window.location.reload();}}>Cập nhật giỏ hàng</button>
                 </div>
                 <div className="col-md-6">
                   <button className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</button>

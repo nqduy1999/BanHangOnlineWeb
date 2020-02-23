@@ -4,11 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 import Axios from 'axios';
 
-import { withCookies } from 'react-cookie';
-
-import Cookies from 'js-cookie';
-
-import AuthService from '../../services/AuthService';
 import  { useAlertService } from '../../services/useAlertService';
 import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
 const ProductDetails = (props) => {
@@ -33,12 +28,11 @@ const ProductDetails = (props) => {
   let useQuery = () => {
     return new URLSearchParams(useLocation().search);
   }
-  const auth = new AuthService();
   const id = useQuery();
   const url = `http://localhost:8080/api/quanly/sanpham/chitiet?id=${id.get("id")}`;
   const urlGioHang = "http://localhost:8080/api/giohang/them";
 
-    let getProductDetail = async (source) => {
+    let getProductDetail = async () => {
       await Axios.get(url)
       .then(async res => {
         const products = await res.data;
@@ -58,11 +52,7 @@ const ProductDetails = (props) => {
           soLuong: 1
         })
       }).catch(err => {
-        if(Axios.isCancel(err)) {
-          console.log(`Canceled`, err);
-        } else {
           console.log('err', err)
-        }
       })
     }
     let handleUpdateQuantity = (qt, action) => {
@@ -84,7 +74,7 @@ const ProductDetails = (props) => {
           })
           setQuantity(qt);
         }
-      } 
+      }
       if(quantity > data.soLuongTon) {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
@@ -119,11 +109,7 @@ const ProductDetails = (props) => {
       }
     }
     useEffect(() => {
-      const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
-      getProductDetail(source);
-      return () => {
-        source.cancel();
-      };
+      getProductDetail();
     }, [url])
     return data.giaSanPham !== 0 ? (
         <div>
@@ -149,7 +135,7 @@ const ProductDetails = (props) => {
                       </div>
                     </div>
                   </div>
-                  <p><Link to="/giohang"  className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Thêm vào giỏ</Link></p>
+                  <p><Link to="/giohang"  className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Mua ngay</Link></p>
                 </div>
               </div>
             </div>
