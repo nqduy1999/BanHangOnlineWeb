@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link, useLocation, withRouter } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Axios from 'axios';
-
+import  { useAlertService } from '../../services/useAlertService';
 import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = (props) => {
-    const url = "http://localhost:8080/api/giohang/dulieu";
+  // dùng để lấy query string
     let useQuery = () => {
       return new URLSearchParams(useLocation().search);
     }
     const id = useQuery();
     const action = useQuery();
     const quantity = useQuery();
+// các url api
+    const url = "http://localhost:8080/api/giohang/dulieu";
     const urlUpdateCart = `http://localhost:8080/api/giohang/capnhat?action=${action.get("action")}&id=${id.get("id")}&quantity=${quantity.get("quantity")}`;
     const urlRemoveProductFromCart = `http://localhost:8080/api/giohang/xoa?id=${id.get("id")}`;
+    // THông báo 
+    const [checkSuccess, setCheckSuccess] = useState(false);
+    const [error, setError] = useState("");
+    const [icon, setIcon] = useState("Thành công");
+    useAlertService("Thông báo", error, icon, checkSuccess);
+    // data
     const [data, setData] = useState({
       maHoaDon: '',
       ngayLapHoaDon: '',
@@ -23,11 +31,11 @@ const Cart = (props) => {
       khachHang: null
     });
     const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
+    // lấy danh sách sản phẩm đã đặt mua từ session lên cart
     let getOrderFromSession = async () => {
       Axios.defaults.withCredentials = true;
       Axios.get(url, {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
         const result = await res.data.resutl;
-        console.log(result);
         if(result.danhsachCTHD!=null) {
           await setData({
             maHoaDon: result.maHoaDon,
@@ -41,10 +49,11 @@ const Cart = (props) => {
         console.log(err);
       })
     }
+    // xử lý tăng giảm và nhập dữ liêu trong input
     let handleUpdateCart = async (action, number, id) => {
+      // mở này coi để hiểu tại s code như v
       // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
       if(action === "handle") {
-        console.log(number)
         setData({
           danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: item.soLuong + number} : item)
         });
@@ -54,16 +63,21 @@ const Cart = (props) => {
         });
       }
     }
+    // sau khi phương thức này chạy thì mới cập nhật xuống server
     let onUpdateCart = () => {
       Axios.post(urlUpdateCart, data)
       .then( async (res) => {
-        const result = await res.data.resutl;
-        console.log(result);
+        const result = await res.data.message;
+        setError(result);
+        setIcon("error");
+        setCheckSuccess(true);
+        setCheckSuccess(false);
       })
       .catch(err => {
         console.log(err);
       })
     }
+    // xoá sản phẩm (Chưa xog)
     let removeProductFromCart = () => {
       Axios.post(urlRemoveProductFromCart)
       .then((res) => {
@@ -72,16 +86,17 @@ const Cart = (props) => {
       .catch(err => {
         console.log(err);
       })
-      // window.location.reload();
     }
     useEffect(() => {
       setTimeout(() => {
         getOrderFromSession(source);
-      }, 200);
+      }, 200); // settimeout là vì Set-Cookie của gg cập nhật vào web chậm ko bắt dc khi chuyển sang giỏ hàng sẽ ko xuất hiện sản phẩm vừa mua
       return () => {
         source.cancel();
       };
-    }, [])
+    }, []); // [] chạy 1 lần
+
+
     return (
         <div className="site-section">
         <div className="container">
@@ -113,11 +128,11 @@ const Cart = (props) => {
                         <td>
                           <div className="input-group mb-3" style={{maxWidth: '120px'}}>
                             <div className="input-group-prepend">
-                              <Link to={`/giohang?action=giam&id=${item.sanPham.maSanPham}`}  onClick={() => {handleUpdateCart("handle", -1, item.sanPham.maSanPham)}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</Link>
+                              <button onClick={() => {handleUpdateCart("handle", -1, item.sanPham.maSanPham)}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</button>
                             </div>
-                            <input type="text" className="form-control text-center" onChange={(e) => { handleUpdateCart("", Number(e.target.value, item.sanPham.maSanPham));}} value={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                            <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", e.target.value, item.sanPham.maSanPham)}} value={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                             <div className="input-group-append">
-                              <Link to={`/giohang?action=tang&id=${item.sanPham.maSanPham}`} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("handle", 1, item.sanPham.maSanPham)}} type="button">+</Link>
+                              <button className="btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("handle", 1, item.sanPham.maSanPham)}} type="button">+</button>
                             </div>
                           </div>
                         </td>
@@ -192,4 +207,4 @@ const Cart = (props) => {
     );
 };
 
-export default withRouter(Cart);
+export default Cart;

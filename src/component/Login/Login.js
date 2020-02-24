@@ -4,21 +4,24 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { useForm } from "react-hook-form";
 
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 
 import AuthService from '../../services/AuthService';
 import  { useAlertService } from '../../services/useAlertService';
 const Login = (props) => {
-    const [cookies, setCookies] = useCookies(['authtoken']);
+  // React form
     const { register, handleSubmit, errors } = useForm();
     const url = "http://localhost:8080/api/dangnhap";
     const [resutl, setResutl] = useState();
+    // Thông báo
     const [checkSuccess, setCheckSuccess] = useState(false);
     useAlertService("Thông báo", "Đăng nhập thành công", "success", checkSuccess);
+    // Hàm custom dùng sẵn
     const auth = new AuthService();
+    // Đăng nhập
     const onSubmit = data => {
         auth.postWithRoleGuest(url, data).then( async (response) => {
-          await setCookies('authtoken', response.data.message, { path: '/'});
+          Cookies.set('authtoken', response.data.message);
           if(response.data.code !== 0) {
             setResutl(response.data.message);
           } else {

@@ -7,6 +7,12 @@ import Axios from 'axios';
 import  { useAlertService } from '../../services/useAlertService';
 import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
 const ProductDetails = (props) => {
+  // lấy query String
+  let useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  }
+  const id = useQuery();
+
   const [data, setData] = useState({
     maSanPham: '',
     tenSanPham: '',
@@ -23,14 +29,13 @@ const ProductDetails = (props) => {
     soLuong: 1
   })
   const [quantity, setQuantity] = useState(1);
+  // thông báo
   const [checkQuantityErr, setCheckQuantityErr] = useState(false);
   useAlertService("Thông báo", "Vui lòng nhập đúng số lượng phù hợp", "warning", checkQuantityErr);
-  let useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  }
-  const id = useQuery();
+  // url api
   const url = `http://localhost:8080/api/quanly/sanpham/chitiet?id=${id.get("id")}`;
   const urlGioHang = "http://localhost:8080/api/giohang/them";
+  // lấy thông tin chi tiết của sản phẩm
 
     let getProductDetail = async () => {
       await Axios.get(url)
@@ -46,6 +51,7 @@ const ProductDetails = (props) => {
           hinhAnh: products.hinhAnh,
           loaiSanPham: products.loaiSanPham
         });
+        // lấy chi tiết hoá đon để đẩy lên server cập nhật cho phía giỏ hàng
       await setChiTietHoaDon({...chiTietHoaDon,
           sanPham: products,
           donGia: products.giaSanPham * 1,
@@ -55,6 +61,8 @@ const ProductDetails = (props) => {
           console.log('err', err)
       })
     }
+    // xử lý input nhập số lượng
+    // action tăng là dấu + và giảm là dấu -
     let handleUpdateQuantity = (qt, action) => {
       if(action === "tang") {
         if(quantity >= 1 && quantity < data.soLuongTon) {
@@ -91,20 +99,25 @@ const ProductDetails = (props) => {
         setQuantity(1);
       }
     }
+    // thêm chi tiết hoá đơn vào giỏ hàng
     let onAddOrderDetailsToShoppingCard = () => {
+      // kiểm tra số lượng hợp lệ
       if(quantity > 0 && quantity <= data.soLuongTon) {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
           donGia: data.giaSanPham * quantity,
           soLuong: quantity
         })
+        // Bật true để trình duyệt tự động add Set-Cookie JSESSION Id vào cookie web (gg xem thêm)
         Axios.defaults.withCredentials = true;
+        // Vì bật true ở trên nên cần header như bên dưới nếu ko sẽ bị lỗi CORS
         Axios.post(urlGioHang, chiTietHoaDon,  {header: {'Access-Control-Allow-Origin': "*"}}).then( async (response) => {
           console.log(response.data.message);
         }).catch((err) => {
           console.log(err);
         });
       } else {
+        // Này để hiển thị thông báo
         setCheckQuantityErr(true);
       }
     }

@@ -9,12 +9,16 @@ import { useAlertService } from '../../services/useAlertService';
 
 
 const Signup = (props) => {
+  // react form
     const { handleSubmit, register, errors, watch } = useForm();
     const url = "http://localhost:8080/api/dangky";
     const [resutl, setResutl] = useState();
+    // Thông báo
     const [checkSuccess, setCheckSuccess] = useState(false);
     useAlertService("Thông báo", "Đăng ký thành công", "success", checkSuccess);
+    // Hàm dùng sẵn
     const auth = new AuthService();
+    // Đăng ký
     const onSubmit = data =>{
       auth.postWithRoleGuest(url, data).then( async (response) => {
         if(response.data.code !== 0) {
