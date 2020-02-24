@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, withRouter } from 'react-router-dom';
 
 import Axios from 'axios';
 
-import AuthService from '../../services/AuthService';
 import but_bi from '../../resource/images/but_bi.jpg';
-const Cart = () => {
+const Cart = (props) => {
     const url = "http://localhost:8080/api/giohang/dulieu";
     let useQuery = () => {
       return new URLSearchParams(useLocation().search);
     }
     const id = useQuery();
     const action = useQuery();
-    const urlUpdateCart = `http://localhost:8080/api/giohang/capnhat?action=${action.get("action")}&id=${id.get("id")}`;
+    const quantity = useQuery();
+    const urlUpdateCart = `http://localhost:8080/api/giohang/capnhat?action=${action.get("action")}&id=${id.get("id")}&quantity=${quantity.get("quantity")}`;
+    const urlRemoveProductFromCart = `http://localhost:8080/api/giohang/xoa?id=${id.get("id")}`;
     const [data, setData] = useState({
       maHoaDon: '',
       ngayLapHoaDon: '',
@@ -22,7 +23,6 @@ const Cart = () => {
       khachHang: null
     });
     const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
-    const auth = new AuthService();
     let getOrderFromSession = async () => {
       Axios.defaults.withCredentials = true;
       Axios.get(url, {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
@@ -41,23 +41,38 @@ const Cart = () => {
         console.log(err);
       })
     }
-    let updateCart = async (id) => {
+    let handleUpdateCart = async (action, number, id) => {
       // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
-      Axios.post(urlUpdateCart)
-      .then(async (res) => {
-        const result = await res.data.resutl;
-        console.log(res);
-        await setData({...data,
-          maHoaDon: result.maHoaDon,
-          ngayLapHoaDon: result.ngayLapHoaDon,
-          tongTien: result.tongTien,
-          danhsachCTHD: result.danhsachCTHD,
-          khachHang: result.khachHang
+      if(action === "handle") {
+        console.log(number)
+        setData({
+          danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: item.soLuong + number} : item)
         });
+      } else if(action === ""){
+        setData({
+          danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: Number(number)} : item)
+        });
+      }
+    }
+    let onUpdateCart = () => {
+      Axios.post(urlUpdateCart, data)
+      .then( async (res) => {
+        const result = await res.data.resutl;
+        console.log(result);
       })
       .catch(err => {
         console.log(err);
       })
+    }
+    let removeProductFromCart = () => {
+      Axios.post(urlRemoveProductFromCart)
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      // window.location.reload();
     }
     useEffect(() => {
       setTimeout(() => {
@@ -98,16 +113,16 @@ const Cart = () => {
                         <td>
                           <div className="input-group mb-3" style={{maxWidth: '120px'}}>
                             <div className="input-group-prepend">
-                              <Link to={`/giohang?action=giam&id=${item.sanPham.maSanPham}`}  onClick={() => {updateCart()}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</Link>
+                              <Link to={`/giohang?action=giam&id=${item.sanPham.maSanPham}`}  onClick={() => {handleUpdateCart("handle", -1, item.sanPham.maSanPham)}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</Link>
                             </div>
-                            <input type="text" className="form-control text-center" defaultValue={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                            <input type="text" className="form-control text-center" onChange={(e) => { handleUpdateCart("", Number(e.target.value, item.sanPham.maSanPham));}} value={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                             <div className="input-group-append">
-                              <Link to={`/giohang?action=tang&id=${item.sanPham.maSanPham}`} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-plus" onClick={() => {updateCart(item.sanPham.maSanPham)}} type="button">+</Link>
+                              <Link to={`/giohang?action=tang&id=${item.sanPham.maSanPham}`} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("handle", 1, item.sanPham.maSanPham)}} type="button">+</Link>
                             </div>
                           </div>
                         </td>
                         <td>{item.donGia}</td>
-                        <td><a href="#" className="btn btn-primary btn-sm">X</a></td>
+                        <td><Link to={`/giohang?id=${item.sanPham.maSanPham}`} onClick={() => {removeProductFromCart()}} className="btn btn-primary btn-sm">X</Link></td>
                       </tr>
                     ))
                   }
@@ -120,7 +135,7 @@ const Cart = () => {
             <div className="col-md-6">
               <div className="row mb-5">
                 <div className="col-md-6 mb-3 mb-md-0">
-                  <button className="btn btn-primary btn-sm btn-block" onClick={() => {window.location.reload();}}>Cập nhật giỏ hàng</button>
+                  <button className="btn btn-primary btn-sm btn-block" onClick={() => {onUpdateCart()}}>Cập nhật giỏ hàng</button>
                 </div>
                 <div className="col-md-6">
                   <button className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</button>
@@ -177,4 +192,4 @@ const Cart = () => {
     );
 };
 
-export default Cart;
+export default withRouter(Cart);
