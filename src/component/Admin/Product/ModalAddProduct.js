@@ -2,6 +2,15 @@ import React from 'react';
 import { useState } from 'react';
 
 const AddCustomer = (props) => {
+  const [data, setData] = React.useState(
+    {
+      id:Math.random(),
+      tenSanpham: "",
+      gia: 0,
+      soluong: 0,
+      hinhAnh:"",
+    }
+  )
   const _handleSubmit= (evt) =>{
     evt.preventDefault();
         

@@ -1,7 +1,8 @@
 import React from 'react';
+import ProductItem from './ProductItem';
 
-const Product = () => {
-    renderProductItem =()=> {
+const ProductTable = () => {
+const renderProductItem =()=> {
         
     }
     return (
@@ -17,11 +18,13 @@ const Product = () => {
       </td>      
 </tr>
 </thead>
-<tbody></tbody>
+<tbody>
+    <ProductItem/>
+</tbody>
 </table>
         </div>
     );
   
 };
 
-export default Product;
+export default ProductTable;
