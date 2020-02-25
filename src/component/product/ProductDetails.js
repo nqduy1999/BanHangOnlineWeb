@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, withRouter } from 'react-router-dom';
 
 import Axios from 'axios';
 
@@ -28,10 +28,12 @@ const ProductDetails = (props) => {
     donGia: 0,
     soLuong: 1
   })
-  const [quantity, setQuantity] = useState(1);
+  // const [quantity, setQuantity] = useState(1);
   // thông báo
   const [checkQuantityErr, setCheckQuantityErr] = useState(false);
-  useAlertService("Thông báo", "Vui lòng nhập đúng số lượng phù hợp", "warning", checkQuantityErr);
+  const [message, setMessage] = useState("");
+  const [icon, setIcon] = useState("");
+  useAlertService("Thông báo", message, icon, checkQuantityErr);
   // url api
   const url = `http://localhost:8080/api/quanly/sanpham/chitiet?id=${id.get("id")}`;
   const urlGioHang = "http://localhost:8080/api/giohang/them";
@@ -63,64 +65,70 @@ const ProductDetails = (props) => {
     }
     // xử lý input nhập số lượng
     // action tăng là dấu + và giảm là dấu -
-    let handleUpdateQuantity = (qt, action) => {
+    let handleUpdateQuantity = (quantityInput, action) => {
+      const quantity = chiTietHoaDon.soLuong;
+      const inventory = data.soLuongTon;
+      // các trường hợp tăng giảm phải dừng ở 1 hoặc số lượng tồn kho
       if(action === "tang") {
-        if(quantity >= 1 && quantity < data.soLuongTon) {
+        if(quantity >= 1 && quantity < inventory) {
           setChiTietHoaDon({...chiTietHoaDon,
             sanPham: data,
-            donGia: data.giaSanPham * qt,
-            soLuong: qt
+            donGia: data.giaSanPham * (quantity + 1),
+            soLuong: quantity + 1
           })
-          setQuantity(qt);
         }
       } else if(action === "giam") {
-        if(quantity > 1 && quantity <= data.soLuongTon) {
+        if(quantity > 1 && quantity <= inventory) {
           setChiTietHoaDon({...chiTietHoaDon,
             sanPham: data,
-            donGia: data.giaSanPham * qt,
-            soLuong: qt
+            donGia: data.giaSanPham * (quantity - 1),
+            soLuong: quantity - 1
           })
-          setQuantity(qt);
+
         }
-      }
-      if(quantity > data.soLuongTon) {
+      } else {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
-          donGia: data.giaSanPham * data.soLuongTon,
-          soLuong: data.soLuongTon
+          donGia: data.giaSanPham * quantityInput,
+          soLuong: quantityInput
         })
-        setQuantity(data.soLuongTon);
-      } else if(quantity <= 0) {
+      }
+      // khi nhập vượt quá só lượng tồn hoặc nhỏ hơn 1 sẽ set về mặc định
+      if(quantityInput > inventory) {
+        setChiTietHoaDon({...chiTietHoaDon,
+          sanPham: data,
+          donGia: data.giaSanPham * inventory,
+          soLuong: inventory
+        })
+      } else if(quantityInput <= 0) {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
           donGia: data.giaSanPham * 1,
           soLuong: 1
         })
-        setQuantity(1);
       }
     }
     // thêm chi tiết hoá đơn vào giỏ hàng
     let onAddOrderDetailsToShoppingCard = () => {
       // kiểm tra số lượng hợp lệ
-      if(quantity > 0 && quantity <= data.soLuongTon) {
-        setChiTietHoaDon({...chiTietHoaDon,
-          sanPham: data,
-          donGia: data.giaSanPham * quantity,
-          soLuong: quantity
-        })
         // Bật true để trình duyệt tự động add Set-Cookie JSESSION Id vào cookie web (gg xem thêm)
         Axios.defaults.withCredentials = true;
         // Vì bật true ở trên nên cần header như bên dưới nếu ko sẽ bị lỗi CORS
         Axios.post(urlGioHang, chiTietHoaDon,  {header: {'Access-Control-Allow-Origin': "*"}}).then( async (response) => {
-          console.log(response.data.message);
+          const resutl = await response.data;
+          setIcon("success");
+          setMessage(resutl.message);
+          setCheckQuantityErr(true);
+          if(resutl.code !== 0) {
+            setIcon("error");
+            setCheckQuantityErr(false);
+          } else {
+            props.history.push("/giohang"); // direct
+          }
         }).catch((err) => {
           console.log(err);
         });
-      } else {
-        // Này để hiển thị thông báo
-        setCheckQuantityErr(true);
       }
-    }
     useEffect(() => {
       getProductDetail();
     }, [url])
@@ -140,15 +148,15 @@ const ProductDetails = (props) => {
                   <div className="mb-5 ml-5">
                     <div className="input-group mb-3" style={{maxWidth: 120}}>
                       <div className="input-group-prepend">
-                        <button className=" btn-outline-primary js-btn-minus" type="button" onClick={() => {handleUpdateQuantity(quantity-1, "giam");}}>−</button>
+                        <button className=" btn-outline-primary js-btn-minus" type="button" onClick={() => {handleUpdateQuantity(1, "giam");}}>−</button>
                       </div>
-                      <input type="text" className="form-control text-center" onChange={e => {handleUpdateQuantity(Number(e.target.value), "tang");}} value={quantity} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                      <input type="text" className="form-control text-center" onChange={e => {handleUpdateQuantity(Number(e.target.value), "");}} value={chiTietHoaDon.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                       <div className="input-group-append">
-                        <button className=" btn-outline-primary js-btn-plus" type="button" onClick={() => {handleUpdateQuantity(quantity+1, "tang");}}>+</button>
+                        <button className=" btn-outline-primary js-btn-plus" type="button" onClick={() => {handleUpdateQuantity(1, "tang");}}>+</button>
                       </div>
                     </div>
                   </div>
-                  <p><Link to="/giohang"  className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Mua ngay</Link></p>
+                  <p><button className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Mua ngay</button></p>
                 </div>
               </div>
             </div>
@@ -158,4 +166,4 @@ const ProductDetails = (props) => {
     ) : "Loading";
 };
 
-export default ProductDetails;
+export default withRouter(ProductDetails);

@@ -3,24 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import Axios from 'axios';
+
 import  { useAlertService } from '../../services/useAlertService';
 import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = (props) => {
-  // dùng để lấy query string
-    let useQuery = () => {
-      return new URLSearchParams(useLocation().search);
-    }
-    const id = useQuery();
-    const action = useQuery();
-    const quantity = useQuery();
 // các url api
-    const url = "http://localhost:8080/api/giohang/dulieu";
-    const urlUpdateCart = `http://localhost:8080/api/giohang/capnhat?action=${action.get("action")}&id=${id.get("id")}&quantity=${quantity.get("quantity")}`;
-    const urlRemoveProductFromCart = `http://localhost:8080/api/giohang/xoa?id=${id.get("id")}`;
+    const urlData = "http://localhost:8080/api/giohang/dulieu";
+    const urlUpdateCart = `http://localhost:8080/api/giohang/capnhat`;
     // THông báo 
     const [checkSuccess, setCheckSuccess] = useState(false);
     const [error, setError] = useState("");
     const [icon, setIcon] = useState("Thành công");
+    // kiểm tra số lượng của sản phẩm mua
+    const [inventory, setInventory] = useState(0);
     useAlertService("Thông báo", error, icon, checkSuccess);
     // data
     const [data, setData] = useState({
@@ -34,7 +29,7 @@ const Cart = (props) => {
     // lấy danh sách sản phẩm đã đặt mua từ session lên cart
     let getOrderFromSession = async () => {
       Axios.defaults.withCredentials = true;
-      Axios.get(url, {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
+      Axios.get(urlData, {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
         const result = await res.data.resutl;
         if(result.danhsachCTHD!=null) {
           await setData({
@@ -50,38 +45,59 @@ const Cart = (props) => {
       })
     }
     // xử lý tăng giảm và nhập dữ liêu trong input
-    let handleUpdateCart = async (action, number, id) => {
-      // mở này coi để hiểu tại s code như v
-      // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
-      if(action === "handle") {
-        setData({
-          danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: item.soLuong + number} : item)
-        });
-      } else if(action === ""){
-        setData({
-          danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: Number(number)} : item)
-        });
-      }
+    let handleUpdateCart = async (action, id, quantity) => {
+        // mở này coi để hiểu tại s code như v
+        // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
+        if(action === "tang") { /// dấu +
+          if(quantity < inventory) {
+            setData({
+              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: item.soLuong + 1} : item)
+            });
+          }
+        } else if(action === "giam") { /// dấu -
+          if(quantity > 1) {
+            setData({
+              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: item.soLuong - 1} : item)
+            });
+          }
+        } else if(action === ""){ /// nhập vào input
+          if(quantity >= 1 && quantity <= inventory) {
+            setData({
+              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: Number(quantity)} : item)
+            });
+          } else {
+            setData({
+              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: Number(inventory)} : item)
+            });
+          }
+        }
     }
     // sau khi phương thức này chạy thì mới cập nhật xuống server
     let onUpdateCart = () => {
       Axios.post(urlUpdateCart, data)
       .then( async (res) => {
-        const result = await res.data.message;
-        setError(result);
-        setIcon("error");
+        const result = await res.data;
+        setIcon("success");
+        if(result.code !== 0) {  /// ===0 nghĩa là thành công
+          setIcon("error");
+        }
+        setError(result.message);
         setCheckSuccess(true);
-        setCheckSuccess(false);
+        setCheckSuccess(false); 
       })
       .catch(err => {
         console.log(err);
       })
     }
-    // xoá sản phẩm (Chưa xog)
-    let removeProductFromCart = () => {
+    // xoá sản phẩm
+    let removeProductFromCart = (id) => {
+      const urlRemoveProductFromCart = `http://localhost:8080/api/giohang/xoa?id=${id}`;
       Axios.post(urlRemoveProductFromCart)
-      .then((res) => {
-        console.log(res.data)
+      .then(async (res) => {
+        const resutl = await res.data.resutl;
+        setData({
+          danhsachCTHD: resutl.danhsachCTHD
+        })
       })
       .catch(err => {
         console.log(err);
@@ -128,16 +144,16 @@ const Cart = (props) => {
                         <td>
                           <div className="input-group mb-3" style={{maxWidth: '120px'}}>
                             <div className="input-group-prepend">
-                              <button onClick={() => {handleUpdateCart("handle", -1, item.sanPham.maSanPham)}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</button>
+                              <button onClick={() => {handleUpdateCart("giam", item.sanPham.maSanPham, item.soLuong); setInventory(item.sanPham.soLuongTon);}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</button>
                             </div>
-                            <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", e.target.value, item.sanPham.maSanPham)}} value={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                            <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", item.sanPham.maSanPham, e.target.value);setInventory(item.sanPham.soLuongTon);}} value={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                             <div className="input-group-append">
-                              <button className="btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("handle", 1, item.sanPham.maSanPham)}} type="button">+</button>
+                              <button type="button" className="btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("tang", item.sanPham.maSanPham, item.soLuong);setInventory(item.sanPham.soLuongTon);}}>+</button>
                             </div>
                           </div>
                         </td>
                         <td>{item.donGia}</td>
-                        <td><Link to={`/giohang?id=${item.sanPham.maSanPham}`} onClick={() => {removeProductFromCart()}} className="btn btn-primary btn-sm">X</Link></td>
+                        <td><span onClick={() => {removeProductFromCart(item.sanPham.maSanPham);}} className="btn btn-primary btn-sm">X</span></td>
                       </tr>
                     ))
                   }
