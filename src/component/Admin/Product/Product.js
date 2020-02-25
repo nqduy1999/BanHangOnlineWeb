@@ -3,11 +3,35 @@ import ModalAddProduct from './ModalAddProduct.js';
 import SearchProduct from './SearchProduct.js';
 import { useState } from 'react';
 import ProductTable from './ProductTable.js';
-const Product = () => {
+import hinh from "../../../resource/images/but_3_cay.jpg"
+const Product = ({...props}) => {
     const [id, CountId]=useState(1);
+    const [useList, setUserList]=useState(
+        {
+            id:Math.random(),
+            tenSanpham: "But",
+            gia: 1000,
+            soluong: 10,
+            hinhAnh:{hinh},
+        },
+        {
+            id:Math.random(),
+            tenSanpham: "Viet",
+            gia: 1000,
+            soluong: 10,
+            hinhAnh:{hinh},
+        },
+        )
     const [user, updateUser]=useState(null);
     const [filter, setFilter]= useState([]);
     const [keyWord, setKeyWord]=useState('');
+    const _addUser = user =>{
+        const CloneUserList = [...useList];
+        CloneUserList.push(user);
+        setUserList({
+            useList:CloneUserList
+        })
+    }
     return (
         <div>
         <div className="d-flex flex-row bd-highlight mb-3">
@@ -27,10 +51,13 @@ const Product = () => {
   </div>
 
         </div>
-        <ProductTable/>
-        <ModalAddProduct />
+        <ProductTable useList={{useList},{...props}}/>
+        <ModalAddProduct 
+        _addUser={_addUser}
+        />
     </div>
     );
+
 };
 
 export default Product;

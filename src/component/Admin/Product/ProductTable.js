@@ -2,8 +2,13 @@ import React from 'react';
 import ProductItem from './ProductItem';
 
 const ProductTable = () => {
-const renderProductItem =()=> {
-        
+const renderProductItem =()=>{
+        return this.props.useList.map((item, index)=>(
+            <ProductItem
+            key={index}
+            item={item}
+            />
+        ));
     }
     return (
         <div>
@@ -19,6 +24,7 @@ const renderProductItem =()=> {
 </tr>
 </thead>
 <tbody>
+    {renderProductItem}
     <ProductItem/>
 </tbody>
 </table>

@@ -1,11 +1,14 @@
 import React from 'react';
 
 const ProductItem = () => {
+  // const {
+  //   id, tenSanpham, gia, soLuong, hinhAnh
+  // }= this.props.item;
     return (
          <tr>
-  <th scope="row">3</th>
-  <td>Bút Bi</td>
-  <td>6000d</td>
+  <th scope="row">hi</th>
+  <td>haha</td>
+  <td>hi</td>
   <td>15</td>
   <td>
         <button
