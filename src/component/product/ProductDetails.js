@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link, useLocation, withRouter } from 'react-router-dom';
+import { useLocation, withRouter } from 'react-router-dom';
 
 import Axios from 'axios';
 
-import  { useAlertService } from '../../services/useAlertService';
 import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
 const ProductDetails = (props) => {
   // lấy query String
@@ -30,10 +29,7 @@ const ProductDetails = (props) => {
   })
   // const [quantity, setQuantity] = useState(1);
   // thông báo
-  const [checkQuantityErr, setCheckQuantityErr] = useState(false);
   const [message, setMessage] = useState("");
-  const [icon, setIcon] = useState("");
-  useAlertService("Thông báo", message, icon, checkQuantityErr);
   // url api
   const url = `http://localhost:8080/api/quanly/sanpham/chitiet?id=${id.get("id")}`;
   const urlGioHang = "http://localhost:8080/api/giohang/them";
@@ -116,12 +112,8 @@ const ProductDetails = (props) => {
         // Vì bật true ở trên nên cần header như bên dưới nếu ko sẽ bị lỗi CORS
         Axios.post(urlGioHang, chiTietHoaDon,  {header: {'Access-Control-Allow-Origin': "*"}}).then( async (response) => {
           const resutl = await response.data;
-          setIcon("success");
-          setMessage(resutl.message);
-          setCheckQuantityErr(true);
           if(resutl.code !== 0) {
-            setIcon("error");
-            setCheckQuantityErr(false);
+            setMessage(resutl.message);
           } else {
             props.history.push("/giohang"); // direct
           }
@@ -156,6 +148,12 @@ const ProductDetails = (props) => {
                       </div>
                     </div>
                   </div>
+                  {
+                    message ? (
+                      <div className="alert alert-danger" role="alert">
+                        {message}
+                      </div>) : ""
+                  }
                   <p><button className="buy-now  btn btn-sm btn-primary" onClick={onAddOrderDetailsToShoppingCard}>Mua ngay</button></p>
                 </div>
               </div>
