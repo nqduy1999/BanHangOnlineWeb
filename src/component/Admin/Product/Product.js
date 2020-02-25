@@ -2,19 +2,36 @@ import React from 'react';
 import ModalAddProduct from './ModalAddProduct.js';
 import SearchProduct from './SearchProduct.js';
 import { useState } from 'react';
-const Product = () => {
+import ProductTable from './ProductTable.js';
+import hinh from "../../../resource/images/but_3_cay.jpg"
+const Product = ({...props}) => {
     const [id, CountId]=useState(1);
-    const [userList, setUserList] = useState([
+    const [useList, setUserList]=useState(
         {
-            tenSanpham: "",
-            gia: 0,
-            soluong: 0,
-            hinhAnh:"",
+            id:Math.random(),
+            tenSanpham: "But",
+            gia: 1000,
+            soluong: 10,
+            hinhAnh:{hinh},
         },
-    ]);
+        {
+            id:Math.random(),
+            tenSanpham: "Viet",
+            gia: 1000,
+            soluong: 10,
+            hinhAnh:{hinh},
+        },
+        )
     const [user, updateUser]=useState(null);
     const [filter, setFilter]= useState([]);
     const [keyWord, setKeyWord]=useState('');
+    const _addUser = user =>{
+        const CloneUserList = [...useList];
+        CloneUserList.push(user);
+        setUserList({
+            useList:CloneUserList
+        })
+    }
     return (
         <div>
         <div className="d-flex flex-row bd-highlight mb-3">
@@ -34,132 +51,13 @@ const Product = () => {
   </div>
 
         </div>
-<table className="table table-light">
-<thead>
-<tr>
-  <td scope="col">STT</td>
-  <td scope="col">Tên</td>
-  <td scope="col">Giá</td>
-  <td scope="col">Số lượng</td>
-  <td> Cập Nhật
-      </td>      
-</tr>
-</thead>
-<tbody>
-<tr>
-  <th scope="row">1</th>
-  <td>Bút lông</td>
-  <td>1000d</td>
-  <td>15</td>
-  <td>
-        <button
-                      className=" btn-danger">
-          Xoá
-        </button>
-      </td>
-      <td>
-        <button className="btn-primary" data-toggle="modal" data-target="#modelId"
-        >Sửa</button>
-      </td>
-</tr>
-<tr>
-  <th scope="row">2</th>
-  <td>Bú màu</td>
-  <td>4000d</td>
-  <td>1</td>
-  <td>
-        <button
-                      className=" btn-danger">
-          Xoá
-        </button>
-      </td>
-      <td>
-        <button className="btn-primary" data-toggle="modal" data-target="#modelId"
-        >Sửa</button>
-      </td>
-</tr>
-<tr>
-  <th scope="row">3</th>
-  <td>Bút Bi</td>
-  <td>6000d</td>
-  <td>15</td>
-  <td>
-        <button
-                      className=" btn-danger">
-          Xoá
-        </button>
-      </td>
-      <td>
-        <button className="btn-primary" data-toggle="modal" data-target="#modelId"
-        >Sửa</button>
-      </td>
-</tr>
-<tr>
-  <th scope="row">3</th>
-  <td>Bút Bi</td>
-  <td>6000d</td>
-  <td>15</td>
-  <td>
-        <button
-                      className=" btn-danger">
-          Xoá
-        </button>
-      </td>
-      <td>
-        <button className="btn-primary" data-toggle="modal" data-target="#modelId"
-        >Sửa</button>
-      </td>
-</tr>  <tr>
-  <th scope="row">3</th>
-  <td>Bút Bi</td>
-  <td>6000d</td>
-  <td>15</td>
-  <td>
-        <button
-                      className=" btn-danger">
-          Xoá
-        </button>
-      </td>
-      <td>
-        <button className="btn-primary" data-toggle="modal" data-target="#modelId"
-        >Sửa</button>
-      </td>
-</tr>  <tr>
-  <th scope="row">3</th>
-  <td>Bút Bi</td>
-  <td>6000d</td>
-  <td>15</td>
-  <td>
-        <button
-                      className=" btn-danger">
-          Xoá
-        </button>
-      </td>
-      <td>
-        <button className="btn-primary" data-toggle="modal" data-target="#modelId"
-        >Sửa</button>
-      </td>
-</tr>  <tr>
-  <th scope="row">3</th>
-  <td>Bút Bi</td>
-  <td>6000d</td>
-  <td>15</td>
-  <td>
-        <button
-                      className=" btn-danger">
-          Xoá
-        </button>
-      </td>
-      <td>
-        <button className="btn-primary" data-toggle="modal" data-target="#modelId"
-        >Sửa</button>
-      </td>
-</tr>
-</tbody>
-</table>
-<ModalAddProduct/>
+        <ProductTable useList={{useList},{...props}}/>
+        <ModalAddProduct 
+        _addUser={_addUser}
+        />
     </div>
     );
+
 };
 
 export default Product;

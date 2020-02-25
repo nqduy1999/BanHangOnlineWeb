@@ -1,8 +1,14 @@
 import React from 'react';
+import ProductItem from './ProductItem';
 
-const Product = () => {
-    renderProductItem =()=> {
-        
+const ProductTable = () => {
+const renderProductItem =()=>{
+        return this.props.useList.map((item, index)=>(
+            <ProductItem
+            key={index}
+            item={item}
+            />
+        ));
     }
     return (
         <div>
@@ -17,11 +23,14 @@ const Product = () => {
       </td>      
 </tr>
 </thead>
-<tbody></tbody>
+<tbody>
+    {renderProductItem}
+    <ProductItem/>
+</tbody>
 </table>
         </div>
     );
   
 };
 
-export default Product;
+export default ProductTable;
