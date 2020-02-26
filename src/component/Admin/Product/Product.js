@@ -4,8 +4,7 @@ import SearchProduct from './SearchProduct.js';
 import { useState } from 'react';
 import ProductTable from './ProductTable.js';
 import hinh from "../../../resource/images/but_3_cay.jpg"
-const Product = ({...props}) => {
-    const [id, CountId]=useState(1);
+const Product = (props) => {
     const [useList, setUserList]=useState(
         {
             id:Math.random(),
@@ -31,6 +30,10 @@ const Product = ({...props}) => {
         setUserList({
             useList:CloneUserList
         })
+    }
+    const _updateUser = userId =>{
+        const index = useList.findIndex(item => item.id === userId);
+        index !==-1 && setUserList(preState => (preState.useList[index]= userId))
     }
     return (
         <div>

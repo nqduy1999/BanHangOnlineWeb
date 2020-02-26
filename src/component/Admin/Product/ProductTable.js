@@ -24,7 +24,6 @@ const renderProductItem =()=>{
 </tr>
 </thead>
 <tbody>
-    {renderProductItem}
     <ProductItem/>
 </tbody>
 </table>
