@@ -3,11 +3,15 @@ import ProductItem from './ProductItem';
 
 const ProductTable = () => {
 const renderProductItem =()=>{
+    console.log(this.props.useList);
         return this.props.useList.map((item, index)=>(
+            
             <ProductItem
             key={index}
             item={item}
-            />
+            >
+            </ProductItem>
+            
         ));
     }
     return (
@@ -24,7 +28,7 @@ const renderProductItem =()=>{
 </tr>
 </thead>
 <tbody>
-    <ProductItem/>
+    {renderProductItem}
 </tbody>
 </table>
         </div>

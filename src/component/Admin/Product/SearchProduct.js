@@ -11,7 +11,7 @@ const SearchProduct = () => {
                 this.props._filterByString(keyword)
                },300)
         }} */}
-  <input class="form-control" type="text" placeholder="Search" aria-label="Search"/>
+<input className="form-control" type="text" placeholder="Search" aria-label="Search" />
         </div>
     );
 };

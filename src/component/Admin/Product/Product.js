@@ -6,6 +6,7 @@ import ProductTable from './ProductTable.js';
 import hinh from "../../../resource/images/but_3_cay.jpg"
 const Product = (props) => {
     const [useList, setUserList]=useState(
+        [
         {
             id:Math.random(),
             tenSanpham: "But",
@@ -20,6 +21,7 @@ const Product = (props) => {
             soluong: 10,
             hinhAnh:{hinh},
         },
+    ]
         )
     const [user, updateUser]=useState(null);
     const [filter, setFilter]= useState([]);
@@ -54,7 +56,8 @@ const Product = (props) => {
   </div>
 
         </div>
-        <ProductTable useList={{useList},{...props}}/>
+    <ProductTable useList={{useList},{...props}}>{console.log(useList)
+    }</ProductTable>
         <ModalAddProduct 
         _addUser={_addUser}
         />
