@@ -85,18 +85,18 @@ const ProductDetails = (props) => {
       } else {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
-          donGia: data.giaSanPham * quantityInput,
-          soLuong: quantityInput
+          donGia: data.giaSanPham * Number(quantityInput),
+          soLuong: Number(quantityInput)
         })
       }
       // khi nhập vượt quá só lượng tồn hoặc nhỏ hơn 1 sẽ set về mặc định
-      if(quantityInput > inventory) {
+      if(Number(quantityInput) > inventory) {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
           donGia: data.giaSanPham * inventory,
           soLuong: inventory
         })
-      } else if(quantityInput <= 0) {
+      } else if(Number(quantityInput) <= 0) {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham: data,
           donGia: data.giaSanPham * 1,

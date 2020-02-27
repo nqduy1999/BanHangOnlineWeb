@@ -24,7 +24,7 @@ const ContactSection = () => {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <label htmlFor="c_email" className="text-black">Email <span className="text-danger">*</span></label>
-                      <input type="email" className="form-control" id="c_email" name="c_email" placeholder />
+                      <input type="email" className="form-control" id="c_email" name="c_email" />
                     </div>
                   </div>
                   <div className="form-group row">

@@ -13,9 +13,9 @@ const Cart = (props) => {
     // THông báo 
     const [checkSuccess, setCheckSuccess] = useState(false);
     const [error, setError] = useState("");
-    const [icon, setIcon] = useState("Thành công");
+    const [icon, setIcon] = useState("");
     // kiểm tra số lượng của sản phẩm mua
-    const [inventory, setInventory] = useState(0);
+    const [inventory, setInventory] = useState(1000);
     useAlertService("Thông báo", error, icon, checkSuccess);
     // data
     const [data, setData] = useState({
@@ -32,7 +32,7 @@ const Cart = (props) => {
       Axios.get(urlData, {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
         const result = await res.data.resutl;
         if(result.danhsachCTHD!=null) {
-          await setData({
+          await setData({...data,
             maHoaDon: result.maHoaDon,
             ngayLapHoaDon: result.ngayLapHoaDon,
             tongTien: result.tongTien,
@@ -45,35 +45,57 @@ const Cart = (props) => {
       })
     }
     // xử lý tăng giảm và nhập dữ liêu trong input
-    let handleUpdateCart = async (action, id, quantity) => {
+    let handleUpdateCart = async (action, id, quantity, price) => {
         // mở này coi để hiểu tại s code như v
         // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
+        // xử lý tổng tiền của toàn bộ
+        let total = 0;
+        data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? total+= (price*quantity) : total += item.donGia)
+        // set vào data
         if(action === "tang") { /// dấu +
           if(quantity < inventory) {
-            setData({
-              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: item.soLuong + 1} : item)
+            setData({...data,
+              tongTien: total + price,
+              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
+                donGia: item.sanPham.giaSanPham * (item.soLuong + 1),
+                soLuong: item.soLuong + 1
+              } : item)
             });
           }
         } else if(action === "giam") { /// dấu -
           if(quantity > 1) {
-            setData({
-              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: item.soLuong - 1} : item)
+            setData({...data,
+              tongTien: total - price,
+              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
+                donGia: price * (item.soLuong - 1),
+                soLuong: item.soLuong - 1} : item)
             });
           }
         } else if(action === ""){ /// nhập vào input
-          if(quantity >= 1 && quantity <= inventory) {
-            setData({
-              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: Number(quantity)} : item)
-            });
-          } else {
-            setData({
-              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: Number(inventory)} : item)
-            });
-          }
+            if(quantity >= 1 && quantity <= inventory) { //trong khoản từ 1 - tồn kho
+              setData({...data,
+                tongTien: total,
+                danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
+                  donGia: price * Number(quantity),
+                  soLuong: quantity} : item)
+              });
+            } else { // nhập ít hơn 1 hoặc nhiêu hơn số lượng có sẵn
+              setData({...data,
+                tongTien: total,
+                danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
+                  donGia: price * inventory,
+                  soLuong: inventory} : item)
+              });
+            }
         }
     }
     // sau khi phương thức này chạy thì mới cập nhật xuống server
-    let onUpdateCart = () => {
+    let onUpdateCart = async () => {
+      // Update tổng tiền lên UI
+      // await setData({...data,
+      //   tongTien: total
+      // })
+      // đẩy dữ liệu lên server
       Axios.post(urlUpdateCart, data)
       .then( async (res) => {
         const result = await res.data;
@@ -83,7 +105,7 @@ const Cart = (props) => {
         }
         setError(result.message);
         setCheckSuccess(true);
-        setCheckSuccess(false); 
+        setCheckSuccess(false);
       })
       .catch(err => {
         console.log(err);
@@ -95,7 +117,8 @@ const Cart = (props) => {
       Axios.post(urlRemoveProductFromCart)
       .then(async (res) => {
         const resutl = await res.data.resutl;
-        setData({
+        setData({...data,
+          tongTien: 0,
           danhsachCTHD: resutl.danhsachCTHD
         })
       })
@@ -144,11 +167,11 @@ const Cart = (props) => {
                         <td>
                           <div className="input-group mb-3" style={{maxWidth: '120px'}}>
                             <div className="input-group-prepend">
-                              <button onClick={() => {handleUpdateCart("giam", item.sanPham.maSanPham, item.soLuong); setInventory(item.sanPham.soLuongTon);}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</button>
+                              <button onClick={() => {handleUpdateCart("giam", item.sanPham.maSanPham, item.soLuong, item.sanPham.giaSanPham); setInventory(item.sanPham.soLuongTon);}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</button>
                             </div>
-                            <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", item.sanPham.maSanPham, e.target.value);setInventory(item.sanPham.soLuongTon);}} value={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                            <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", item.sanPham.maSanPham, Number(e.target.value), item.sanPham.giaSanPham);setInventory(item.sanPham.soLuongTon);}} value={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                             <div className="input-group-append">
-                              <button type="button" className="btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("tang", item.sanPham.maSanPham, item.soLuong);setInventory(item.sanPham.soLuongTon);}}>+</button>
+                              <button type="button" className="btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("tang", item.sanPham.maSanPham, item.soLuong, item.sanPham.giaSanPham);setInventory(item.sanPham.soLuongTon);}}>+</button>
                             </div>
                           </div>
                         </td>
@@ -169,7 +192,7 @@ const Cart = (props) => {
                   <button className="btn btn-primary btn-sm btn-block" onClick={() => {onUpdateCart()}}>Cập nhật giỏ hàng</button>
                 </div>
                 <div className="col-md-6">
-                  <button className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</button>
+                  <Link to="/sanpham?index=0" className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</Link>
                 </div>
               </div>
               <div className="row">
@@ -198,7 +221,7 @@ const Cart = (props) => {
                       <span className="text-black">Tổng Tiền</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">24000 vnd</strong>
+                      <strong className="text-black">{data.tongTien} vnd</strong>
                     </div>
                   </div>
                   <div className="row mb-5">
@@ -206,7 +229,7 @@ const Cart = (props) => {
                       <span className="text-black">Tiền phải trả</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">24000 vnd</strong>
+                      <strong className="text-black">{data.tongTien} vnd</strong>
                     </div>
                   </div>
                   <div className="row">
