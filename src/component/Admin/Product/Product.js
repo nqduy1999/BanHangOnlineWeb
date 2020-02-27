@@ -4,9 +4,9 @@ import SearchProduct from './SearchProduct.js';
 import { useState } from 'react';
 import ProductTable from './ProductTable.js';
 import hinh from "../../../resource/images/but_3_cay.jpg"
-const Product = ({...props}) => {
-    const [id, CountId]=useState(1);
+const Product = (props) => {
     const [useList, setUserList]=useState(
+        [
         {
             id:Math.random(),
             tenSanpham: "But",
@@ -21,6 +21,7 @@ const Product = ({...props}) => {
             soluong: 10,
             hinhAnh:{hinh},
         },
+    ]
         )
     const [user, updateUser]=useState(null);
     const [filter, setFilter]= useState([]);
@@ -31,6 +32,10 @@ const Product = ({...props}) => {
         setUserList({
             useList:CloneUserList
         })
+    }
+    const _updateUser = userId =>{
+        const index = useList.findIndex(item => item.id === userId);
+        index !==-1 && setUserList(preState => (preState.useList[index]= userId))
     }
     return (
         <div>
@@ -51,7 +56,8 @@ const Product = ({...props}) => {
   </div>
 
         </div>
-        <ProductTable useList={{useList},{...props}}/>
+    <ProductTable useList={{useList},{...props}}>{console.log(useList)
+    }</ProductTable>
         <ModalAddProduct 
         _addUser={_addUser}
         />
