@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { useLocation, Link } from 'react-router-dom';
 
-import Axios from 'axios';
-
 import { withCookies } from 'react-cookie';
+
+import useEndpoint from '../../services/useEndpoint';
 
 import ProductCard from './ProductCard';
 import dataTest from './datatest.json';
@@ -13,30 +13,16 @@ const ProductSection = (props) => {
     return new URLSearchParams(useLocation().search);
   }
   const id = useQuery();
-    const [data, setData] = useState({products: []});
     const [pages, setPages] = useState([]);
     const urlProduct = `http://localhost:8080/api/sanpham/trang?index=${id.get("index")}`;
     // lấy page hiện tại đang hiển thị
     const [currentPage, setCurrentPage] = useState(0);
     // lấy danh sách sản phẩm hiển thị
-    let getListProduct = async (source) => {
-      await Axios.get(urlProduct, {
-        cancelToken: source.token
-      })
-      .then(async res => {
-        const products = await res.data.content;
-        const total = await res.data.totalPages;
-        await setData({products});
-        // để show ra tổng số các trang đang có (1 page hiển thị 6 sản phẩm, có 18 sản phẩm tất cả => gen ra 3 page)
-        genPage(total);
-      }).catch(err => {
-        if(Axios.isCancel(err)) {
-          console.log(`Canceled`, err);
-        } else {
-          console.log('err', err)
-        }
-      })
-    }
+    const listProduct = useEndpoint({
+      url: urlProduct,
+      method: "GET"
+    });
+
     // hiển thị tổng số trang
     let genPage = (total) => {
       let array = [];
@@ -53,13 +39,12 @@ const ProductSection = (props) => {
     let handleMoveRight = () => {
       return (currentPage + 1) > (pages.length - 1) ? currentPage : (currentPage + 1);
     }
+    // lấy tổng số page
     useEffect(() => {
-      const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
-      getListProduct(source);
-      return () => {
-        source.cancel();
-      };
-    }, [urlProduct])
+      if(listProduct.complete) {
+        genPage(listProduct.data.totalPages);
+      }
+    }, [listProduct])
     return (
         <div className="site-section">
         <div className="container">
@@ -92,7 +77,7 @@ const ProductSection = (props) => {
                 </div>
               </div>
               <div className="row mb-5">
-                {data.products.sort((a, b) => {
+                {listProduct.complete && listProduct.data.content.sort((a, b) => {
                   // đang test
                   let nameA = a.tenSanPham.toUpperCase(); // bỏ qua hoa thường
                   let nameB = b.tenSanPham.toUpperCase(); // bỏ qua hoa thường

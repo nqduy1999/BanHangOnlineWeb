@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import { useForm } from "react-hook-form";
 
 import { withRouter, Link } from 'react-router-dom';
 
-import AuthService from '../../services/AuthService';
-import { useAlertService } from '../../services/useAlertService';
+import Swal from 'sweetalert2';
+
+import postToDoEndpoint from '../../services/postToDoEndpoint';
 
 
 const Signup = (props) => {
@@ -13,25 +14,28 @@ const Signup = (props) => {
     const { handleSubmit, register, errors, watch } = useForm();
     const url = "http://localhost:8080/api/dangky";
     const [resutl, setResutl] = useState();
-    // Thông báo
-    const [checkSuccess, setCheckSuccess] = useState(false);
-    useAlertService("Thông báo", "Đăng ký thành công", "success", checkSuccess);
-    // Hàm dùng sẵn
-    const auth = new AuthService();
+    // Hàm custom dùng sẵn
+    const [signup, postSignUp] = postToDoEndpoint(url);
     // Đăng ký
     const onSubmit = data =>{
-      auth.postWithRoleGuest(url, data).then( async (response) => {
-        if(response.data.code !== 0) {
-          setResutl(response.data.message);
+      postSignUp(data);
+    }
+    useEffect(() => {
+      if(signup.complete) {
+        if(signup.code !== 0) {
+          setResutl(signup.message);
         } else {
-          await setCheckSuccess(true);
+          // thông báo
+          const {value: accept} = Swal.fire({
+            title: "Thông báo",
+            text: "Đăng ký thành công",
+            icon: "success"
+          });
+          // chuyển hướng
           props.history.push('/dangnhap');
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
+      }
+    }, [signup]);
     return (
           <form className="container" onSubmit={handleSubmit(onSubmit)}>
             <div className="row">

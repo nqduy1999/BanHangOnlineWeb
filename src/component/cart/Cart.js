@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Axios from 'axios';
 
-import  { useAlertService } from '../../services/useAlertService';
+import postToDoEndpoint from '../../services/postToDoEndpoint';
+import useEndpoint from '../../services/useEndpoint';
 import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = (props) => {
 // các url api
     const urlData = "http://localhost:8080/api/giohang/dulieu";
     const urlUpdateCart = `http://localhost:8080/api/giohang/capnhat`;
-    // THông báo 
-    const [checkSuccess, setCheckSuccess] = useState(false);
-    const [error, setError] = useState("");
-    const [icon, setIcon] = useState("");
     // kiểm tra số lượng của sản phẩm mua
     const [inventory, setInventory] = useState(1000);
-    useAlertService("Thông báo", error, icon, checkSuccess);
+    // lấy danh sách sản phẩm đã đặt mua từ session lên cart
+    const order = useEndpoint({
+      url: urlData,
+      method: "GET"
+    });
     // data
     const [data, setData] = useState({
       maHoaDon: '',
@@ -25,36 +26,19 @@ const Cart = (props) => {
       danhsachCTHD: [],
       khachHang: null
     });
-    const source = Axios.CancelToken.source(); // huỷ request (Rất quan trọng)
-    // lấy danh sách sản phẩm đã đặt mua từ session lên cart
-    let getOrderFromSession = async () => {
-      Axios.defaults.withCredentials = true;
-      Axios.get(urlData, {header: {'Access-Control-Allow-Origin': "*"}}).then(async(res) => {
-        const result = await res.data.resutl;
-        if(result.danhsachCTHD!=null) {
-          await setData({...data,
-            maHoaDon: result.maHoaDon,
-            ngayLapHoaDon: result.ngayLapHoaDon,
-            tongTien: result.tongTien,
-            danhsachCTHD: result.danhsachCTHD,
-            khachHang: result.khachHang
-          });
-        }
-      }).catch((err) => {
-        console.log(err);
-      })
-    }
+    // cập nhật giỏ hàng
+    const [newCart, postNewCart] = postToDoEndpoint(urlUpdateCart);
     // xử lý tăng giảm và nhập dữ liêu trong input
     let handleUpdateCart = async (action, id, quantity, price) => {
         // mở này coi để hiểu tại s code như v
         // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
         // xử lý tổng tiền của toàn bộ
         let total = 0;
-        data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? total+= (price*quantity) : total += item.donGia)
-        // set vào data
+        order.data.result.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? total+= (price*quantity) : total += item.donGia)
+        // đẩy dữ liệu data lên server để cập nhật khi chỉnh sửa số lượng
         if(action === "tang") { /// dấu +
           if(quantity < inventory) {
-            setData({...data,
+            postNewCart({...data,
               tongTien: total + price,
               danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
                 donGia: item.sanPham.giaSanPham * (item.soLuong + 1),
@@ -64,7 +48,7 @@ const Cart = (props) => {
           }
         } else if(action === "giam") { /// dấu -
           if(quantity > 1) {
-            setData({...data,
+            postNewCart({...data,
               tongTien: total - price,
               danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
                 donGia: price * (item.soLuong - 1),
@@ -73,14 +57,14 @@ const Cart = (props) => {
           }
         } else if(action === ""){ /// nhập vào input
             if(quantity >= 1 && quantity <= inventory) { //trong khoản từ 1 - tồn kho
-              setData({...data,
+              postNewCart({...data,
                 tongTien: total,
                 danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
                   donGia: price * Number(quantity),
                   soLuong: quantity} : item)
               });
             } else { // nhập ít hơn 1 hoặc nhiêu hơn số lượng có sẵn
-              setData({...data,
+              postNewCart({...data,
                 tongTien: total,
                 danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
                   donGia: price * inventory,
@@ -89,36 +73,14 @@ const Cart = (props) => {
             }
         }
     }
-    // sau khi phương thức này chạy thì mới cập nhật xuống server
-    let onUpdateCart = async () => {
-      // Update tổng tiền lên UI
-      // await setData({...data,
-      //   tongTien: total
-      // })
-      // đẩy dữ liệu lên server
-      Axios.post(urlUpdateCart, data)
-      .then( async (res) => {
-        const result = await res.data;
-        setIcon("success");
-        if(result.code !== 0) {  /// ===0 nghĩa là thành công
-          setIcon("error");
-        }
-        setError(result.message);
-        setCheckSuccess(true);
-        setCheckSuccess(false);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    }
     // xoá sản phẩm
     let removeProductFromCart = (id) => {
-      const urlRemoveProductFromCart = `http://localhost:8080/api/giohang/xoa?id=${id}`;
+      const urlRemoveProductFromCart = `http://localhost:8080/api/giohang/xoa?id=${id}`
       Axios.post(urlRemoveProductFromCart)
       .then(async (res) => {
-        const resutl = await res.data.resutl;
+        const resutl = await res.data.result;
         setData({...data,
-          tongTien: 0,
+          tongTien: resutl.tongTien,
           danhsachCTHD: resutl.danhsachCTHD
         })
       })
@@ -127,14 +89,27 @@ const Cart = (props) => {
       })
     }
     useEffect(() => {
-      setTimeout(() => {
-        getOrderFromSession(source);
-      }, 200); // settimeout là vì Set-Cookie của gg cập nhật vào web chậm ko bắt dc khi chuyển sang giỏ hàng sẽ ko xuất hiện sản phẩm vừa mua
-      return () => {
-        source.cancel();
-      };
-    }, []); // [] chạy 1 lần
-
+      if(order.complete) {
+        setData({...order.data,
+          maHoaDon: order.data.result.maHoaDon,
+          ngayLapHoaDon: order.data.result.ngayLapHoaDon,
+          tongTien: order.data.result.tongTien,
+          danhsachCTHD: order.data.result.danhsachCTHD,
+          khachHang: order.data.result.khachHang
+        });
+      }
+    }, [order]); // [] chạy khi order thay đổi
+    useEffect(() => {
+      if(newCart.complete) {
+        setData({...newCart.data,
+          maHoaDon: newCart.data.result.maHoaDon,
+          ngayLapHoaDon: newCart.data.result.ngayLapHoaDon,
+          tongTien: newCart.data.result.tongTien,
+          danhsachCTHD: newCart.data.result.danhsachCTHD,
+          khachHang: newCart.data.result.khachHang
+        });
+      }
+    }, [newCart]); // [] chạy khi newCart thay đổi
 
     return (
         <div className="site-section">
@@ -155,7 +130,7 @@ const Cart = (props) => {
                   </thead>
                   <tbody>
                     {
-                      data.danhsachCTHD.map((item, i) => (
+                      order.complete && data.danhsachCTHD.map((item, i) => (
                         <tr key={i}>
                         <td className="product-thumbnail">
                           <img src={but_bi} alt="Image" className="img-fluid"/>
@@ -188,9 +163,6 @@ const Cart = (props) => {
           <div className="row">
             <div className="col-md-6">
               <div className="row mb-5">
-                <div className="col-md-6 mb-3 mb-md-0">
-                  <button className="btn btn-primary btn-sm btn-block" onClick={() => {onUpdateCart()}}>Cập nhật giỏ hàng</button>
-                </div>
                 <div className="col-md-6">
                   <Link to="/sanpham?index=0" className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</Link>
                 </div>
@@ -221,7 +193,7 @@ const Cart = (props) => {
                       <span className="text-black">Tổng Tiền</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">{data.tongTien} vnd</strong>
+                      <strong className="text-black">{order.complete && data.tongTien} vnd</strong>
                     </div>
                   </div>
                   <div className="row mb-5">
@@ -229,7 +201,7 @@ const Cart = (props) => {
                       <span className="text-black">Tiền phải trả</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">{data.tongTien} vnd</strong>
+                      <strong className="text-black">{order.complete && data.tongTien} vnd</strong>
                     </div>
                   </div>
                   <div className="row">

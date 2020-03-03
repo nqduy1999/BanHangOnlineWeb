@@ -1,4 +1,4 @@
-import React, {useState}from 'react';
+import React, {useState, useEffect}from 'react';
 
 import { Link, withRouter } from 'react-router-dom';
 
@@ -6,33 +6,37 @@ import { useForm } from "react-hook-form";
 
 import Cookies from 'js-cookie';
 
-import AuthService from '../../services/AuthService';
-import  { useAlertService } from '../../services/useAlertService';
+import Swal from 'sweetalert2';
+
+import postToDoEndpoint from '../../services/postToDoEndpoint';
 const Login = (props) => {
   // React form
     const { register, handleSubmit, errors } = useForm();
     const url = "http://localhost:8080/api/dangnhap";
     const [resutl, setResutl] = useState();
-    // Thông báo
-    const [checkSuccess, setCheckSuccess] = useState(false);
-    useAlertService("Thông báo", "Đăng nhập thành công", "success", checkSuccess);
     // Hàm custom dùng sẵn
-    const auth = new AuthService();
+    const [login, postLogin] = postToDoEndpoint(url);
     // Đăng nhập
     const onSubmit = data => {
-        auth.postWithRoleGuest(url, data).then( async (response) => {
-          Cookies.set('authtoken', response.data.message);
-          if(response.data.code !== 0) {
-            setResutl(response.data.message);
-          } else {
-            setCheckSuccess(true);
-            props.history.push('/trangchu');
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        postLogin(data);
     }; // your form submit function which will invoke after successful validation
+    useEffect(() => {
+      if(login.complete) {
+        Cookies.set('authtoken', login.data.message);
+        if(login.code !== 0) {
+          setResutl(login.data.message);
+        } else {
+          //thông báo
+          const {value: accept} = Swal.fire({
+            title: "Thông báo",
+            text: "Đăng nhập thành công",
+            icon: "success"
+          });
+          // chuyển hướng
+          props.history.push('/trangchu');
+        }
+      }
+    }, [login])
     return (
             <form className="container" onSubmit={handleSubmit(onSubmit)} >
             <div className="row">
