@@ -13,15 +13,6 @@ import "../resource/css/mdb.min.css"
 import "../resource/css/mdb.lite.min.css"
 
 const Header = () => {
-  const [taiKhoan, setTaiKhoan] = useState(null);
-  const [matKhau, setMatKhau] = useState(null);
-  let registration = () => {
-    const user = {
-
-    }
-  }
-  const submitForm = data => console.log(data);
-  
     return (
         <div>
     <header className="site-navbar" role="banner">

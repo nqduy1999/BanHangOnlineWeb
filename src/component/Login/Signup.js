@@ -22,8 +22,8 @@ const Signup = (props) => {
     }
     useEffect(() => {
       if(signup.complete) {
-        if(signup.code !== 0) {
-          setResutl(signup.message);
+        if(signup.data.code !== 0) {
+          setResutl(signup.data.message);
         } else {
           // thông báo
           const {value: accept} = Swal.fire({

@@ -8,8 +8,6 @@ const useAsyncEndpoint = (fn) => {
         complete: false,
         pending: false,
         error: false,
-        message: "",
-        code: 1
       });
     const [req, setReq] = useState();
     useEffect(
@@ -20,8 +18,6 @@ const useAsyncEndpoint = (fn) => {
             pending: true,
             error: false,
             complete: false,
-            message: "",
-            code: 1
           });
           Axios(req, {header: {'Access-Control-Allow-Origin': "*"}})
             .then(res =>
@@ -29,19 +25,16 @@ const useAsyncEndpoint = (fn) => {
                 data: res.data,
                 pending: false,
                 error: false,
-                complete: true,
-                message: res.data.message,
-                code: res.data.code
+                complete: true
               }),
             )
-            .catch(() =>
+            .catch((err) =>
               setRes({
                 data: null,
                 pending: false,
                 error: true,
                 complete: true,
-                message: res.data.message,
-                code: res.data.code
+                messError: err
               })
             );
         },

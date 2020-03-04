@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Switch, Route } from 'react-router-dom';
 
+import Cookies from 'js-cookie';
+
 import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Home from '../pages/Home';
@@ -12,8 +14,7 @@ import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';
 import ProductDetails from '../component/product/ProductDetails';
-
-const Direction = () => {
+const Direction = (props) => {
     return (
         <Switch>
             <Route path="/sanpham">
@@ -34,9 +35,19 @@ const Direction = () => {
             <Route path="/thongbao">
                 <Noti/>
             </Route>
-            <Route path="/dangnhap">
-                <Login/>
-            </Route>
+            {
+                Cookies.get('authtoken') === undefined ?
+                (
+                    <Route path="/dangnhap">
+                    <Login/>
+                    </Route>
+                ) :
+                (
+                    <Route path="/">
+                    <Home/>
+                    </Route>
+                )
+            }
             <Route path="/dangky">
                 <Signup/>
             </Route>
