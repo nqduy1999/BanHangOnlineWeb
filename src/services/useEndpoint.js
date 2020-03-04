@@ -18,7 +18,7 @@ const useEndpoint = (req) => {
             error: false,
             complete: false
           });
-          Axios(req, {header: {'Access-Control-Allow-Origin': "*"}})
+          Axios(req)
             .then(res =>
               setRes({
                 data: res.data,

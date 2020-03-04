@@ -10,6 +10,7 @@ const useAsyncEndpoint = (fn) => {
         error: false,
       });
     const [req, setReq] = useState();
+    Axios.defaults.withCredentials = true;
     useEffect(
         () => {
             if(!req) return;
@@ -19,7 +20,7 @@ const useAsyncEndpoint = (fn) => {
             error: false,
             complete: false,
           });
-          Axios(req, {header: {'Access-Control-Allow-Origin': "*"}})
+          Axios(req)
             .then(res =>
               setRes({
                 data: res.data,

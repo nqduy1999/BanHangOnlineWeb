@@ -86,9 +86,9 @@ const ProductDetails = (props) => {
     }, [product]);
     // set NewTodo cơ chế react cập nhật state khá chậm nên cần phải check trong đây thay vì check trong hàm onAddOrderDetailsToShoppingCard
     useEffect(() => {
-      if(newTodo.code !== 0) {
-        setMessage(newTodo.message);
-      } else if(newTodo.code === 0) {
+      if(newTodo.complete && newTodo.error !== true && newTodo.data.code !== 0) {
+        setMessage(newTodo.data.code);
+      } else if(newTodo.complete && newTodo.error !== true && newTodo.data.code === 0) {
         props.history.push("/giohang"); // direct
       }
     }, [newTodo]);

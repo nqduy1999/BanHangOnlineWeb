@@ -31,8 +31,8 @@ const Login = (props) => {
     useEffect(() => {
       if(login.complete && login.error !== true) {
         Cookies.set('authtoken', login.data.message);
-        Cookies.set('username', login.data.result);
-        dispatch({type: "SAVE", username: login.data.resutl});
+        Cookies.set('username', login.data.result.taiKhoan);
+        dispatch({type: "SAVE", username: login.data.result.taiKhoan});
         if(login.data.code !== 0) {
           setResutl(login.data.message);
         } else {
