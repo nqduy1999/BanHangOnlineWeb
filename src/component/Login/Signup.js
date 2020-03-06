@@ -7,24 +7,31 @@ import { withRouter, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import postToDoEndpoint from '../../services/postToDoEndpoint';
-
+import HashLoader from "react-spinners/HashLoader";
 
 const Signup = (props) => {
   // react form
     const { handleSubmit, register, errors, watch } = useForm();
     const url = "http://localhost:8080/api/dangky";
     const [resutl, setResutl] = useState();
+    //loading
+    const [loading, setLoading] = useState(true);
     // Hàm custom dùng sẵn
     const [signup, postSignUp] = postToDoEndpoint(url);
     // Đăng ký
     const onSubmit = data =>{
       postSignUp(data);
+      setLoading(true);
     }
+    useEffect(() => {
+      setLoading(false);
+    }, []);
     useEffect(() => {
       if(signup.complete) {
         if(signup.data.code !== 0) {
           setResutl(signup.data.message);
         } else {
+          setLoading(false);
           // thông báo
           const {value: accept} = Swal.fire({
             title: "Thông báo",
@@ -36,7 +43,22 @@ const Signup = (props) => {
         }
       }
     }, [signup]);
-    return (
+          return loading ?
+          (
+            <div className="container pl-5 pb-5">
+              <div className="row">
+                <div className="col-md-12 d-flex justify-content-center">
+                  <HashLoader
+                  size={300}
+                  //size={"150px"} this also works
+                  color={"#7971ea"}
+                  loading={loading}
+                  />
+                </div>
+              </div>
+            </div>
+          ) :
+          (
           <form className="container" onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
               <div className="col-md-5">

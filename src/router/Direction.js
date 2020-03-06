@@ -75,7 +75,7 @@ const Direction = () => {
             <Home />
             </Route>
             {
-                !Cookies.get("username") ?
+                user.data === null || user.data.code !== 0 ?
                 (
                     <Route path="/dangnhap">
                     <Login/>

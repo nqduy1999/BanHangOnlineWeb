@@ -8,9 +8,8 @@ import Cookies from 'js-cookie';
 
 import Swal from 'sweetalert2';
 
-import { useDispatch, useSelector } from 'react-redux';
-
 import postToDoEndpoint from '../../services/postToDoEndpoint';
+import HashLoader from "react-spinners/HashLoader";
 const Login = (props) => {
   // React form
     const { register, handleSubmit, errors } = useForm();
@@ -18,12 +17,16 @@ const Login = (props) => {
     const [resutl, setResutl] = useState();
     // Hàm custom dùng sẵn
     const [login, postLogin] = postToDoEndpoint(url);
-    // redux login
-    const dispatch = useDispatch();
+    //loading
+    const [loading, setLoading] = useState(true);
     // Đăng nhập
     const onSubmit = data => {
         postLogin(data);
+        setLoading(true);
     }; // your form submit function which will invoke after successful validation
+    useEffect(() => {
+      setLoading(false);
+    }, []);
     useEffect(() => {
       if(login.complete && login.error !== true) {
         Cookies.set('authtoken', login.data.message); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
@@ -32,6 +35,7 @@ const Login = (props) => {
         if(login.data.code !== 0) {
           setResutl(login.data.message);
         } else {
+          setLoading(true);
           //thông báo
           const {value: accept} = Swal.fire({
             title: "Thông báo",
@@ -47,7 +51,22 @@ const Login = (props) => {
         }
       }
     }, [login])
-    return (
+    return loading ?
+      (
+        <div className="container pl-5 pb-5">
+          <div className="row">
+            <div className="col-md-12 d-flex justify-content-center">
+              <HashLoader
+              size={300}
+              //size={"150px"} this also works
+              color={"#7971ea"}
+              loading={loading}
+              />
+            </div>
+          </div>
+        </div>
+      ) :
+    (
       <div>
       <form className="container" onSubmit={handleSubmit(onSubmit)} >
       <div className="row">

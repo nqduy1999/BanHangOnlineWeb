@@ -8,10 +8,13 @@ import postToDoEndpoint from '../../services/postToDoEndpoint';
 import useEndpoint from '../../services/useEndpoint';
 import but_bi from '../../resource/images/but_bi.jpg';
 import { useDispatch } from 'react-redux';
+import HashLoader from "react-spinners/HashLoader";
 const Cart = (props) => {
 // các url api
     const urlData = "http://localhost:8080/api/giohang/dulieu";
     const urlUpdateCart = `http://localhost:8080/api/giohang/capnhat`;
+    //loading
+    const [loading, setLoading] = useState(true);
     // kiểm tra số lượng của sản phẩm mua
     const [inventory, setInventory] = useState(1000);
     // lấy danh sách sản phẩm đã đặt mua từ session lên cart
@@ -100,6 +103,7 @@ const Cart = (props) => {
     }
     //đây là khỏi chạy lần đầu khi load vô compoent Cart
     useEffect(() => {
+      setLoading(false);
       if(order.complete && order.data.result.danhsachCTHD !== undefined) {
         changeInventoryOnHeader(order); // thay đổi số lượng trên header ở icon giỏ hàng
         setData({...order.data,
@@ -125,7 +129,21 @@ const Cart = (props) => {
       }
     }, [newCart]); // [] chạy khi newCart thay đổi
 
-    return (
+    return loading ?
+        (
+          <div className="container pl-5 pb-5">
+            <div className="row">
+              <div className="col-md-12 d-flex justify-content-center">
+                <HashLoader
+                size={300}
+                //size={"150px"} this also works
+                color={"#7971ea"}
+                loading={loading}
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
         <div className="site-section">
         <div className="container">
           <div className="row mb-5">

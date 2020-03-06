@@ -6,6 +6,7 @@ import Axios from 'axios';
 
 import postToDoEndpoint from '../../services/postToDoEndpoint';
 import useEndpoint from '../../services/useEndpoint';
+import HashLoader from "react-spinners/HashLoader";
 import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
 const ProductDetails = (props) => {
     // lấy query String
@@ -16,6 +17,8 @@ const ProductDetails = (props) => {
     // const [quantity, setQuantity] = useState(1);
     // thông báo
     const [message, setMessage] = useState("");
+    //loading
+    const [loading, setLoading] = useState(true);
     // url api
     const url = `http://localhost:8080/api/quanly/sanpham/chitiet?id=${id.get("id")}`;
     const urlGioHang = "http://localhost:8080/api/giohang/them";
@@ -76,6 +79,7 @@ const ProductDetails = (props) => {
       }
     }
     useEffect(() => {
+      setLoading(false);
       if(product.data != null) {
         setChiTietHoaDon({...chiTietHoaDon,
           sanPham:  product.data,
@@ -99,7 +103,21 @@ const ProductDetails = (props) => {
         Axios.defaults.withCredentials = true;
         postNewTodo(chiTietHoaDon);
     }
-    return (
+    return loading ?
+          (
+            <div className="container pl-5 pb-5">
+              <div className="row">
+                <div className="col-md-12 d-flex justify-content-center">
+                  <HashLoader
+                  size={300}
+                  //size={"150px"} this also works
+                  color={"#7971ea"}
+                  loading={loading}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
         <div>
           <div className="site-section">
             <div className="container">

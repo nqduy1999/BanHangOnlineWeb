@@ -22,7 +22,6 @@ const Header = () => {
   const dispatch = useDispatch();
   // các url api
   const urlData = "http://localhost:8080/api/giohang/dulieu";
-  const urlLogout = "http://localhost:8080/api/dangxuat";
   const [inventory, setInventory] = useState(0);
   const order = useEndpoint({
     url: urlData,
@@ -37,14 +36,13 @@ const Header = () => {
       setInventory(total);
     }
   }, [order]);
-  // logout nếu rãnh sẽ chỉnh sửa
-  let [logout, postLogout] = postToDoEndpoint(urlLogout);
-  useEffect(() => {
-    if(logout.complete && logout.error !== true) {
-      dispatch({type: "DELETE"});
-      Cookies.remove('username');
-    }
-  }, [logout]);
+
+  let logout = ()  => {
+    dispatch({type: "DELETE"});
+    Cookies.remove('username');
+    Cookies.remove('authtoken');
+  }
+
     return (
         <div>
     <header className="site-navbar" role="banner">
@@ -70,7 +68,7 @@ const Header = () => {
               (
                 <span>
                 <li className="pr-2"><span>{stateAuth.user.taiKhoan.taiKhoan}</span></li>
-                <li><Link to="/dangnhap" onClick={() => {postLogout()}}><span className="fas fa-sign-out-alt"></span></Link></li>
+                <li><Link to="/dangnhap" onClick={() => {logout()}}><span className="fas fa-sign-out-alt"></span></Link></li>
                 </span>
               )
               : (

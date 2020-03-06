@@ -5,7 +5,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
 
 import useEndpoint from '../../services/useEndpoint';
-
+import HashLoader from "react-spinners/HashLoader";
 import ProductCard from './ProductCard';
 import dataTest from './datatest.json';
 const ProductSection = (props) => {
@@ -17,6 +17,8 @@ const ProductSection = (props) => {
     const urlProduct = `http://localhost:8080/api/sanpham/trang?index=${id.get("index")}`;
     // lấy page hiện tại đang hiển thị
     const [currentPage, setCurrentPage] = useState(0);
+    //loading
+    const [loading, setLoading] = useState(true);
     // lấy danh sách sản phẩm hiển thị
     const listProduct = useEndpoint({
       url: urlProduct,
@@ -41,11 +43,26 @@ const ProductSection = (props) => {
     }
     // lấy tổng số page
     useEffect(() => {
+      setLoading(false);
       if(listProduct.complete) {
         genPage(listProduct.data.totalPages);
       }
     }, [listProduct])
-    return (
+    return loading ?
+        (
+          <div className="container pl-5 pb-5">
+            <div className="row">
+              <div className="col-md-12 d-flex justify-content-center">
+                <HashLoader
+                size={300}
+                //size={"150px"} this also works
+                color={"#7971ea"}
+                loading={loading}
+                />
+              </div>
+            </div>
+          </div>
+        ) :(
         <div className="site-section">
         <div className="container">
           <div className="row mb-5">
