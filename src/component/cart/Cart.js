@@ -7,6 +7,7 @@ import Axios from 'axios';
 import postToDoEndpoint from '../../services/postToDoEndpoint';
 import useEndpoint from '../../services/useEndpoint';
 import but_bi from '../../resource/images/but_bi.jpg';
+import { useDispatch } from 'react-redux';
 const Cart = (props) => {
 // các url api
     const urlData = "http://localhost:8080/api/giohang/dulieu";
@@ -26,6 +27,8 @@ const Cart = (props) => {
       danhsachCTHD: [],
       khachHang: null
     });
+    // set số lượng hàng trong giỏ hàng
+    const dispatch = useDispatch();
     // cập nhật giỏ hàng
     const [newCart, postNewCart] = postToDoEndpoint(urlUpdateCart);
     // xử lý tăng giảm và nhập dữ liêu trong input
@@ -79,6 +82,7 @@ const Cart = (props) => {
       Axios.post(urlRemoveProductFromCart)
       .then(async (res) => {
         const resutl = await res.data.result;
+        changeInventoryOnHeader(res); // thay đổi số lượng trên header ở icon giỏ hàng
         setData({...data,
           tongTien: resutl.tongTien,
           danhsachCTHD: resutl.danhsachCTHD
@@ -88,8 +92,16 @@ const Cart = (props) => {
         console.log(err);
       })
     }
+    // thay đổi số lượng trên header ở icon giỏ hàng
+    let changeInventoryOnHeader = (data) => {
+      let total = 0;
+      data.data.result.danhsachCTHD.map(item => total += item.soLuong);
+      dispatch({type: "CHANGE_INVENTORY", inventory: total});
+    }
+    //đây là khỏi chạy lần đầu khi load vô compoent Cart
     useEffect(() => {
       if(order.complete && order.data.result.danhsachCTHD !== undefined) {
+        changeInventoryOnHeader(order); // thay đổi số lượng trên header ở icon giỏ hàng
         setData({...order.data,
           maHoaDon: order.data.result.maHoaDon,
           ngayLapHoaDon: order.data.result.ngayLapHoaDon,
@@ -99,8 +111,10 @@ const Cart = (props) => {
         });
       }
     }, [order]); // [] chạy khi order thay đổi
+    // sẽ chạy sau khi cập nhật trên giỏ hàng
     useEffect(() => {
-      if(newCart.complete) {
+      if(newCart.complete && newCart.error !== true) {
+        changeInventoryOnHeader(newCart); // thay đổi số lượng trên header ở icon giỏ hàng
         setData({...newCart.data,
           maHoaDon: newCart.data.result.maHoaDon,
           ngayLapHoaDon: newCart.data.result.ngayLapHoaDon,

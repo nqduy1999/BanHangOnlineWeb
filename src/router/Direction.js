@@ -6,9 +6,8 @@ import Cookies from 'js-cookie';
 
 import Swal from 'sweetalert2';
 
-import Axios from 'axios';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import About from '../pages/About';
 import Contact from '../pages/Contact';
@@ -22,6 +21,7 @@ import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';
 import ProductDetails from '../component/product/ProductDetails';
 const Direction = () => {
+    const dispatch = useDispatch();
     const url = `http://localhost:8080/api/khachhang/chitiet?username=${Cookies.get("username")}`;
     // kiểm tra token hết hạn
     const user = useEndpoint({
@@ -29,21 +29,20 @@ const Direction = () => {
         url: url,
         headers: { 'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     });
-    const dispatch = useDispatch();
     useEffect(() => {
-        // kiểm tra token hết hạn
-        if((Cookies.get("username") === "" || Cookies.get("username")) && (user.data === "" || (user.complete && user.error === true))) {
-        //thông báo
-          const {value: accept} = Swal.fire({
-            title: "Thông báo",
-            text: "Token hết hạn, vui lòng đăng nhập lại",
-            icon: "error"
-          });
-          Cookies.remove("authtoken");
-          Cookies.remove("username");
-          dispatch({type: "DELETE"});
-        } else if((user.complete && user.error === false && user.data !== "")) {
-            dispatch({type: "SAVE", user: user.data});
+        console.log(user);
+        // kiểm tra token hết hạn và tài khoản username có bị cheat ở cookie hay ko?
+         if((user.complete && user.error === false && user.data.code === 0)) {
+            dispatch({type: "SAVE", user: user.data.result});
+        } else if(user.complete && user.error === false && user.data.code !== 0) {
+            const {value: accept} = Swal.fire({
+                title: "Thông báo",
+                text: "Không đúng tài khoản",
+                icon: "error"
+              });
+              Cookies.remove("authtoken");
+              Cookies.remove("username");
+              dispatch({type: "DELETE"});
         }
     }, [user]);
     return (
@@ -76,7 +75,7 @@ const Direction = () => {
             <Home />
             </Route>
             {
-                user.data === "" ?
+                !Cookies.get("username") ?
                 (
                     <Route path="/dangnhap">
                     <Login/>
@@ -88,8 +87,8 @@ const Direction = () => {
                     </Route>
                 )
             }
-                        {
-                user.data === "" ?
+            {
+                !Cookies.get("username") ?
                 (
                     <Route path="/dangky">
                         <Signup/>

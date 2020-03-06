@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import "../resource/icomoon/style.css"
@@ -13,9 +13,38 @@ import "../resource/css/owl.carousel.min.css"
 import "../resource/css/owl.theme.default.min.css"
 import "../resource/css/mdb.min.css"
 import "../resource/css/mdb.lite.min.css"
-
+import useEndpoint from '../services/useEndpoint';
+import Cookies from 'js-cookie';
+import postToDoEndpoint from '../services/postToDoEndpoint';
 const Header = () => {
-  const state = useSelector(state => state.auth);
+  const stateAuth = useSelector(state => state.auth);
+  const stateCart = useSelector(state => state.cart);
+  const dispatch = useDispatch();
+  // các url api
+  const urlData = "http://localhost:8080/api/giohang/dulieu";
+  const urlLogout = "http://localhost:8080/api/dangxuat";
+  const [inventory, setInventory] = useState(0);
+  const order = useEndpoint({
+    url: urlData,
+    method: "GET"
+  });
+  useEffect(() => {
+    if(order.complete && order.error === false && order.data.code === 0) {
+      let total = 0;
+      order.data.result.danhsachCTHD.map((item) => {
+        total += item.soLuong;
+      })
+      setInventory(total);
+    }
+  }, [order]);
+  // logout nếu rãnh sẽ chỉnh sửa
+  let [logout, postLogout] = postToDoEndpoint(urlLogout);
+  useEffect(() => {
+    if(logout.complete && logout.error !== true) {
+      dispatch({type: "DELETE"});
+      Cookies.remove('username');
+    }
+  }, [logout]);
     return (
         <div>
     <header className="site-navbar" role="banner">
@@ -37,15 +66,21 @@ const Header = () => {
           <div className="site-top-icons">
             <ul>
             {
-              state.user ? <li className="pr-2"><span>{state.user.taiKhoan.taiKhoan}</span></li> : (
+              stateAuth.user ? 
+              (
+                <span>
+                <li className="pr-2"><span>{stateAuth.user.taiKhoan.taiKhoan}</span></li>
+                <li><Link to="/dangnhap" onClick={() => {postLogout()}}><span className="fas fa-sign-out-alt"></span></Link></li>
+                </span>
+              )
+              : (
                 <li><Link to="/dangnhap" ><span className="icon icon-person" /></Link></li>
               )
             }
-              <li><Link to="/"><span className="icon icon-heart-o" /></Link></li>
               <li>
                 <Link to="/giohang" className="site-cart">
                   <span className="icon icon-shopping_cart" />
-                  <span className="count">2</span>
+                  <span className="count">{stateCart.inventory ? stateCart.inventory : inventory }</span>
                 </Link>
               </li>
               <li className="d-inline-block d-md-none ml-md-0"><Link to="/" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></Link></li>
