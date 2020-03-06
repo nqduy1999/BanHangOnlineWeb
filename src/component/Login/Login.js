@@ -19,20 +19,16 @@ const Login = (props) => {
     // Hàm custom dùng sẵn
     const [login, postLogin] = postToDoEndpoint(url);
     // redux login
-    const state = useSelector(state => state.auth);
     const dispatch = useDispatch();
     // Đăng nhập
     const onSubmit = data => {
         postLogin(data);
     }; // your form submit function which will invoke after successful validation
     useEffect(() => {
-      console.log(state);
-    }, [state])
-    useEffect(() => {
       if(login.complete && login.error !== true) {
-        Cookies.set('authtoken', login.data.message);
-        Cookies.set('username', login.data.result.taiKhoan);
-        dispatch({type: "SAVE", username: login.data.result.taiKhoan});
+        Cookies.set('authtoken', login.data.message); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
+        Cookies.set('username', login.data.result.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
+        // kiểm tra lỗi từ server
         if(login.data.code !== 0) {
           setResutl(login.data.message);
         } else {

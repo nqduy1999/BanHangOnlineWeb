@@ -89,7 +89,7 @@ const Cart = (props) => {
       })
     }
     useEffect(() => {
-      if(order.complete) {
+      if(order.complete && order.data.result.danhsachCTHD !== undefined) {
         setData({...order.data,
           maHoaDon: order.data.result.maHoaDon,
           ngayLapHoaDon: order.data.result.ngayLapHoaDon,
@@ -165,18 +165,6 @@ const Cart = (props) => {
               <div className="row mb-5">
                 <div className="col-md-6">
                   <Link to="/sanpham?index=0" className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</Link>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <label className="text-black h4" htmlFor="coupon">Mã Khuyến Mãi</label>
-                  <p>Nhập vào đây mã khuyến mãi nếu bạn có.</p>
-                </div>
-                <div className="col-md-8 mb-3 mb-md-0">
-                  <input type="text" className="form-control py-3" id="coupon" />
-                </div>
-                <div className="col-md-4">
-                  <button className="btn btn-primary btn-sm">Áp Dụng Mã</button>
                 </div>
               </div>
             </div>

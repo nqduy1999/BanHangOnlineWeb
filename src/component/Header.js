@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import "../resource/icomoon/style.css"
@@ -13,6 +15,7 @@ import "../resource/css/mdb.min.css"
 import "../resource/css/mdb.lite.min.css"
 
 const Header = () => {
+  const state = useSelector(state => state.auth);
     return (
         <div>
     <header className="site-navbar" role="banner">
@@ -33,7 +36,11 @@ const Header = () => {
         <div className="col-6 col-md-4 order-3 order-md-3 text-right">
           <div className="site-top-icons">
             <ul>
-              <li><Link to="/dangnhap" ><span className="icon icon-person" /></Link></li>
+            {
+              state.user ? <li className="pr-2"><span>{state.user.taiKhoan.taiKhoan}</span></li> : (
+                <li><Link to="/dangnhap" ><span className="icon icon-person" /></Link></li>
+              )
+            }
               <li><Link to="/"><span className="icon icon-heart-o" /></Link></li>
               <li>
                 <Link to="/giohang" className="site-cart">

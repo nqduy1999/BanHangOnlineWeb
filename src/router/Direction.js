@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 
 import Axios from 'axios';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Home from '../pages/Home';
@@ -25,11 +27,12 @@ const Direction = () => {
     const user = useEndpoint({
         method: 'GET',
         url: url,
-        headers: { Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmxhdHJ1b25nIiwiaWF0IjoxNTgzMzIyMjkzLCJleHAiOjE1ODMzNTgyOTN9.TxSMiDWdwb7azBD9Ndh3WEEMMZJKLF68yq-GRswi1JNr-RkcafcFM8Lg3Gg9rK0h6cJ-F-4Uxf8WFY8hBmTsjA"}
+        headers: { 'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     });
+    const dispatch = useDispatch();
     useEffect(() => {
         // kiểm tra token hết hạn
-        if(Cookies.get("authtoken") && Cookies.get("username") && (user.complete && user.error === true)) {
+        if((Cookies.get("username") === "" || Cookies.get("username")) && (user.data === "" || (user.complete && user.error === true))) {
         //thông báo
           const {value: accept} = Swal.fire({
             title: "Thông báo",
@@ -38,6 +41,9 @@ const Direction = () => {
           });
           Cookies.remove("authtoken");
           Cookies.remove("username");
+          dispatch({type: "DELETE"});
+        } else if((user.complete && user.error === false && user.data !== "")) {
+            dispatch({type: "SAVE", user: user.data});
         }
     }, [user]);
     return (
@@ -60,8 +66,17 @@ const Direction = () => {
             <Route path="/thongbao">
                 <Noti/>
             </Route>
+            <Route path="/chitiet">
+                <ProductDetails/>
+            </Route>
+            <Route exact path="/trangchu">
+            <Home/>
+            </Route>
+            <Route exact path="/">
+            <Home />
+            </Route>
             {
-                Cookies.get('authtoken') === undefined ?
+                user.data === "" ?
                 (
                     <Route path="/dangnhap">
                     <Login/>
@@ -74,7 +89,7 @@ const Direction = () => {
                 )
             }
                         {
-                Cookies.get('authtoken') === undefined ?
+                user.data === "" ?
                 (
                     <Route path="/dangky">
                         <Signup/>
@@ -86,15 +101,6 @@ const Direction = () => {
                     </Route>
                 )
             }
-            <Route path="/chitiet">
-                <ProductDetails/>
-            </Route>
-            <Route exact path="/trangchu">
-            <Home/>
-            </Route>
-            <Route exact path="/">
-            <Home />
-            </Route>
         </Switch>
     );
 };

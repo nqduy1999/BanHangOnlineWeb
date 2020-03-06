@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Link } from 'react-router-dom';
 
 const Checkout = () => {
@@ -76,14 +77,6 @@ const Checkout = () => {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="c_create_account" className="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" defaultValue={1} id="c_create_account" /> Tạo một tài khoản?</label>
-                  <div className="collapse" id="create_an_account">
-                    <div className="py-2">
-                      <p className="mb-3"><a data-toggle="modal" data-target="#modalRegisterForm">Nhấp vào đây </a> để tạo tài khoản. Nếu bạn là khách hàng cũ vui lòng đăng nhập ở phía trên.</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group">
                   <label htmlFor="c_ship_different_address" className="text-black" data-toggle="collapse" href="#ship_different_address" role="button" aria-expanded="false" aria-controls="ship_different_address"><input type="checkbox" defaultValue={1} id="c_ship_different_address" /> Giao tới một địa chỉ khác?</label>
                   <div className="collapse" id="ship_different_address">
                     <div className="py-2">
@@ -156,20 +149,6 @@ const Checkout = () => {
             <div className="col-md-6">
               <div className="row mb-5">
                 <div className="col-md-12">
-                  <h2 className="h3 mb-3 text-black">Mã khuyến mãi</h2>
-                  <div className="p-3 p-lg-5 border">
-                    <label htmlFor="c_code" className="text-black mb-3">Nhập mã khuyến mãi nếu bạn có </label>
-                    <div className="input-group w-75">
-                      <input type="text" className="form-control" id="c_code" placeholder="Coupon Code" aria-label="Coupon Code" aria-describedby="button-addon2" />
-                      <div className="input-group-append">
-                        <button className="btn btn-primary btn-sm" type="button" id="button-addon2">Áp dụng mã </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mb-5">
-                <div className="col-md-12">
                   <h2 className="h3 mb-3 text-black">Hoá đơn của bạn </h2>
                   <div className="p-3 p-lg-5 border">
                     <table className="table site-block-order-table mb-5">
@@ -197,7 +176,14 @@ const Checkout = () => {
                       </tbody>
                     </table>
                     <div className="border p-3 mb-3">
-                      <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Internet banking</a></h3>
+                      <div className="row">
+                        <div className="col-10">
+                          <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Internet banking</a></h3>
+                        </div>
+                        <div className="col-2">
+                          <input type="radio" name="checkout" defaultValue={1} id="c_ship_different_address" />
+                        </div>
+                      </div>
                       <div className="collapse" id="collapsebank">
                         <div className="py-2">
                           <p className="mb-0">Đơn hàng được thanh toán ngay lập tức. </p>
@@ -205,16 +191,45 @@ const Checkout = () => {
                       </div>
                     </div>
                     <div className="border p-3 mb-3">
-                      <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Chuyển trực tiếp qua ngân hàng </a></h3>
+                      <div className="row">
+                        <div className="col-10">
+                          <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Chuyển trực tiếp qua ngân hàng </a></h3>
+                        </div>
+                        <div className="col-2">
+                          <input type="radio" name="checkout" defaultValue={1} id="c_ship_different_address" />
+                        </div>
+                      </div>
                       <div className="collapse" id="collapsecheque">
                         <div className="py-2">
                           <p className="mb-0">Chuyển tiền trực tiếp tại ngân hàng, đơn hàng sẽ được thanh toán trong vòng 2 - 3 ngày</p>
                         </div>
                       </div>
                     </div>
-                    <div className="border p-3 mb-5">
-                      <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
+                    <div className="border p-3 mb-3">
+                      <div className="row">
+                        <div className="col-10">
+                          <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
+                        </div>
+                        <div className="col-2">
+                          <input type="radio" name="checkout" defaultValue={1} id="c_ship_different_address" />
+                        </div>
+                      </div>
                       <div className="collapse" id="collapsepaypal">
+                        <div className="py-2">
+                          <p className="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="border p-3 mb-5">
+                      <div className="row">
+                        <div className="col-10">
+                        <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapseorder" role="button" aria-expanded="false" aria-controls="collapseorder">Thanh toán khi nhận hàng </a></h3>
+                        </div>
+                        <div className="col-2">
+                          <input type="radio" name="checkout" defaultValue={1} id="c_ship_different_address" />
+                        </div>
+                      </div>
+                      <div className="collapse" id="collapseorder">
                         <div className="py-2">
                           <p className="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
                         </div>

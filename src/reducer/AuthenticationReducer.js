@@ -1,13 +1,17 @@
-import Cookies from 'js-cookie';
 
-const initialState = Cookies.get('username') ? Cookies.get('username') : "";
+const initialState = {};
 
 const AuthenticationReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SAVE":
       return {
         ...state,
-        username: action.username
+        user: action.user
+      };
+    case "DELETE":
+      return {
+        ...state,
+        user: null
       };
     default:
       return state
