@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 
 import Swal from 'sweetalert2';
 
-
 import { useDispatch } from 'react-redux';
 
 import About from '../pages/About';
@@ -34,7 +33,7 @@ const Direction = () => {
         // kiểm tra token hết hạn và tài khoản username có bị cheat ở cookie hay ko?
          if((user.complete && user.error === false && user.data.code === 0)) {
             dispatch({type: "SAVE", user: user.data.result});
-        } else if(user.complete && user.error === false && user.data.code !== 0) {
+        } else if(Cookies.get("username") && user.complete && user.error === false && user.data.code !== 0) {
             const {value: accept} = Swal.fire({
                 title: "Thông báo",
                 text: "Không đúng tài khoản",

@@ -3,11 +3,12 @@ import React from 'react';
 
 import useAsyncEndpoint from './useAsyncEndpoint';
 
-const postToDoEndpoint = (url) => {
+const postToDoEndpoint = (url, config) => {
     return useAsyncEndpoint(data => ({
         url: url,
         method: "POST",
-        data
+        data: data,
+        headers: config
     }))
 };
 

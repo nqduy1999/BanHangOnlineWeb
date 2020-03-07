@@ -1,51 +1,127 @@
-import React from 'react';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from '@material-ui/core';
+
+import React, { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import HashLoader from "react-spinners/HashLoader";
+
+import Axios from 'axios';
+
+import postToDoEndpoint from '../../services/postToDoEndpoint';
+import useEndpoint from '../../services/useEndpoint';
 const Checkout = () => {
-    return (
+    const urlCity = "http://localhost:8080/api/diachi/thanhpho";
+    const urlDistrict = "http://localhost:8080/api/diachi/quanhuyen";
+    const urlWard =  "http://localhost:8080/api/diachi/thitran";
+    // lấy danh sách thành phố
+    const city = useEndpoint({
+      method: "GET",
+      url: urlCity
+    })
+    const [dataCity, setDataCity] = useState([]);
+    // lấy danh sách quận huyện thuộc thành phố
+    const [listDistrict, postIdCityGetDistrict] = postToDoEndpoint(urlDistrict,  {"Content-Type": "text/plain"});
+    // lấy danh sách thị trấn thuộc quận huyện
+    const [listWard, postIdDistrictGetWard] = postToDoEndpoint(urlWard,  {"Content-Type": "text/plain"});
+    // lưu danh sách thị trấn
+    const [dataWard, setDataWard] = useState([]);
+    // lưu danh sách quận huyện vào biến
+    const [dataDistrict, seDataDistrict] = useState([]);
+    // các url api
+    const urlData = "http://localhost:8080/api/giohang/dulieu";
+    //loading
+    const [loading, setLoading] = useState(true);
+    // lấy danh sách sản phẩm đã đặt mua từ session lên checkout
+    const order = useEndpoint({
+      url: urlData,
+      method: "GET"
+    });
+    // lấy danh sách quận huyện thuộc thành phố
+    const getListDistrictByCity = (id) => {
+      postIdCityGetDistrict(id);
+    }
+    // lấy danh sách quận huyện thuộc thành phố
+    const getListWardByDistrict = (id) => {
+      postIdDistrictGetWard(id);
+    }
+
+    useEffect(() => {
+      (listWard.complete && listWard.data.code === 0) ? setDataWard(JSON.parse(listWard.data.message)) : setDataWard([]);
+    }, [listWard]);
+    useEffect(() => {
+      (listDistrict.complete && listDistrict.data.code === 0) ? seDataDistrict(JSON.parse(listDistrict.data.message)) : seDataDistrict([]);
+    }, [listDistrict]);
+    useEffect(() => {
+      (city.complete && city.data.code === 0) ? setDataCity(JSON.parse(city.data.message)) : setDataCity([]);
+      setLoading(false);
+    }, [city]);
+    return loading ?
+        (
+          <div className="container pl-5 pb-5">
+            <div className="row">
+              <div className="col-md-12 d-flex justify-content-center">
+                <HashLoader
+                size={300}
+                //size={"150px"} this also works
+                color={"#7971ea"}
+                loading={loading}
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
         <div className="site-section">
         <div className="container">
           <div className="row mb-5">
             <div className="col-md-12">
-              <div className="border p-4 rounded" role="alert">
-                Bạn là khách hàng cũ ? <a data-toggle="modal" data-target="#modalLoginForm">Nhấp vào đây </a> để đăng nhập 
-              </div>
+              <h1 className="border p-4 rounded" role="alert">
+                Thanh toán
+              </h1>
             </div>
           </div>
           <div className="row">
             <div className="col-md-6 mb-5 mb-md-0">
               <h2 className="h3 mb-3 text-black">Chi tiết hoá đơn</h2>
               <div className="p-3 p-lg-5 border">
-                <div className="form-group">
-                  <label htmlFor="c_country" className="text-black">Quốc Gia <span className="text-danger">*</span></label>
-                  <select id="c_country" className="form-control">
-                    <option value={1}>Chọn Quốc Gia của bạn ? </option>    
-                    <option value={2}>Việt Nam</option>    
-                    <option value={3}>Singapore</option>    
-                    <option value={4}>ThaiLand</option>    
-                    <option value={5}>Indonesia</option>    
-                    <option value={6}>Malaysia</option>    
-                    <option value={7}>Philipines</option>    
-                    <option value={8}>China</option>    
-                    <option value={9}>Korea</option>    
-                  </select>
-                </div>
                 <div className="form-group row">
                   <div className="col-md-6">
                     <label htmlFor="c_fname" className="text-black">Tên <span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" id="c_fname" name="c_fname" />
+                    <TextField className="form-control" label="Tên" size="small" variant="outlined" />
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="c_lname" className="text-black">Họ và tên đệm <span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" id="c_lname" name="c_lname" />
+                    <TextField className="form-control" label="Họ và tên đệm" size="small" variant="outlined" />
                   </div>
                 </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <label htmlFor="c_companyname" className="text-black">Tên công ty </label>
-                    <input type="text" className="form-control" id="c_companyname" name="c_companyname" />
+                <div className="form-group">
+                    <label htmlFor="c_country" className="text-black">Tỉnh/Thành Phố <span className="text-danger">*</span></label>
+                    <Autocomplete onChange={(e, values) => {getListDistrictByCity(values.ID)}} id="combo-box-city"
+                    options={dataCity}
+                    getOptionLabel={option => option.Title}
+                    renderInput={params => <TextField className="form-control"  {...params} label="Tỉnh/Thành Phố" size="small" variant="outlined" />}/>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="c_country" className="text-black">Quận/Huyện <span className="text-danger">*</span></label>
+                  <Autocomplete onChange={(e, values) => {getListWardByDistrict(values.ID)}} id="combo-box-district"
+                    options={dataDistrict}
+                    getOptionLabel={option => option.Title}
+                    renderInput={params => <TextField className="form-control" {...params} label="Quận/Huyện" size="small" variant="outlined" />}/>
                   </div>
+                <div className="form-group">
+                <label htmlFor="c_country" className="text-black">Phường/Xã <span className="text-danger">*</span></label>
+                <Autocomplete id="combo-box-ward"
+                  options={dataWard}
+                  getOptionLabel={option => option.Title}
+                  renderInput={params => <TextField className="form-control" {...params} label="Phường/Xã" size="small" variant="outlined" />}/>
+                </div>
+                <div className="form-group">
+                <label htmlFor="c_country" className="text-black">Khu phố <span className="text-danger">*</span></label>
+                <Autocomplete id="combo-box-town"
+                  options={dataCity}
+                  getOptionLabel={option => option.Title}
+                  renderInput={params => <TextField className="form-control" {...params} label="Khu phố" size="small" variant="outlined" />}/>
                 </div>
                 <div className="form-group row">
                   <div className="col-md-12">
@@ -80,34 +156,72 @@ const Checkout = () => {
                   <label htmlFor="c_ship_different_address" className="text-black" data-toggle="collapse" href="#ship_different_address" role="button" aria-expanded="false" aria-controls="ship_different_address"><input type="checkbox" defaultValue={1} id="c_ship_different_address" /> Giao tới một địa chỉ khác?</label>
                   <div className="collapse" id="ship_different_address">
                     <div className="py-2">
-                      <div className="form-group">
-                        <label htmlFor="c_diff_country" className="text-black">Quốc Gia <span className="text-danger">*</span></label>
-                        <select id="c_diff_country" className="form-control">
-                          <option value={1}>Chọn Quốc Gia / Khu vực của bạn </option>    
-                          <option value={2}>North American</option>    
-                          <option value={3}>South American</option>    
-                          <option value={4}>Australinea</option>    
-                          <option value={5}>Africa</option>    
-                          <option value={6}>Europe</option>    
-                          <option value={7}>Asia</option>    
-                        </select>
-                      </div>
-                      <div className="form-group row">
-                        <div className="col-md-6">
-                          <label htmlFor="c_diff_fname" className="text-black">Tên <span className="text-danger">*</span></label>
-                          <input type="text" className="form-control" id="c_diff_fname" name="c_diff_fname" />
-                        </div>
-                        <div className="col-md-6">
-                          <label htmlFor="c_diff_lname" className="text-black">Họ và tên đệm <span className="text-danger">*</span></label>
-                          <input type="text" className="form-control" id="c_diff_lname" name="c_diff_lname" />
-                        </div>
-                      </div>
-                      <div className="form-group row">
-                        <div className="col-md-12">
-                          <label htmlFor="c_diff_companyname" className="text-black">Tên công ty ( nếu có ) </label>
-                          <input type="text" className="form-control" id="c_diff_companyname" name="c_diff_companyname" />
-                        </div>
-                      </div>
+                    <div className="form-group row">
+                    <div className="col-md-6">
+                      <label htmlFor="c_fname" className="text-black">Tên <span className="text-danger">*</span></label>
+                      <input type="text" className="form-control" id="c_fname" name="c_fname" />
+                    </div>
+                    <div className="col-md-6">
+                      <label htmlFor="c_lname" className="text-black">Họ và tên đệm <span className="text-danger">*</span></label>
+                      <input type="text" className="form-control" id="c_lname" name="c_lname" />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="c_country" className="text-black">Tỉnh/Thành Phố <span className="text-danger">*</span></label>
+                    <select id="c_country" className="form-control">
+                      <option value={1}>Chọn Quốc Gia của bạn ? </option>
+                      <option value={2}>Việt Nam</option>
+                      <option value={3}>Singapore</option>
+                      <option value={4}>ThaiLand</option>
+                      <option value={5}>Indonesia</option>
+                      <option value={6}>Malaysia</option>
+                      <option value={7}>Philipines</option>
+                      <option value={8}>China</option>
+                      <option value={9}>Korea</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="c_country" className="text-black">Quận/Huyện <span className="text-danger">*</span></label>
+                    <select id="c_country" className="form-control">
+                      <option value={1}>Chọn Quốc Gia của bạn ? </option>
+                      <option value={2}>Việt Nam</option>
+                      <option value={3}>Singapore</option>
+                      <option value={4}>ThaiLand</option>
+                      <option value={5}>Indonesia</option>
+                      <option value={6}>Malaysia</option>
+                      <option value={7}>Philipines</option>
+                      <option value={8}>China</option>
+                      <option value={9}>Korea</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                  <label htmlFor="c_country" className="text-black">Phường/Xã <span className="text-danger">*</span></label>
+                  <select id="c_country" className="form-control">
+                      <option value={1}>Chọn Quốc Gia của bạn ? </option>
+                      <option value={2}>Việt Nam</option>
+                      <option value={3}>Singapore</option>
+                      <option value={4}>ThaiLand</option>
+                      <option value={5}>Indonesia</option>
+                      <option value={6}>Malaysia</option>
+                      <option value={7}>Philipines</option>
+                      <option value={8}>China</option>
+                      <option value={9}>Korea</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                  <label htmlFor="c_country" className="text-black">Khu phố <span className="text-danger">*</span></label>
+                  <select id="c_country" className="form-control">
+                      <option value={1}>Chọn Quốc Gia của bạn ? </option>
+                      <option value={2}>Việt Nam</option>
+                      <option value={3}>Singapore</option>
+                      <option value={4}>ThaiLand</option>
+                      <option value={5}>Indonesia</option>
+                      <option value={6}>Malaysia</option>
+                      <option value={7}>Philipines</option>
+                      <option value={8}>China</option>
+                      <option value={9}>Korea</option>
+                    </select>
+                  </div>
                       <div className="form-group row">
                         <div className="col-md-12">
                           <label htmlFor="c_diff_address" className="text-black">Địa chỉ <span className="text-danger">*</span></label>
@@ -157,21 +271,20 @@ const Checkout = () => {
                           <th>Tổng tiền</th>
                         </tr></thead>
                       <tbody>
-                        <tr>
-                          <td>Giấy A3<strong className="mx-2">x</strong> 4</td>
-                          <td>20000 vnd</td>
+                        {order.complete && order.data.code === 0 && order.data.result.danhsachCTHD.map((item, key) => (
+                          <tr key={key}>
+                          <td>{item.sanPham.tenSanPham}<strong className="mx-2">x</strong> {item.soLuong}</td>
+                          <td>{item.donGia}</td>
                         </tr>
-                        <tr>
-                          <td>Bút bi<strong className="mx-2">x</strong>   1</td>
-                          <td>4000 vnd</td>
-                        </tr>
+                        ))
+                        }
                         <tr>
                           <td className="text-black font-weight-bold"><strong>Tổng tiền giỏ hàng</strong></td>
-                          <td className="text-black">24000 vnd</td>
+                          <td className="text-black">{order.complete && order.data.result.tongTien}</td>
                         </tr>
                         <tr>
                           <td className="text-black font-weight-bold"><strong>Tổng tiền phải trả</strong></td>
-                          <td className="text-black font-weight-bold"><strong>24000 vnd</strong></td>
+                          <td className="text-black font-weight-bold"><strong>{order.complete && order.data.result.tongTien}</strong></td>
                         </tr>
                       </tbody>
                     </table>

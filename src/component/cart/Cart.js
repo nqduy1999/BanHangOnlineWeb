@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import Axios from 'axios';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import HashLoader from "react-spinners/HashLoader";
+
+import Swal from 'sweetalert2';
 
 import postToDoEndpoint from '../../services/postToDoEndpoint';
 import useEndpoint from '../../services/useEndpoint';
 import but_bi from '../../resource/images/but_bi.jpg';
-import { useDispatch } from 'react-redux';
-import HashLoader from "react-spinners/HashLoader";
 const Cart = (props) => {
 // các url api
     const urlData = "http://localhost:8080/api/giohang/dulieu";
@@ -78,7 +82,7 @@ const Cart = (props) => {
               });
             }
         }
-    }
+    };
     // xoá sản phẩm
     let removeProductFromCart = (id) => {
       const urlRemoveProductFromCart = `http://localhost:8080/api/giohang/xoa?id=${id}`
@@ -94,13 +98,48 @@ const Cart = (props) => {
       .catch(err => {
         console.log(err);
       })
-    }
+    };
+    // lấy user để kiểm tra đã đăng nhập hay chưa
+    const state = useSelector(state => state.auth);
+    // thanh toán
+    let onPay = () => {
+      if(data.tongTien === 0) {
+        Swal.fire({
+          title: "Thông báo",
+          text: "Giỏ hàng không có sản phẩm nào để thanh toán",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Mua sắm"
+        }).then((result) => {
+          if (result.value) {
+            props.history.push("/sanpham?index=0");
+          }
+        });
+        return;
+      }
+      //
+      if(state.user) {
+        props.history.push("/thanhtoan");
+      } else {
+        Swal.fire({
+          title: "Thông báo",
+          text: "Vui lòng đăng nhập để thanh toán",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Đăng nhập"
+        }).then((result) => {
+          if (result.value) {
+            props.history.push("/dangnhap");
+          }
+        });
+      }
+    };
     // thay đổi số lượng trên header ở icon giỏ hàng
     let changeInventoryOnHeader = (data) => {
       let total = 0;
       data.data.result.danhsachCTHD.map(item => total += item.soLuong);
       dispatch({type: "CHANGE_INVENTORY", inventory: total});
-    }
+    };
     //đây là khỏi chạy lần đầu khi load vô compoent Cart
     useEffect(() => {
       setLoading(false);
@@ -226,7 +265,7 @@ const Cart = (props) => {
                   </div>
                   <div className="row">
                     <div className="col-md-12">
-                   <Link to="/thanhtoan" className="btn btn-primary btn-lg py-3 btn-block">Tiến Hành Kiểm TRA</Link>
+                   <button onClick={onPay} className="btn btn-primary btn-lg py-3 btn-block">Tiến Hành Kiểm TRA</button>
                     </div>
                   </div>
                 </div>
@@ -238,4 +277,4 @@ const Cart = (props) => {
     );
 };
 
-export default Cart;
+export default withRouter(Cart);
