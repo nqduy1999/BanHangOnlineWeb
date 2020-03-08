@@ -23,7 +23,6 @@ const Login = (props) => {
     // Đăng nhập
     const onSubmit = data => {
         postLogin(data);
-        setLoading(true);
     }; // your form submit function which will invoke after successful validation
     useEffect(() => {
       setLoading(false);
@@ -38,7 +37,7 @@ const Login = (props) => {
           Cookies.set('authtoken', login.data.message); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
           Cookies.set('username', login.data.result.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
           //thông báo
-          const {value: accept} = Swal.fire({
+          Swal.fire({
             title: "Thông báo",
             text: "Đăng nhập thành công",
             icon: "success"

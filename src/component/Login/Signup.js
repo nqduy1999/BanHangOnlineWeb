@@ -22,19 +22,23 @@ const Signup = (props) => {
     // Đăng ký
     const onSubmit = data =>{
       postSignUp(data);
-      setLoading(true);
     }
     useEffect(() => {
       setLoading(false);
     }, []);
     useEffect(() => {
+      if(signup.pending) {
+        setLoading(true);
+      } else {
+        setLoading(false);
+      }
       if(signup.complete) {
         setLoading(false);
         if(signup.data.code !== 0) {
           setResutl(signup.data.message);
         } else {
           // thông báo
-          const {value: accept} = Swal.fire({
+          Swal.fire({
             title: "Thông báo",
             text: "Đăng ký thành công",
             icon: "success"
