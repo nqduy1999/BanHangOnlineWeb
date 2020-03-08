@@ -8,8 +8,9 @@ import Cookies from 'js-cookie';
 
 import Swal from 'sweetalert2';
 
-import postToDoEndpoint from '../../services/postToDoEndpoint';
 import HashLoader from "react-spinners/HashLoader";
+
+import postToDoEndpoint from '../../services/postToDoEndpoint';
 const Login = (props) => {
   // React form
     const { register, handleSubmit, errors } = useForm();
@@ -29,13 +30,13 @@ const Login = (props) => {
     }, []);
     useEffect(() => {
       if(login.complete && login.error !== true) {
-        Cookies.set('authtoken', login.data.message); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
-        Cookies.set('username', login.data.result.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
+        setLoading(false);
         // kiểm tra lỗi từ server
         if(login.data.code !== 0) {
           setResutl(login.data.message);
         } else {
-          setLoading(true);
+          Cookies.set('authtoken', login.data.message); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
+          Cookies.set('username', login.data.result.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
           //thông báo
           const {value: accept} = Swal.fire({
             title: "Thông báo",

@@ -6,8 +6,9 @@ import { withRouter, Link } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
 
-import postToDoEndpoint from '../../services/postToDoEndpoint';
 import HashLoader from "react-spinners/HashLoader";
+
+import postToDoEndpoint from '../../services/postToDoEndpoint';
 
 const Signup = (props) => {
   // react form
@@ -28,10 +29,10 @@ const Signup = (props) => {
     }, []);
     useEffect(() => {
       if(signup.complete) {
+        setLoading(false);
         if(signup.data.code !== 0) {
           setResutl(signup.data.message);
         } else {
-          setLoading(false);
           // thông báo
           const {value: accept} = Swal.fire({
             title: "Thông báo",
