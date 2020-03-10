@@ -1,48 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Switch, Route } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
-import Swal from 'sweetalert2';
 
 import { useDispatch } from 'react-redux';
-
+import { getProfile } from '../services/userServices';
 import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Home from '../pages/Home';
 import Product from '../pages/Product';
-import useEndpoint from '../services/useEndpoint';
-import Login from '../component/Login/Login';
-import Signup from '../component/Login/Signup';
+import Login from '../component/login/Login';
+import Signup from '../component/login/Signup';
 import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';
 import ProductDetails from '../component/product/ProductDetails';
+import { alertNotify } from '../untils/alert';
 const Direction = () => {
     const dispatch = useDispatch();
-    const url = `http://localhost:8080/api/khachhang/chitiet?username=${Cookies.get("username")}`;
+    const profile = getProfile(Cookies.get("username"));
     // kiểm tra token hết hạn
-    const user = useEndpoint({
-        method: 'GET',
-        url: url,
-        headers: { 'Authorization': `Bearer ${Cookies.get("authtoken")}`}
-    });
     useEffect(() => {
         // kiểm tra token hết hạn và tài khoản username có bị cheat ở cookie hay ko?
-         if((user.complete && user.error === false && user.data.code === 0)) {
-            dispatch({type: "SAVE", user: user.data.result});
-        } else if(Cookies.get("username") && user.complete && user.error === false && user.data.code !== 0) {
-            const {value: accept} = Swal.fire({
-                title: "Thông báo",
-                text: "Không đúng tài khoản",
-                icon: "error"
-              });
-              Cookies.remove("authtoken");
-              Cookies.remove("username");
-              dispatch({type: "DELETE"});
-        }
-    }, [user]);
+        profile.then((res) => {
+            if(res.error !== true && res.data.code === 0) {
+                dispatch({type: "SAVE", user: res.data.result});
+            } else if((res.error === true || res.data.code !== 0) && Cookies.get("authtoken")) {
+                alertNotify("Thông báo", "Tài khoản hết hạn truy cập", "warning");
+                Cookies.remove("authtoken");
+                Cookies.remove("username");
+                dispatch({type: "DELETE"}); // xoá tài khoản lưu trong store
+            }
+        })
+    }, [profile]);
     return (
         <Switch>
             <Route path="/sanpham">
@@ -73,7 +65,7 @@ const Direction = () => {
             <Home />
             </Route>
             {
-                user.data === null || user.data.code !== 0 ?
+                !Cookies.get("authtoken") ?
                 (
                     <Route path="/dangnhap">
                     <Login/>
@@ -86,7 +78,7 @@ const Direction = () => {
                 )
             }
             {
-                !Cookies.get("username") ?
+                !Cookies.get("authtoken") ?
                 (
                     <Route path="/dangky">
                         <Signup/>

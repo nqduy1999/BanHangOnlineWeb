@@ -4,26 +4,21 @@ import { useLocation, Link } from 'react-router-dom';
 
 import { withCookies } from 'react-cookie';
 
-import useEndpoint from '../../services/useEndpoint';
 import HashLoader from "react-spinners/HashLoader";
 import ProductCard from './ProductCard';
 import dataTest from './datatest.json';
+import { getALlProduct } from '../../services/productServices';
 const ProductSection = (props) => {
   let useQuery = () => {
     return new URLSearchParams(useLocation().search);
   }
   const id = useQuery();
     const [pages, setPages] = useState([]);
-    const urlProduct = `http://localhost:8080/api/sanpham/trang?index=${id.get("index")}`;
     // lấy page hiện tại đang hiển thị
     const [currentPage, setCurrentPage] = useState(0);
     //loading
     const [loading, setLoading] = useState(true);
     // lấy danh sách sản phẩm hiển thị
-    const listProduct = useEndpoint({
-      url: urlProduct,
-      method: "GET"
-    });
 
     // hiển thị tổng số trang
     let genPage = (total) => {
@@ -41,13 +36,17 @@ const ProductSection = (props) => {
     let handleMoveRight = () => {
       return (currentPage + 1) > (pages.length - 1) ? currentPage : (currentPage + 1);
     }
+    const [listProduct, setListProduct] = useState([]);
     // lấy tổng số page
     useEffect(() => {
       setLoading(false);
-      if(listProduct.complete) {
-        genPage(listProduct.data.totalPages);
-      }
-    }, [listProduct])
+      getALlProduct(id.get("index")).then((res) => {
+        if(res.error !== true) {
+          setListProduct(res.data.content)
+          genPage(res.data.totalPages);
+        }
+      });
+    }, [])
     return loading ?
         (
           <div className="container pl-5 pb-5">
@@ -94,7 +93,7 @@ const ProductSection = (props) => {
                 </div>
               </div>
               <div className="row mb-5">
-                {listProduct.complete && listProduct.data.content.sort((a, b) => {
+                {listProduct.sort((a, b) => {
                   // đang test
                   let nameA = a.tenSanPham.toUpperCase(); // bỏ qua hoa thường
                   let nameB = b.tenSanPham.toUpperCase(); // bỏ qua hoa thường

@@ -13,28 +13,25 @@ import "../resource/css/owl.carousel.min.css"
 import "../resource/css/owl.theme.default.min.css"
 import "../resource/css/mdb.min.css"
 import "../resource/css/mdb.lite.min.css"
-import useEndpoint from '../services/useEndpoint';
 import Cookies from 'js-cookie';
-import postToDoEndpoint from '../services/postToDoEndpoint';
+import { getOrder } from '../services/productServices';
 const Header = () => {
   const stateAuth = useSelector(state => state.auth);
   const stateCart = useSelector(state => state.cart);
   const dispatch = useDispatch();
   // các url api
-  const urlData = "http://localhost:8080/api/giohang/dulieu";
   const [inventory, setInventory] = useState(0);
-  const order = useEndpoint({
-    url: urlData,
-    method: "GET"
-  });
+  const order = getOrder();
   useEffect(() => {
-    if(order.complete && order.error === false && order.data.code === 0) {
-      let total = 0;
-      order.data.result.danhsachCTHD.map((item) => {
-        total += item.soLuong;
-      })
-      setInventory(total);
-    }
+    order.then((res) => {
+      if(res.error === false && res.data.code === 0) {
+        let total = 0;
+        res.data.result.danhsachCTHD.map((item) => {
+          total += item.soLuong;
+        })
+        setInventory(total);
+      }
+    });
   }, [order]);
 
   let logout = ()  => {
@@ -64,7 +61,7 @@ const Header = () => {
           <div className="site-top-icons">
             <ul>
             {
-              stateAuth.user ? 
+              stateAuth.user ?
               (
                 <span>
                 <li className="pr-2"><span>{stateAuth.user.taiKhoan.taiKhoan}</span></li>

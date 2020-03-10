@@ -6,51 +6,41 @@ import { useForm } from "react-hook-form";
 
 import Cookies from 'js-cookie';
 
-import Swal from 'sweetalert2';
-
 import HashLoader from "react-spinners/HashLoader";
 
-import postToDoEndpoint from '../../services/postToDoEndpoint';
+import { login } from '../../services/userServices';
+import { useDispatch } from 'react-redux';
+import { alertNotify } from '../../untils/alert';
 const Login = (props) => {
   // React form
     const { register, handleSubmit, errors } = useForm();
-    const url = "http://localhost:8080/api/dangnhap";
     const [resutl, setResutl] = useState();
-    // Hàm custom dùng sẵn
-    const [login, postLogin] = postToDoEndpoint(url);
     //loading
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
     // Đăng nhập
     const onSubmit = data => {
-        postLogin(data);
+        login(data).then((res) => {
+            setLoading(false);
+            // kiểm tra lỗi từ server
+            if(res.error !== true && res.data.code !== 0) {
+              setResutl(res.data.message);
+            } else {
+              Cookies.set('authtoken', res.data.message); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
+              Cookies.set('username', res.data.result.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
+              //thông báo
+              alertNotify("Thông báo", "Đăng nhập thành công", "success");
+              dispatch({type: "SAVE", user: {taiKhoan: {
+                taiKhoan: data.taiKhoan
+              }}});
+              // chuyển hướng
+              props.history.push('/trangchu');
+            }
+        });
     }; // your form submit function which will invoke after successful validation
     useEffect(() => {
       setLoading(false);
     }, []);
-    useEffect(() => {
-      if(login.complete && login.error !== true) {
-        setLoading(false);
-        // kiểm tra lỗi từ server
-        if(login.data.code !== 0) {
-          setResutl(login.data.message);
-        } else {
-          Cookies.set('authtoken', login.data.message); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
-          Cookies.set('username', login.data.result.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
-          //thông báo
-          Swal.fire({
-            title: "Thông báo",
-            text: "Đăng nhập thành công",
-            icon: "success"
-          });
-          // chuyển hướng
-          props.history.push('/trangchu');
-        }
-      } else {
-        if(login.complete && login.error !== false) {
-          setResutl("Lỗi truy cập, bạn không được phép truy cập");
-        }
-      }
-    }, [login])
     return loading ?
       (
         <div className="container pl-5 pb-5">

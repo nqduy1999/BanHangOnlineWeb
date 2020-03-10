@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 import { useLocation, withRouter } from 'react-router-dom';
 
-import Axios from 'axios';
-
-import postToDoEndpoint from '../../services/postToDoEndpoint';
-import useEndpoint from '../../services/useEndpoint';
 import HashLoader from "react-spinners/HashLoader";
 import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
+import { getProductDetail } from '../../services/productServices';
+import { addProductToCart } from '../../services/cartServices';
 const ProductDetails = (props) => {
     // lấy query String
     let useQuery = () => {
@@ -19,89 +17,81 @@ const ProductDetails = (props) => {
     const [message, setMessage] = useState("");
     //loading
     const [loading, setLoading] = useState(true);
-    // url api
-    const url = `http://localhost:8080/api/quanly/sanpham/chitiet?id=${id.get("id")}`;
-    const urlGioHang = "http://localhost:8080/api/giohang/them";
     // lấy thông tin chi tiết của sản phẩm
-    const product = useEndpoint({
-      method: 'GET',
-      url: url
-    })
+    const [product, setProduct] = useState({});
     const [chiTietHoaDon, setChiTietHoaDon] = useState({
       sanPham: product.data,
       donGia: 0,
       soLuong: 1
     })
-    const [newTodo, postNewTodo] = postToDoEndpoint(urlGioHang);
     // xử lý input nhập số lượng
     // action tăng là dấu + và giảm là dấu -
     let handleUpdateQuantity = (quantityInput, action) => {
       const quantity = chiTietHoaDon.soLuong;
-      const inventory = product.data.soLuongTon;
+      const inventory = product.soLuongTon;
       // các trường hợp tăng giảm phải dừng ở 1 hoặc số lượng tồn kho
       if(action === "tang") {
         if(quantity >= 1 && quantity < inventory) {
           setChiTietHoaDon({...chiTietHoaDon,
-            sanPham: product.data,
-            donGia: product.data.giaSanPham * (quantity + 1),
+            sanPham: product,
+            donGia: product.giaSanPham * (quantity + 1),
             soLuong: quantity + 1
           })
         }
       } else if(action === "giam") {
         if(quantity > 1 && quantity <= inventory) {
           setChiTietHoaDon({...chiTietHoaDon,
-            sanPham: product.data,
-            donGia:product.data.giaSanPham * (quantity - 1),
+            sanPham: product,
+            donGia:product.giaSanPham * (quantity - 1),
             soLuong: quantity - 1
           })
 
         }
       } else {
         setChiTietHoaDon({...chiTietHoaDon,
-          sanPham: product.data,
-          donGia: product.data.giaSanPham * Number(quantityInput),
+          sanPham: product,
+          donGia: product.giaSanPham * Number(quantityInput),
           soLuong: Number(quantityInput)
         })
       }
       // khi nhập vượt quá só lượng tồn hoặc nhỏ hơn 1 sẽ set về mặc định
       if(Number(quantityInput) > inventory) {
         setChiTietHoaDon({...chiTietHoaDon,
-          sanPham: product.data,
-          donGia: product.data.giaSanPham * inventory,
+          sanPham: product,
+          donGia: product.giaSanPham * inventory,
           soLuong: inventory
         })
       } else if(Number(quantityInput) <= 0) {
         setChiTietHoaDon({...chiTietHoaDon,
-          sanPham: product.data,
-          donGia: product.data.giaSanPham * 1,
+          sanPham: product,
+          donGia: product.giaSanPham * 1,
           soLuong: 1
         })
       }
     }
     useEffect(() => {
       setLoading(false);
-      if(product.data != null) {
-        setChiTietHoaDon({...chiTietHoaDon,
-          sanPham:  product.data,
-          donGia: product.data.giaSanPham,
-          soLuong: 1
-        })
-      }
-    }, [product]);
-    // set NewTodo cơ chế react cập nhật state khá chậm nên cần phải check trong đây thay vì check trong hàm onAddOrderDetailsToShoppingCard
-    useEffect(() => {
-      if(newTodo.complete && newTodo.error !== true && newTodo.data.code !== 0) {
-        setMessage(newTodo.data.code);
-      } else if(newTodo.complete && newTodo.error !== true && newTodo.data.code === 0) {
-        props.history.push("/giohang"); // direct
-      }
-    }, [newTodo]);
+      getProductDetail(id.get("id")).then((res) => {
+        console.log(res);
+        if(res.error !== true && res.data.code === 0) {
+          setProduct(res.data.result);
+          setChiTietHoaDon({...chiTietHoaDon,
+            sanPham:  res.data.result,
+            donGia: res.data.result.giaSanPham,
+            soLuong: 1
+          })
+        }
+      })
+    }, []);
     // thêm chi tiết hoá đơn vào giỏ hàng
     let onAddOrderDetailsToShoppingCard = () => {
-                // kiểm tra số lượng hợp lệ
-        // Bật true để trình duyệt tự động add Set-Cookie JSESSION Id vào cookie web (gg xem thêm)
-        Axios.defaults.withCredentials = true;
-        postNewTodo(chiTietHoaDon);
+      addProductToCart(chiTietHoaDon).then((res) => {
+        if(res.error !== true && res.data.code !== 0) {
+          setMessage(res.data.message);
+        } else if(res.error !== true && res.data.code === 0) {
+          props.history.push("/giohang"); // direct
+        }
+      });
     }
     return loading ?
           (
@@ -126,10 +116,10 @@ const ProductDetails = (props) => {
                   <img src={bao_thu_a3} alt="Image" className="img-fluid" />
                 </div>
                 <div className="col-md-6">
-                  <h2 className="text-black">{product.complete && product.data.tenSanPham}</h2>
-                  <p>{product.complete && product.data.moTa}</p>
+                  <h2 className="text-black">{product.tenSanPham}</h2>
+                  <p>{product.moTa}</p>
                   <p className="mb-4">Ex numquam veritatis debitis minima quo error quam eos dolorum quidem perferendis. Quos repellat dignissimos minus, eveniet nam voluptatibus molestias omnis reiciendis perspiciatis illum hic magni iste, velit aperiam quis.</p>
-                  <p><strong className="text-primary h4">{product.complete && product.data.giaSanPham}</strong></p>
+                  <p><strong className="text-primary h4">{product.giaSanPham}</strong></p>
                   <div className="mb-5 ml-5">
                     <div className="input-group mb-3" style={{maxWidth: 120}}>
                       <div className="input-group-prepend">

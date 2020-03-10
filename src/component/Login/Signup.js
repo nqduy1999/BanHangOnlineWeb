@@ -4,51 +4,36 @@ import { useForm } from "react-hook-form";
 
 import { withRouter, Link } from 'react-router-dom';
 
-import Swal from 'sweetalert2';
-
 import HashLoader from "react-spinners/HashLoader";
 
-import postToDoEndpoint from '../../services/postToDoEndpoint';
-
+import { signup } from '../../services/userServices';
+import { alertNotify } from '../../untils/alert';
 const Signup = (props) => {
   // react form
     const { handleSubmit, register, errors, watch } = useForm();
-    const url = "http://localhost:8080/api/dangky";
     const [resutl, setResutl] = useState();
     //loading
     const [loading, setLoading] = useState(true);
-    // Hàm custom dùng sẵn
-    const [signup, postSignUp] = postToDoEndpoint(url);
     // Đăng ký
     const onSubmit = data =>{
-      postSignUp(data);
+      setLoading(true);
+      signup(data).then((res) => {
+          setLoading(false);
+          if(res.error !== true && res.data.code !== 0) {
+            setResutl(res.data.message);
+          } else {
+            // thông báo
+            alertNotify("Thông báo", "Đăng ký thành công", "success");
+            // chuyển hướng
+            props.history.push('/dangnhap');
+          }
+      });
     }
     useEffect(() => {
       setLoading(false);
     }, []);
-    useEffect(() => {
-      if(signup.pending) {
-        setLoading(true);
-      } else {
-        setLoading(false);
-      }
-      if(signup.complete) {
-        setLoading(false);
-        if(signup.data.code !== 0) {
-          setResutl(signup.data.message);
-        } else {
-          // thông báo
-          Swal.fire({
-            title: "Thông báo",
-            text: "Đăng ký thành công",
-            icon: "success"
-          });
-          // chuyển hướng
-          props.history.push('/dangnhap');
-        }
-      }
-    }, [signup]);
-          return loading ?
+
+    return loading ?
           (
             <div className="container pl-5 pb-5">
               <div className="row">

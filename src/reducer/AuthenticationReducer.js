@@ -9,10 +9,7 @@ const AuthenticationReducer = (state = initialState, action) => {
         user: action.user
       };
     case "DELETE":
-      return {
-        ...state,
-        user: null
-      };
+      return {};
     default:
       return state
   }

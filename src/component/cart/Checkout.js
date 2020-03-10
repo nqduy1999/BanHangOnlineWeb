@@ -8,13 +8,9 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { useForm } from 'react-hook-form';
 
-import postToDoEndpoint from '../../services/postToDoEndpoint';
-import useEndpoint from '../../services/useEndpoint';
+import { getAllCart } from '../../services/cartServices';
+import { getListCity, getListDistrict, getListWard } from '../../services/checkoutServices';
 const Checkout = () => {
-    const urlCity = "http://localhost:8080/api/diachi/thanhpho";
-    const urlDistrict = "http://localhost:8080/api/diachi/quanhuyen";
-    const urlWard =  "http://localhost:8080/api/diachi/thitran";
-
     // React form
     const { register, handleSubmit, errors } = useForm();
     const [address, setAddress] = useState({
@@ -24,40 +20,32 @@ const Checkout = () => {
       khuPho: "",
       duongSoNha: ""
     });
-    const onSubmit = data => {
+    const onSubmit = values => {
       let orderCheckout = {
         ngayLapHoaDon: null,
-        tongTien: order.data.result.tongTien,
-        danhsachCTHD: order.data.result.danhsachCTHD,
+        tongTien: data.tongTien,
+        danhsachCTHD: data.danhsachCTHD,
         khachHang: null,
         diaChi: address,
-        ghiChu: data.note,
-        cachThucThanhToan: data.pay
+        ghiChu: values.note,
+        cachThucThanhToan: values.pay
       }
-      console.log(orderCheckout);
     };
     // lấy danh sách thành phố
-    const city = useEndpoint({
-      method: "GET",
-      url: urlCity
-    })
     const [dataCity, setDataCity] = useState([]);
-    // lấy danh sách quận huyện thuộc thành phố
-    const [listDistrict, postIdCityGetDistrict] = postToDoEndpoint(urlDistrict,  {"Content-Type": "text/plain"});
     // lấy danh sách thị trấn thuộc quận huyện
-    const [listWard, postIdDistrictGetWard] = postToDoEndpoint(urlWard,  {"Content-Type": "text/plain"});
+    const [dataDistrict, setDataDistrict] = useState([]);
     // lưu danh sách thị trấn
     const [dataWard, setDataWard] = useState([]);
-    // lưu danh sách quận huyện vào biến
-    const [dataDistrict, seDataDistrict] = useState([]);
-    // các url api
-    const urlData = "http://localhost:8080/api/giohang/dulieu";
     //loading
     const [loading, setLoading] = useState(true);
-    // lấy danh sách sản phẩm đã đặt mua từ session lên checkout
-    const order = useEndpoint({
-      url: urlData,
-      method: "GET"
+    // order
+    const [data, setData] = useState({
+      maHoaDon: '',
+      ngayLapHoaDon: '',
+      tongTien: 0,
+      danhsachCTHD: [],
+      khachHang: null
     });
     // lấy danh sách quận huyện thuộc thành phố
     const getListDistrictByCity = (values) => {
@@ -65,7 +53,13 @@ const Checkout = () => {
         setAddress({...address,
           tinhThanhPho: values.name
         })
-        postIdCityGetDistrict(values.code);
+        getListDistrict(values.code).then((res) => {
+          if(res.error !== true && res.data.code === 0) {
+            let objDistrict = JSON.parse(res.data.result);
+            let arrayDistrict = Object.keys(objDistrict).map(key => objDistrict[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
+            setDataDistrict(arrayDistrict);
+          }
+        });
       }
     }
     // lấy danh sách quận huyện thuộc thành phố
@@ -74,32 +68,36 @@ const Checkout = () => {
         setAddress({...address,
           quanHuyen: values.name
         })
-        postIdDistrictGetWard(values.code);
+        getListWard(values.code).then((res) => {
+          if(res.error !== true && res.data.code === 0) {
+            let objWard = JSON.parse(res.data.result);
+            let arrayWard = Object.keys(objWard).map(key => objWard[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
+            setDataWard(arrayWard);
+          }
+        });
       }
     }
-
     useEffect(() => {
-      if(listWard.complete && listWard.error !== true && listWard.data.code === 0) {
-        let objWard = JSON.parse(listWard.data.message);
-        let arrayWard = Object.keys(objWard).map(key => objWard[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
-        setDataWard(arrayWard);
-      }
-    }, [listWard]);
-    useEffect(() => {
-      if(listDistrict.complete && listDistrict.error !== true && listDistrict.data.code === 0) {
-        let objDistrict = JSON.parse(listDistrict.data.message);
-        let arrayDistrict = Object.keys(objDistrict).map(key => objDistrict[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
-        seDataDistrict(arrayDistrict);
-      }
-    }, [listDistrict]);
-    useEffect(() => {
-      if(city.complete && city.error !== true && city.data.code === 0) {
-        let objCity = JSON.parse(city.data.message);
-        let arrayCity = Object.keys(objCity).map(key => objCity[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
-        setDataCity(arrayCity);
-      }
+      getAllCart().then((res) => {
+        if(res.error !== true && res.data.code === 0) {
+          setData({...data,
+            maHoaDon: res.data.result.maHoaDon,
+            ngayLapHoaDon: res.data.result.ngayLapHoaDon,
+            tongTien: res.data.result.tongTien,
+            danhsachCTHD: res.data.result.danhsachCTHD,
+            khachHang: res.data.result.khachHang
+          });
+        }
+      });
+      getListCity().then((res) => {
+        if(res.error !== true && res.data.code === 0) {
+          let objCity = JSON.parse(res.data.result);
+          let arrayCity = Object.keys(objCity).map(key => objCity[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
+          setDataCity(arrayCity);
+        }
+      });
       setLoading(false);
-    }, [city]);
+    }, []);
     return loading ?
         (
           <div className="container pl-5 pb-5">
@@ -179,7 +177,7 @@ const Checkout = () => {
                           <th>Tổng tiền</th>
                         </tr></thead>
                       <tbody>
-                        {order.complete && order.data.code === 0 && order.data.result.danhsachCTHD.map((item, key) => (
+                        {data.danhsachCTHD.map((item, key) => (
                           <tr key={key}>
                           <td>{item.sanPham.tenSanPham}<strong className="mx-2">x</strong> {item.soLuong}</td>
                           <td>{item.donGia}</td>
@@ -188,11 +186,11 @@ const Checkout = () => {
                         }
                         <tr>
                           <td className="text-black font-weight-bold"><strong>Tổng tiền giỏ hàng</strong></td>
-                          <td className="text-black">{order.complete && order.data.result.tongTien}</td>
+                          <td className="text-black">{data.tongTien}</td>
                         </tr>
                         <tr>
                           <td className="text-black font-weight-bold"><strong>Tổng tiền phải trả</strong></td>
-                          <td className="text-black font-weight-bold"><strong>{order.complete && order.data.result.tongTien}</strong></td>
+                          <td className="text-black font-weight-bold"><strong>{data.tongTien}</strong></td>
                         </tr>
                       </tbody>
                     </table>
