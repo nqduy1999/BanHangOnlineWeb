@@ -11,8 +11,8 @@ import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Home from '../pages/Home';
 import Product from '../pages/Product';
-import Login from '../component/login/Login';
-import Signup from '../component/login/Signup';
+import Login from '../component/Login/Login.js'
+import Signup from '../component/Login/Signup';
 import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';

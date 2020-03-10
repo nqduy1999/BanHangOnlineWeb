@@ -1,26 +1,28 @@
 import React from 'react';
+import { getListProduct, removeProduct } from "../../../services/AdminService";
+const ProductItem = (props) => {
 
-const ProductItem = () => {
-  // const {
-  //   id, tenSanpham, gia, soLuong, hinhAnh
-  // }= this.props.item;
     return (
-         <tr>
-  <th scope="row">hi</th>
-  <td>haha</td>
-  <td>hi</td>
-  <td>15</td>
-  <td>
-        <button
-                      className=" btn-danger">
-          Xoá
-        </button>
-      </td>
-      <td>
-        <button className="btn-primary" data-toggle="modal" data-target="#themsanpham"
-        >Sửa</button>
-      </td>
-</tr>
+        <tbody>
+            <tr>
+                <th scope="row">{props.maSanPham}</th>
+                <td>{props.tenSanPham}</td>
+                <td>{props.moTa}</td>
+                <td>{props.giaSanPham}</td>
+                <td>{props.soLuongTon}</td>
+                <td></td>
+                <td>
+                    <button onClick={()=>{props.removePd(props.maSanPham)}}
+                        className=" btn-danger">
+                        Xoá
+                    </button>
+                </td>
+                <td>
+                    <button className="btn-primary" data-toggle="modal" data-target="#themsanpham"
+                    >Sửa</button>
+                </td>
+            </tr>
+        </tbody>
     );
 };
 

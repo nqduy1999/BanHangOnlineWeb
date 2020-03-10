@@ -93,6 +93,7 @@ const ProductSection = (props) => {
                 </div>
               </div>
               <div className="row mb-5">
+                {console.log(listProduct)}
                 {listProduct.sort((a, b) => {
                   // đang test
                   let nameA = a.tenSanPham.toUpperCase(); // bỏ qua hoa thường

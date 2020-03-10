@@ -1,67 +1,87 @@
 import React from 'react';
-import ModalAddProduct from './ModalAddProduct.js';
-import SearchProduct from './SearchProduct.js';
-import { useState } from 'react';
-import ProductTable from './ProductTable.js';
-import hinh from "../../../resource/images/but_3_cay.jpg"
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import dataHinh from './datatest.json'
+import HashLoader from "react-spinners";
+import { getListProduct, removeProduct } from "../../../services/AdminService";
+import ProductItem from './ProductItem';
+import { getALlProduct } from '../../../services/productServices';
 const Product = (props) => {
-    const [useList, setUserList]=useState(
-        [
-        {
-            id:Math.random(),
-            tenSanpham: "But",
-            gia: 1000,
-            soluong: 10,
-            hinhAnh:{hinh},
-        },
-        {
-            id:Math.random(),
-            tenSanpham: "Viet",
-            gia: 1000,
-            soluong: 10,
-            hinhAnh:{hinh},
-        },
-    ]
-        )
-    const [user, updateUser]=useState(null);
-    const [filter, setFilter]= useState([]);
-    const [keyWord, setKeyWord]=useState('');
-    const _addUser = user =>{
-        const CloneUserList = [...useList];
-        CloneUserList.push(user);
-        setUserList({
-            useList:CloneUserList
+    const [listdata, setData] = useState([{
+        maSanPham: "",
+        tenSanPham: "",
+        moTa: "",
+        giaSanPham: 0,
+        soLuongTon: 0,
+        nhaCungCap: null,
+        hinhAnh: null,
+        loaiSanPham: null
+    }])
+    let removePd = id =>{
+        removeProduct(id)
+        .then(async res=>{
+            if(res.error !==true ){
+            console.log(res.data);
+            
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+            
         })
     }
-    const _updateUser = userId =>{
-        const index = useList.findIndex(item => item.id === userId);
-        index !==-1 && setUserList(preState => (preState.useList[index]= userId))
-    }
+    useEffect(() => {
+        getListProduct()
+            .then((res) => {
+                if (res.error !== true) {
+                    setData(res.data)
+                }
+            })
+    }, [])
+
     return (
         <div>
-        <div className="d-flex flex-row bd-highlight mb-3">
-  <div className="p-2 bd-highlight">        
-  <h1>Danh sách sản phẩm </h1>
-  </div>
-  <div className="p-2 bd-highlight ml-5 mt-2 pl-5 pr-5">
-      <SearchProduct/>
-  </div>
-  <div className="p-2 bd-highlight ml-5">
-  <button
-            className="btn btn-success"
-            data-toggle="modal"
-            data-target="#themsanpham">
-    Thêm sản phẩm
+            <div className="d-flex flex-row bd-highlight mb-3">
+                <div className="p-2 bd-highlight">
+                    <h1>Danh sách sản phẩm </h1>
+                </div>
+                <div className="p-2 bd-highlight ml-5 mt-2 pl-5 pr-5">
+                    <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
+                </div>
+                <div className="p-2 bd-highlight ml-5">
+                    <button
+                        className="btn btn-success"
+                        data-toggle="modal"
+                        data-target="#themsanpham">
+                        Thêm sản phẩm
     </button>
-  </div>
+                </div>
+
+            </div>
+            <div>
+                <table className="table table-light">
+                    <thead>
+                        <tr>
+                            <td scope="col">Mã Sản Phẩm</td>
+                            <td scope="col">Tên</td>
+                            <td scope="col">Mô Tả</td>
+                            <td scope="col">Giá</td>
+                            <td scope="col">Số Lượng</td>
+                            <td scope="col">Hình Ảnh</td>
+                            <td> Cập Nhật
+      </td>
+                        </tr>
+                    </thead>
+                    {listdata.map((item, i) => {
+                        console.log(listdata);
+                        return (
+                            <ProductItem key={i} maSanPham={item.maSanPham} tenSanPham={item.tenSanPham} moTa={item.moTa} giaSanPham={item.giaSanPham} soLuongTon={item.soLuongTon} removePd={removePd}/>
+                        )
+                    })}
+                </table>
+            </div>
 
         </div>
-    <ProductTable useList={{useList},{...props}}>{console.log(useList)
-    }</ProductTable>
-        <ModalAddProduct 
-        _addUser={_addUser}
-        />
-    </div>
     );
 
 };
