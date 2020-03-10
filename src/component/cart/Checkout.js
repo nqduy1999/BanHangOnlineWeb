@@ -3,11 +3,10 @@ import { TextField } from '@material-ui/core';
 
 import React, { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
 
 import HashLoader from "react-spinners/HashLoader";
 
-import Axios from 'axios';
+import { useForm } from 'react-hook-form';
 
 import postToDoEndpoint from '../../services/postToDoEndpoint';
 import useEndpoint from '../../services/useEndpoint';
@@ -15,6 +14,28 @@ const Checkout = () => {
     const urlCity = "http://localhost:8080/api/diachi/thanhpho";
     const urlDistrict = "http://localhost:8080/api/diachi/quanhuyen";
     const urlWard =  "http://localhost:8080/api/diachi/thitran";
+
+    // React form
+    const { register, handleSubmit, errors } = useForm();
+    const [address, setAddress] = useState({
+      tinhThanhPho: "",
+      quanHuyen: "",
+      phuongXa: "",
+      khuPho: "",
+      duongSoNha: ""
+    });
+    const onSubmit = data => {
+      let orderCheckout = {
+        ngayLapHoaDon: null,
+        tongTien: order.data.result.tongTien,
+        danhsachCTHD: order.data.result.danhsachCTHD,
+        khachHang: null,
+        diaChi: address,
+        ghiChu: data.note,
+        cachThucThanhToan: data.pay
+      }
+      console.log(orderCheckout);
+    };
     // lấy danh sách thành phố
     const city = useEndpoint({
       method: "GET",
@@ -41,12 +62,18 @@ const Checkout = () => {
     // lấy danh sách quận huyện thuộc thành phố
     const getListDistrictByCity = (values) => {
       if(values !== null) { // khi nhấn dấu x để xoá sẽ lỗi
+        setAddress({...address,
+          tinhThanhPho: values.name
+        })
         postIdCityGetDistrict(values.code);
       }
     }
     // lấy danh sách quận huyện thuộc thành phố
     const getListWardByDistrict = (values) => {
       if(values !== null) { // khi nhấn dấu x để xoá sẽ lỗi
+        setAddress({...address,
+          quanHuyen: values.name
+        })
         postIdDistrictGetWard(values.code);
       }
     }
@@ -97,26 +124,17 @@ const Checkout = () => {
               </h1>
             </div>
           </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row">
             <div className="col-md-6 mb-5 mb-md-0">
               <h2 className="h3 mb-3 text-black">Chi tiết hoá đơn</h2>
               <div className="p-3 p-lg-5 border">
-                <div className="form-group row">
-                  <div className="col-md-6">
-                    <label htmlFor="c_fname" className="text-black">Tên <span className="text-danger">*</span></label>
-                    <TextField className="form-control" label="Tên" size="small" variant="outlined" />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="c_lname" className="text-black">Họ và tên đệm <span className="text-danger">*</span></label>
-                    <TextField className="form-control" label="Họ và tên đệm" size="small" variant="outlined" />
-                  </div>
-                </div>
                 <div className="form-group">
                     <label htmlFor="c_country" className="text-black">Tỉnh/Thành Phố <span className="text-danger">*</span></label>
                     <Autocomplete onChange={(e, values) => {getListDistrictByCity(values)}} id="combo-box-city"
                     options={dataCity}
                     getOptionLabel={option => option.name}
-                    renderInput={params => <TextField className="form-control"  {...params} label="Tỉnh/Thành Phố" size="small" variant="outlined" />}/>
+                    renderInput={params => <TextField className="form-control" {...params} label="Tỉnh/Thành Phố" size="small" variant="outlined" />}/>
                 </div>
                 <div className="form-group">
                   <label htmlFor="c_country" className="text-black">Quận/Huyện <span className="text-danger">*</span></label>
@@ -127,7 +145,7 @@ const Checkout = () => {
                   </div>
                 <div className="form-group">
                 <label htmlFor="c_country" className="text-black">Phường/Xã <span className="text-danger">*</span></label>
-                <Autocomplete id="combo-box-ward"
+                <Autocomplete onChange={(e, values) => {values !== null ? setAddress({...address, phuongXa: values.name}) : setAddress({...address})}}  id="combo-box-ward"
                   options={dataWard}
                   getOptionLabel={option => option.name}
                   renderInput={params => <TextField className="form-control" {...params} label="Phường/Xã" size="small" variant="outlined" />}/>
@@ -135,41 +153,18 @@ const Checkout = () => {
                 <div className="form-group row">
                   <div className="col-md-12">
                     <label htmlFor="c_address" className="text-black">Khu phố <span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" id="c_address" name="c_address" placeholder="Khu phố" />
+                    <input type="text" className="form-control" id="town" name="town" ref={register({ required: true })}  placeholder="Khu phố" />
                   </div>
                 </div>
                 <div className="form-group row">
                   <div className="col-md-12">
                     <label htmlFor="c_address" className="text-black">Địa chỉ <span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" id="c_address" name="c_address" placeholder="Tên đường" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <input type="text" className="form-control" placeholder="Tên toà nhà, phòng ban ( nếu là công ty )" />
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-6">
-                    <label htmlFor="c_state_country" className="text-black">Khu vực bạn sống<span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" id="c_state_country" name="c_state_country" />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="c_postal_zip" className="text-black">Mã Zip <span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" id="c_postal_zip" name="c_postal_zip" />
-                  </div>
-                </div>
-                <div className="form-group row mb-5">
-                  <div className="col-md-6">
-                    <label htmlFor="c_email_address" className="text-black">Email <span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" id="c_email_address" name="c_email_address" />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="c_phone" className="text-black">Số điện thoại <span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" id="c_phone" name="c_phone" placeholder="Số điện thoại của bạn" />
+                    <input type="text" className="form-control" id="street" name="street" ref={register({ required: true })} placeholder="Tên đường" />
                   </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="c_order_notes" className="text-black">Ghi chú</label>
-                  <textarea name="c_order_notes" id="c_order_notes" cols={30} rows={5} className="form-control" placeholder="Viết ghi chú giao hàng của bạn ở đây .... " defaultValue={""} />
+                  <textarea name="c_order_notes" id="c_order_notes" cols={30} rows={5} name="note" className="form-control" placeholder="Viết ghi chú giao hàng của bạn ở đây .... " defaultValue={""} />
                 </div>
               </div>
             </div>
@@ -262,14 +257,14 @@ const Checkout = () => {
                       </div>
                     </div>
                     <div className="form-group">
-                      <Link to ="/thongbao" className="btn btn-primary btn-lg py-3 btn-block">Đặt hàng</Link>
+                      <input className="btn btn-primary btn-lg py-3 btn-block" type="submit" value="Đặt hàng"/>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {/* </form> */}
+          </form>
         </div>
       </div>
     );

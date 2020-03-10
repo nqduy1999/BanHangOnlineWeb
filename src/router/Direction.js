@@ -29,7 +29,6 @@ const Direction = () => {
         headers: { 'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     });
     useEffect(() => {
-        console.log(user);
         // kiểm tra token hết hạn và tài khoản username có bị cheat ở cookie hay ko?
          if((user.complete && user.error === false && user.data.code === 0)) {
             dispatch({type: "SAVE", user: user.data.result});
