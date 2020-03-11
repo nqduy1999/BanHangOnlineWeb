@@ -42,14 +42,14 @@ export const removeProduct = (id) =>{
         }
     })
 }
-export const addProduct = () =>{
+export const addProduct = (value) =>{
     return axios({
         method: "POST",
-        url:`quanly/sanpham/them`
+        url:`quanly/sanpham/them`,
     })
-    .then((res) => {
+    .then(() => {
         return {
-            data: res.data,
+            data: value,
             error: false,
             complete: true
         };

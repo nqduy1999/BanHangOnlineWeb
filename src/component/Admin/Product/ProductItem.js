@@ -2,17 +2,18 @@ import React from 'react';
 import { getListProduct, removeProduct } from "../../../services/AdminService";
 import { useState } from 'react';
 const ProductItem = (props) => {
+    const {maSanPham, tenSanPham, moTa, giaSanPham, soLuongTon} = props.product
    return (
         <tbody>
             <tr>
-                <th scope="row">{props.maSanPham}</th>
-                <td>{props.tenSanPham}</td>
-                <td>{props.moTa}</td>
-                <td>{props.giaSanPham}</td>
-                <td>{props.soLuongTon}</td>
+                <th scope="row">{maSanPham}</th>
+                <td>{tenSanPham}</td>
+                <td>{moTa}</td>
+                <td>{giaSanPham}</td>
+                <td>{soLuongTon}</td>
                 <td></td>
                 <td>
-                    <button onClick={()=>{props.removePd(props.maSanPham)}} 
+                    <button onClick={()=>{props.removePd(maSanPham)}} 
                         className=" btn-danger">
                         Xoá
                     </button>

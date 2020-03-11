@@ -15,8 +15,8 @@ import { alertNotify } from '../untils/alert';
 import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';
-import Login from '../component/login/Login.js';
-import Signup from '../component/login/Signup.js';
+import Login from '../component/Login/Login';
+import Signup from '../component/Login/Signup';
 import ProductDetails from '../component/product/ProductDetails';
 const Direction = () => {
     const dispatch = useDispatch();
