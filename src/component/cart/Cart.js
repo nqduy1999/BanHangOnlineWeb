@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import HashLoader from "react-spinners/HashLoader";
 
-import but_bi from '../../resource/images/but_bi.jpg';
 import { getAllCart, update, remove } from '../../services/cartServices';
 import { alertYesNo } from '../../untils/alert';
+import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = (props) => {
     //loading
     const [loading, setLoading] = useState(true);
@@ -29,7 +29,6 @@ const Cart = (props) => {
     // xử lý tăng giảm và nhập dữ liêu trong input
     let handleUpdateCart = async (action, id, quantity, price) => {
         setIsUpdated(true);
-        setData({...data}); // gọi tới useEffect để update
         // mở này coi để hiểu tại s code như v
         // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
         // xử lý tổng tiền của toàn bộ
@@ -128,7 +127,7 @@ const Cart = (props) => {
       if(isUpdated === true) {
         getAllCart().then((res) => {
           if(res.error !== true && res.data.code === 0) {
-            changeInventoryOnHeader(data)
+            changeInventoryOnHeader(res.data.result)
             setData({...data,
               maHoaDon: res.data.result.maHoaDon,
               ngayLapHoaDon: res.data.result.ngayLapHoaDon,
@@ -140,7 +139,8 @@ const Cart = (props) => {
         });
         setIsUpdated(false);
       }
-    }, [data]); // [] chạy khi data thay đổi
+    }, [isUpdated]);
+    // [] chạy khi isUpdated thay đổi
 
     return loading ?
         (
