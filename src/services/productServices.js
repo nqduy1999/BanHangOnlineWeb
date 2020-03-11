@@ -1,5 +1,4 @@
 import axios from '../untils/axios';
-axios.defaults.withCredentials = true; //Bật true để trình duyệt tự động add Set-Cookie JSESSION Id vào cookie web (gg xem thêm)
 export const getOrder = () => {
     return axios({
         method: "GET",
