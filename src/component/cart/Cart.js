@@ -77,9 +77,10 @@ const Cart = (props) => {
     let removeProductFromCart = (id) => {
       remove(id)
       .then(async (res) => {
-        console.log(res);
         if(res.error !== true && res.data.code === 0) {
           const resutl = await res.data.result;
+          console.log(resutl);
+          
           setData({...data,
             tongTien: resutl.tongTien,
             danhsachCTHD: resutl.danhsachCTHD

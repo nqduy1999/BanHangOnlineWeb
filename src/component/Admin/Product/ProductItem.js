@@ -1,8 +1,8 @@
 import React from 'react';
 import { getListProduct, removeProduct } from "../../../services/AdminService";
+import { useState } from 'react';
 const ProductItem = (props) => {
-
-    return (
+   return (
         <tbody>
             <tr>
                 <th scope="row">{props.maSanPham}</th>
@@ -12,7 +12,7 @@ const ProductItem = (props) => {
                 <td>{props.soLuongTon}</td>
                 <td></td>
                 <td>
-                    <button onClick={()=>{props.removePd(props.maSanPham)}}
+                    <button onClick={()=>{props.removePd(props.maSanPham)}} 
                         className=" btn-danger">
                         Xoá
                     </button>

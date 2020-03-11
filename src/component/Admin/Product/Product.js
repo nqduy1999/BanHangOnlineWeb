@@ -1,11 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import dataHinh from './datatest.json'
 import HashLoader from "react-spinners";
 import { getListProduct, removeProduct } from "../../../services/AdminService";
 import ProductItem from './ProductItem';
-import { getALlProduct } from '../../../services/productServices';
 const Product = (props) => {
     const [listdata, setData] = useState([{
         maSanPham: "",
@@ -17,19 +15,34 @@ const Product = (props) => {
         hinhAnh: null,
         loaiSanPham: null
     }])
-    let removePd = id =>{
+    const [isUpdated, setIsUpdated] = useState(true); 
+    // let removePd = id =>{
+    //     removeProduct(id)
+    //     .then(async res=>{
+    //         console.log(res);
+    //         if(res.error !==true && res.data.code === 0 ){
+    //             const resutl = await res.data.result;
+    //             console.log(resutl);
+    //         }
+    //     })
+    //     .catch(err=>{
+    //         console.log(err);
+            
+    //     })
+    // }
+    let removePd = (id) => {
         removeProduct(id)
-        .then(async res=>{
-            if(res.error !==true ){
-            console.log(res.data);
+        .then(async (res) => {
+          if(res.error !== true && res.data.code === 0) {
+            const resutl = await res.data.result;
+            console.log(resutl);
             
-            }
+          }
         })
-        .catch(err=>{
-            console.log(err);
-            
+        .catch(err => {
+          console.log(err);
         })
-    }
+      };
     useEffect(() => {
         getListProduct()
             .then((res) => {
@@ -73,9 +86,8 @@ const Product = (props) => {
                         </tr>
                     </thead>
                     {listdata.map((item, i) => {
-                        console.log(listdata);
                         return (
-                            <ProductItem key={i} maSanPham={item.maSanPham} tenSanPham={item.tenSanPham} moTa={item.moTa} giaSanPham={item.giaSanPham} soLuongTon={item.soLuongTon} removePd={removePd}/>
+                            <ProductItem key={i} maSanPham={item.maSanPham} tenSanPham={item.tenSanPham} moTa={item.moTa} giaSanPham={item.giaSanPham} soLuongTon={item.soLuongTon} removePd={removePd} />
                         )
                     })}
                 </table>
