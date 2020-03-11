@@ -13,9 +13,10 @@ import { getListCity, getListDistrict, getListWard, payment } from '../../servic
 
 import { alertNotify } from '../../untils/alert';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const Checkout = (props) => {
     const dispatch = useDispatch();
+    const state = useSelector(state => state.auth);
     // React form
     const { register, handleSubmit, errors } = useForm();
     const [address, setAddress] = useState({
@@ -29,10 +30,9 @@ const Checkout = (props) => {
     const [paymentMethod, setPaymentMethod] = useState("Thanh toán khi nhận hàng")
     const onSubmit = values => {
       let orderCheckout = {
-        ngayLapHoaDon: null,
         tongTien: data.tongTien,
         danhsachCTHD: data.danhsachCTHD,
-        khachHang: null,
+        khachHang: state.user,
         diaChi: {...address,
           khuPho: values.town,
           duongSoNha: values.street
@@ -248,7 +248,7 @@ const Checkout = (props) => {
                           <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
                         </div>
                         <div className="col-2">
-                          <input type="radio" name="checkout" onClick={() => setPaymentMethod("Paypal")} defaultValue={1} id="c_ship_different_address" />
+                          <input type="radio" name="checkout" onChange={() => setPaymentMethod("Paypal")} defaultValue={1} id="c_ship_different_address" />
                         </div>
                       </div>
                       <div className="collapse" id="collapsepaypal">
@@ -263,7 +263,7 @@ const Checkout = (props) => {
                         <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapseorder" role="button" aria-expanded="false" aria-controls="collapseorder">Thanh toán khi nhận hàng </a></h3>
                         </div>
                         <div className="col-2">
-                          <input type="radio" name="checkout" onClick={() => setPaymentMethod("Thanh toán khi nhận hàng")} checked defaultValue={1} id="c_ship_different_address" />
+                          <input type="radio" name="checkout" onChange={() => setPaymentMethod("Thanh toán khi nhận hàng")} checked defaultValue={1} id="c_ship_different_address" />
                         </div>
                       </div>
                       <div className="collapse" id="collapseorder">

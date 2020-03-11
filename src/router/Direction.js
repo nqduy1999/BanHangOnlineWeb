@@ -47,11 +47,11 @@ const Direction = () => {
             <Contact />
             </Route>
             <Route path="/giohang">
-            <Cart />
+                <Cart />
             </Route>
             <Route path="/thanhtoan">
-            <Checkout />
-            </Route>
+                <Checkout />
+            </Route> 
             <Route path="/thongbao">
                 <Noti/>
             </Route>
