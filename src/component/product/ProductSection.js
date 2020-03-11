@@ -48,7 +48,7 @@ const ProductSection = (props) => {
           genPage(res.data.result.totalPages);
         }
       });
-    }, [])
+    }, [currentPage])
     return loading ?
         (
           <div className="container pl-5 pb-5">

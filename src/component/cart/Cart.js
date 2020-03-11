@@ -6,16 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import HashLoader from "react-spinners/HashLoader";
 
-import but_bi from '../../resource/images/but_bi.jpg';
 import { getAllCart, update, remove } from '../../services/cartServices';
 import { alertYesNo } from '../../untils/alert';
+import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = (props) => {
     //loading
     const [loading, setLoading] = useState(true);
     // kiểm tra số lượng của sản phẩm mua
     const [inventory, setInventory] = useState(1000);
     // kiểm tra là có phải vừa thực hiện action update hay ko?
-    const [isUpdated, setIsUpdated] = useState(true);
+    const [isUpdated, setIsUpdated] = useState(false);
     // data
     const [data, setData] = useState({
       maHoaDon: '',
@@ -29,7 +29,6 @@ const Cart = (props) => {
     // xử lý tăng giảm và nhập dữ liêu trong input
     let handleUpdateCart = async (action, id, quantity, price) => {
         setIsUpdated(true);
-        setData({...data}); // gọi tới useEffect để update
         // mở này coi để hiểu tại s code như v
         // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
         // xử lý tổng tiền của toàn bộ
@@ -124,10 +123,9 @@ const Cart = (props) => {
     //đây là khỏi chạy lần đầu khi load vô compoent Cart
     useEffect(() => {
       setLoading(false);
-      if(isUpdated === true) {
         getAllCart().then((res) => {
           if(res.error !== true && res.data.code === 0) {
-            changeInventoryOnHeader(data)
+            changeInventoryOnHeader(res.data.result)
             setData({...data,
               maHoaDon: res.data.result.maHoaDon,
               ngayLapHoaDon: res.data.result.ngayLapHoaDon,
@@ -137,9 +135,25 @@ const Cart = (props) => {
             });
           }
         });
-        setIsUpdated(false);
-      }
-    }, [data]); // [] chạy khi data thay đổi
+    }, []);
+      useEffect(() => {
+        if(isUpdated === true) {
+          getAllCart().then((res) => {
+            if(res.error !== true && res.data.code === 0) {
+              changeInventoryOnHeader(res.data.result)
+              setData({...data,
+                maHoaDon: res.data.result.maHoaDon,
+                ngayLapHoaDon: res.data.result.ngayLapHoaDon,
+                tongTien: res.data.result.tongTien,
+                danhsachCTHD: res.data.result.danhsachCTHD,
+                khachHang: res.data.result.khachHang
+              });
+            }
+          });
+          setIsUpdated(false);
+        }
+      }, [isUpdated]);
+    // [] chạy khi data thay đổi
 
     return loading ?
         (
