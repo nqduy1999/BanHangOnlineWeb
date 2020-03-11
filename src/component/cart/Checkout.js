@@ -2,15 +2,20 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
 
 import React, { useState, useEffect } from 'react';
-
-
+import { withRouter } from 'react-router-dom';
 import HashLoader from "react-spinners/HashLoader";
 
 import { useForm } from 'react-hook-form';
 
 import { getAllCart } from '../../services/cartServices';
-import { getListCity, getListDistrict, getListWard } from '../../services/checkoutServices';
-const Checkout = () => {
+
+import { getListCity, getListDistrict, getListWard, payment } from '../../services/checkoutServices';
+
+import { alertNotify } from '../../untils/alert';
+
+import { useDispatch } from 'react-redux';
+const Checkout = (props) => {
+    const dispatch = useDispatch();
     // React form
     const { register, handleSubmit, errors } = useForm();
     const [address, setAddress] = useState({
@@ -20,16 +25,29 @@ const Checkout = () => {
       khuPho: "",
       duongSoNha: ""
     });
+    const [note, setNote] = useState(""); // ghi chú
+    const [paymentMethod, setPaymentMethod] = useState("Thanh toán khi nhận hàng")
     const onSubmit = values => {
       let orderCheckout = {
         ngayLapHoaDon: null,
         tongTien: data.tongTien,
         danhsachCTHD: data.danhsachCTHD,
         khachHang: null,
-        diaChi: address,
-        ghiChu: values.note,
-        cachThucThanhToan: values.pay
+        diaChi: {...address,
+          khuPho: values.town,
+          duongSoNha: values.street
+        },
+        ghiChu: note,
+        cachThucThanhToan: paymentMethod
       }
+      payment(orderCheckout).then((res) => {
+        if(res.error !== true && res.data.code === 0) {
+          props.history.push("/thongbao");
+          dispatch({type: "CHANGE_INVENTORY", inventory: 0});
+        } else {
+          alertNotify("Thông báo", "Lỗi thanh toán vui lòng quay lại sau", "error");
+        }
+      })
     };
     // lấy danh sách thành phố
     const [dataCity, setDataCity] = useState([]);
@@ -161,8 +179,8 @@ const Checkout = () => {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="c_order_notes" className="text-black">Ghi chú</label>
-                  <textarea name="c_order_notes" id="c_order_notes" cols={30} rows={5} name="note" className="form-control" placeholder="Viết ghi chú giao hàng của bạn ở đây .... " defaultValue={""} />
+                  <label htmlFor="note" className="text-black">Ghi chú</label>
+                  <textarea name="note" id="note" cols={30} rows={5} onChange={(e) => {setNote(e.target.value)}} className="form-control" placeholder="Viết ghi chú giao hàng của bạn ở đây .... " defaultValue={""} />
                 </div>
               </div>
             </div>
@@ -200,7 +218,7 @@ const Checkout = () => {
                           <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Internet banking</a></h3>
                         </div>
                         <div className="col-2">
-                          <input type="radio" name="checkout" defaultValue={1} id="c_ship_different_address" />
+                          <input type="radio" onClick={() => setPaymentMethod("Internet banking")} name="checkout" defaultValue={1} id="c_ship_different_address" />
                         </div>
                       </div>
                       <div className="collapse" id="collapsebank">
@@ -215,7 +233,7 @@ const Checkout = () => {
                           <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Chuyển trực tiếp qua ngân hàng </a></h3>
                         </div>
                         <div className="col-2">
-                          <input type="radio" name="checkout" defaultValue={1} id="c_ship_different_address" />
+                          <input type="radio" name="checkout" onClick={() => setPaymentMethod("Chuyển trực tiếp qua ngân hàng")} defaultValue={1} id="c_ship_different_address" />
                         </div>
                       </div>
                       <div className="collapse" id="collapsecheque">
@@ -230,7 +248,7 @@ const Checkout = () => {
                           <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
                         </div>
                         <div className="col-2">
-                          <input type="radio" name="checkout" defaultValue={1} id="c_ship_different_address" />
+                          <input type="radio" name="checkout" onClick={() => setPaymentMethod("Paypal")} defaultValue={1} id="c_ship_different_address" />
                         </div>
                       </div>
                       <div className="collapse" id="collapsepaypal">
@@ -245,7 +263,7 @@ const Checkout = () => {
                         <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapseorder" role="button" aria-expanded="false" aria-controls="collapseorder">Thanh toán khi nhận hàng </a></h3>
                         </div>
                         <div className="col-2">
-                          <input type="radio" name="checkout" defaultValue={1} id="c_ship_different_address" />
+                          <input type="radio" name="checkout" onClick={() => setPaymentMethod("Thanh toán khi nhận hàng")} checked defaultValue={1} id="c_ship_different_address" />
                         </div>
                       </div>
                       <div className="collapse" id="collapseorder">
@@ -268,4 +286,4 @@ const Checkout = () => {
     );
 };
 
-export default Checkout;
+export default withRouter(Checkout);

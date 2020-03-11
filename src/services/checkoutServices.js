@@ -1,4 +1,5 @@
 import axios from "../untils/axios";
+import Cookies from 'js-cookie';
 
 const config = {
     "Content-Type": "text/plain"
@@ -50,6 +51,29 @@ export const getListWard = (id) => {
         url: `diachi/thitran?id=${id}`,
         id,
         headers: config
+    })
+    .then(async (res) => {
+        return {
+            data: res.data,
+            error: false,
+            complete: true
+        };
+    }).catch(async(err) => {
+        return {
+            data: null,
+            error: true,
+            complete: true
+        };
+    });
+}
+
+export const payment = (data) => {
+    return axios({
+        method: "POST",
+        url: `hoadon/thanhtoan`,
+        data,
+        withCredentials: true,
+        headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     })
     .then(async (res) => {
         return {
