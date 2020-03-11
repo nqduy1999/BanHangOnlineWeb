@@ -4,20 +4,20 @@ import { Switch, Route } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
-
 import { useDispatch } from 'react-redux';
-import { getProfile } from '../services/userServices';
+
 import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Home from '../pages/Home';
 import Product from '../pages/Product';
-import Login from '../component/Login/Login.js'
-import Signup from '../component/Login/Signup';
+import { getProfile } from '../services/userServices';
+import { alertNotify } from '../untils/alert';
 import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
 import Noti from '../component/cart/Noti';
+import Login from '../component/login/Login.js';
+import Signup from '../component/login/Signup.js';
 import ProductDetails from '../component/product/ProductDetails';
-import { alertNotify } from '../untils/alert';
 const Direction = () => {
     const dispatch = useDispatch();
     const profile = getProfile(Cookies.get("username"));

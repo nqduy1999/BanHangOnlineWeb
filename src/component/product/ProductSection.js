@@ -5,9 +5,11 @@ import { useLocation, Link } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
 
 import HashLoader from "react-spinners/HashLoader";
+
+import { getALlProduct } from '../../services/productServices';
+
 import ProductCard from './ProductCard';
 import dataTest from './datatest.json';
-import { getALlProduct } from '../../services/productServices';
 const ProductSection = (props) => {
   let useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -41,9 +43,9 @@ const ProductSection = (props) => {
     useEffect(() => {
       setLoading(false);
       getALlProduct(id.get("index")).then((res) => {
-        if(res.error !== true) {
-          setListProduct(res.data.content)
-          genPage(res.data.totalPages);
+        if(res.error !== true && res.data.code === 0) {
+          setListProduct(res.data.result.content)
+          genPage(res.data.result.totalPages);
         }
       });
     }, [])
@@ -93,7 +95,6 @@ const ProductSection = (props) => {
                 </div>
               </div>
               <div className="row mb-5">
-                {console.log(listProduct)}
                 {listProduct.sort((a, b) => {
                   // đang test
                   let nameA = a.tenSanPham.toUpperCase(); // bỏ qua hoa thường
