@@ -1,6 +1,4 @@
 import React from 'react';
-import { getListProduct, removeProduct } from "../../../services/AdminService";
-import { useState } from 'react';
 const ProductItem = (props) => {
     const {maSanPham, tenSanPham, moTa, giaSanPham, soLuongTon} = props.product
    return (
@@ -19,7 +17,9 @@ const ProductItem = (props) => {
                     </button>
                 </td>
                 <td>
-                    <button className="btn-primary" data-toggle="modal" data-target="#themsanpham"
+                    <button className="btn-primary" data-toggle="modal"
+                        data-target="#capnhat"
+                        onClick={()=> props.getUpdateUser(props.product)}
                     >Sửa</button>
                 </td>
             </tr>

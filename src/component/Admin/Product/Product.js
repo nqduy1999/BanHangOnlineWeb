@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { getListProduct, removeProduct, addProduct } from "../../../services/AdminService";
+import { getListProduct, removeProduct, addProduct, updateProduct } from "../../../services/AdminService";
 import ProductItem from "./ProductItem";
 import UpdateProduct from "./UpdateProduct";
 const Product = () => {
@@ -16,6 +16,7 @@ const Product = () => {
             loaiSanPham: null
         }
     ]);
+    const [updateUser, getUpdateUser]=useState(null)
     let removePd = id => {
         removeProduct(id)
             .then(async res => {
@@ -32,7 +33,24 @@ const Product = () => {
     const handleAddProduct=(value)=>{
         addProduct(value)
         .then(() => {
-            console.log("Them san pham thanh cong")            
+            getListProduct()
+            .then(res=>{
+                setData(res.data.result)
+            })
+            ;
+        })
+        .catch(err =>{
+            console.log(err);     
+        })
+    }
+    const handleUpdateProduct=(id, value)=>{
+        updateProduct(id, value)
+        .then(() => {
+            getListProduct()
+            .then(res=>{
+                setData(res.data.result)
+            })
+            ;
         })
         .catch(err =>{
             console.log(err);     
@@ -64,7 +82,8 @@ const Product = () => {
                     <button
                         className="btn btn-success"
                         data-toggle="modal"
-                        data-target="#modelId"
+                        data-target="#capnhat"
+                        onClick={()=> getUpdateUser(null)}
                     >
                         Thêm sản phẩm
           </button>
@@ -89,12 +108,17 @@ const Product = () => {
                                 key={i}
                                 product={item}
                                 removePd={removePd}
+                                getUpdateUser={getUpdateUser}
                             />
                         );
                     })}
                 </table>
             </div>
-            <UpdateProduct handleSubmit={handleAddProduct}/>
+            { listdata.map((item)=>{
+                return (
+            <UpdateProduct product={item} updateUser={updateUser} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct}/>
+                )
+        })}
         </div>
     );
 };

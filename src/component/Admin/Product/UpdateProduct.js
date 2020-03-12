@@ -1,21 +1,20 @@
 import React, {useEffect} from "react";
-import { Modal, Button } from "react-bootstrap";
 import { Formik, Form } from "formik";
-import { addProduct, updateProduct } from "../../../services/AdminService";
 const UpdateProduct = props => {
+    
   return (
     <div
         className="modal fade"
-        id="modelId"
+        id="capnhat"
         tabIndex={-1}
         role="dialog"
-        aria-labelledby="modelTitleId"
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
+              {props.updateUser ? "UPDATE USER" : "ADD USER"}
               </h5>
               <button
                 type="button"
@@ -34,7 +33,16 @@ const UpdateProduct = props => {
                 giaSanPham: 0,
                 moTa: "",
               }}
-              onSubmit={props.handleSubmit}
+             onSubmit={(data)=>{
+                if(props.updateUser === null){
+                 console.log(data.maSanPham);
+                 {props.handleAddSubmit(data)}
+                }
+                else {
+                    console.log(data);
+                {props.handleUpdateProduct(props.product.maSanPham, data)}
+                }
+             }}
             render={({ handleChange, values, errors, touched }) =>(
               <Form >
                 <div className="form-group">
