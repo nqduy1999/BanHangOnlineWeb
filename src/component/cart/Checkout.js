@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Address from '../profile/Address';
 import { getAllCart } from '../../services/cartServices';
-import { getListCity, getListDistrict, getListWard, payment } from '../../services/checkoutServices';
+import { payment } from '../../services/checkoutServices';
 import { alertNotify } from '../../untils/alert';
 const Checkout = (props) => {
     const dispatch = useDispatch();
@@ -92,7 +92,11 @@ const Checkout = (props) => {
             <div className="col-md-6 mb-5 mb-md-0">
               <h2 className="h3 mb-3 text-black">Chi tiết hoá đơn</h2>
               <div className="p-3 p-lg-5 border">
-                <Address/>
+                <p>Mặc định chúng tôi sẽ giao hàng tới địa chỉ mà bạn cung cấp trong thông tin trong tài khoản</p>
+                <label htmlFor="c_ship_different_address" className="text-black" data-toggle="collapse" href="#ship_different_address" role="button" aria-expanded="false" aria-controls="ship_different_address"><input type="checkbox" defaultValue={1} id="c_ship_different_address" />Giao tới địa chỉ khác?</label>
+                <div className="collapse" id="ship_different_address">
+                  <Address/>
+                </div>
                 <div className="form-group">
                   <label htmlFor="note" className="text-black">Ghi chú</label>
                   <textarea name="note" id="note" cols={30} rows={5} onChange={(e) => {setNote(e.target.value)}} className="form-control" placeholder="Viết ghi chú giao hàng của bạn ở đây .... " defaultValue={""} />

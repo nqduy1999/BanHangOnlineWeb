@@ -42,10 +42,12 @@ export const removeProduct = (id) =>{
         }
     })
 }
-export const addProduct = () =>{
+export const addProduct = (value) =>{
+    console.log(value);
     return axios({
         method: "POST",
-        url:`quanly/sanpham/them`
+        url:`quanly/sanpham/them`,
+        data:value
     })
     .then((res) => {
         return {
@@ -63,10 +65,11 @@ export const addProduct = () =>{
         }
     })
 }
-export const updateProduct = id =>{
+export const updateProduct = (id, value) =>{
     return axios({
         method:"POST",
         url:`quanly/sanpham/capnhat?id=${id}`,
+        data:value
     })
     .then((res) => {
         return {

@@ -61,3 +61,25 @@ export const getProfile = (username) => {
         };
     });
 }
+
+export const update = (username, data) => {
+    return axios({
+        method: "POST",
+        url: `khachhang/capnhat?username=${username}`,
+        data,
+        headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
+    })
+    .then((res) => {
+        return {
+            data: res.data,
+            error: false,
+            complete: true
+        };
+    }).catch((err) => {
+        return {
+            data: null,
+            error: true,
+            complete: true
+        };
+    });
+}
