@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Switch, Route } from 'react-router-dom';
 
@@ -18,6 +18,7 @@ import Noti from '../component/cart/Noti';
 import Login from '../component/login/Login.js';
 import Signup from '../component/login/Signup.js';
 import ProductDetails from '../component/product/ProductDetails';
+import Profile from '../component/profile/Profile';
 const Direction = () => {
     const dispatch = useDispatch();
     const profile = getProfile(Cookies.get("username"));
@@ -37,6 +38,9 @@ const Direction = () => {
     }, [profile]);
     return (
         <Switch>
+            <Route path={"/" + Cookies.get("username")}>
+                <Profile/>
+            </Route>
             <Route path="/sanpham">
             <Product />
             </Route>
@@ -51,7 +55,7 @@ const Direction = () => {
             </Route>
             <Route path="/thanhtoan">
                 <Checkout />
-            </Route> 
+            </Route>
             <Route path="/thongbao">
                 <Noti/>
             </Route>

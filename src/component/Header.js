@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+
+import React, { useState, useEffect } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+
 import { Link } from 'react-router-dom';
-import "../resource/icomoon/style.css"
-import "../resource/css/style.css"
-import "../resource/css/bootstrap.min.css"
-import "../resource/css/jquery-ui.css"
-import "../resource/css/magnific-popup.css"
-import "../resource/css/aos.css"
-import "../resource/css/owl.carousel.min.css"
-import "../resource/css/owl.theme.default.min.css"
-import "../resource/css/mdb.min.css"
-import "../resource/css/mdb.lite.min.css"
+
 import Cookies from 'js-cookie';
+
 import { getOrder } from '../services/productServices';
 const Header = () => {
   const stateAuth = useSelector(state => state.auth);
@@ -82,8 +76,7 @@ const Header = () => {
                           keepMounted
                           open={Boolean(anchorEl)}
                           onClose={handleClose}>
-                          <MenuItem>Profile</MenuItem>
-                          <MenuItem>My account</MenuItem>
+                          <MenuItem><Link to={"/" + Cookies.get("username")}>Tài khoản của tôi</Link></MenuItem>
                           <MenuItem ><Link to="/dangnhap" onClick={() => {logout()}}>Đăng xuất</Link></MenuItem>
                         </Menu>
                         </span>
