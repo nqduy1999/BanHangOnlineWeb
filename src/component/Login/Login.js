@@ -8,8 +8,9 @@ import Cookies from 'js-cookie';
 
 import HashLoader from "react-spinners/HashLoader";
 
-import { login } from '../../services/userServices';
 import { useDispatch } from 'react-redux';
+
+import { login } from '../../services/userServices';
 import { alertNotify } from '../../untils/alert';
 const Login = (props) => {
   // React form
@@ -26,8 +27,8 @@ const Login = (props) => {
             if(res.error !== true && res.data.code !== 0) {
               setResutl(res.data.message);
             } else {
-              Cookies.set('authtoken', res.data.message); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
-              Cookies.set('username', res.data.result.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
+              Cookies.set('authtoken', res.data.result); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
+              Cookies.set('username', data.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
               //thông báo
               alertNotify("Thông báo", "Đăng nhập thành công", "success");
               dispatch({type: "SAVE", user: {taiKhoan: {

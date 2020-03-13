@@ -27,6 +27,8 @@ const Direction = () => {
         // kiểm tra token hết hạn và tài khoản username có bị cheat ở cookie hay ko?
         profile.then((res) => {
             if(res.error !== true && res.data.code === 0) {
+                console.log(res.data.result);
+                
                 dispatch({type: "SAVE", user: res.data.result});
             } else if((res.error === true || res.data.code !== 0) && Cookies.get("authtoken")) {
                 alertNotify("Thông báo", "Tài khoản hết hạn truy cập", "warning");

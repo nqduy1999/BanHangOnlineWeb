@@ -3,14 +3,13 @@ import { TextField } from '@material-ui/core';
 
 import React, { useEffect, useState } from 'react';
 
-import { useForm } from 'react-hook-form';
-
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getListDistrict, getListWard, getListCity } from '../../services/checkoutServices';
 
-const Address = () => {
+const Address = (props) => {
     const dispatch = useDispatch();
+    const state = useSelector(state => state.auth);
     // React form
     const [address, setAddress] = useState({
       tinhThanhPho: "",
@@ -57,6 +56,9 @@ const Address = () => {
       }
     }
     useEffect(() => {
+      if(state.user) {
+        setAddress({...state.user.diaChi}); // nếu như người dùng muốn  cập nhật 1 field của địa chỉ thì ko cần phải nhập lại tất cả
+      }
       getListCity().then((res) => {
         if(res.error !== true && res.data.code === 0) {
           let objCity = JSON.parse(res.data.result);
@@ -64,7 +66,7 @@ const Address = () => {
           setDataCity(arrayCity);
         }
       });
-    }, []);
+    }, [state]);
     return (
         <div>
             <div className="form-group">
@@ -91,13 +93,14 @@ const Address = () => {
             <div className="form-group row">
             <div className="col-md-12">
                 <label htmlFor="c_address" className="text-black">Khu phố <span className="text-danger">*</span></label>
-                <input type="text" className="form-control" id="town" onChange={(e) => {setAddress({...address, khuPho: e.target.value}); dispatch({type: "SET_ADDRESS", address: address});}} name="town" placeholder="Khu phố" />
+                <input type="text" className="form-control" id="town" onChange={(e) => {setAddress({...address, khuPho: e.target.value});}}
+                onBlur={() => {dispatch({type: "SET_ADDRESS", address: address});}} name="town" placeholder="Khu phố" />
             </div>
             </div>
             <div className="form-group row">
             <div className="col-md-12">
                 <label htmlFor="c_address" className="text-black">Địa chỉ <span className="text-danger">*</span></label>
-                <input type="text" className="form-control" id="street" name="street" onChange={(e) => {setAddress({...address, duongSoNha: e.target.value}); dispatch({type: "SET_ADDRESS", address: address});}} placeholder="Tên đường/Số nhà" />
+                <input type="text" className="form-control" id="street" name="street" onChange={(e) => {setAddress({...address, duongSoNha: e.target.value});}} onBlur={() => {dispatch({type: "SET_ADDRESS", address: address});}} placeholder="Tên đường/Số nhà" />
             </div>
             </div>
         </div>
