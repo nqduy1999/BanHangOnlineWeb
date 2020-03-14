@@ -28,11 +28,11 @@ const Login = (props) => {
               setResutl(res.data.message);
             } else {
               Cookies.set('authtoken', res.data.result); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
-              Cookies.set('username', data.taiKhoan); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
+              Cookies.set('username', data.username); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
               //thông báo
               alertNotify("Thông báo", "Đăng nhập thành công", "success");
-              dispatch({type: "SAVE", user: {taiKhoan: {
-                taiKhoan: data.taiKhoan
+              dispatch({type: "SAVE", user: {account: {
+                username: data.username
               }}});
               // chuyển hướng
               props.history.push('/trangchu');
@@ -74,7 +74,7 @@ const Login = (props) => {
             </div>
             <div className="col-md-6">
               <div className="form-group">
-              <input className="form-control" name="taiKhoan" type="text" ref={register({ required: true })}/>
+              <input className="form-control" name="username" type="text" ref={register({ required: true })}/>
               </div>
             </div>
             <div className="col-md-3">
@@ -87,7 +87,7 @@ const Login = (props) => {
               </div>
               <div className="col-md-6">
                 <div className="form-group">
-                <input className="form-control" name="matKhau" type="password" ref={register({ required: true })}/>
+                <input className="form-control" name="password" type="password" ref={register({ required: true })}/>
                 </div>
               </div>
               <div className="col-md-3">

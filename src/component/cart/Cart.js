@@ -17,12 +17,12 @@ const Cart = (props) => {
     // kiểm tra là có phải vừa thực hiện action update hay ko?
     const [isUpdated, setIsUpdated] = useState(true);
     // data
-    const [data, setData] = useState({
-      maHoaDon: '',
-      ngayLapHoaDon: '',
-      tongTien: 0,
-      danhsachCTHD: [],
-      khachHang: null
+    const [order, setOrder] = useState({
+      id: '',
+      billDate: '',
+      totalMoney: 0,
+      listOrderDetail: [],
+      customer: null
     });
     // set số lượng hàng trong giỏ hàng
     const dispatch = useDispatch();
@@ -30,44 +30,44 @@ const Cart = (props) => {
     let handleUpdateCart = async (action, id, quantity, price) => {
         setIsUpdated(true);
         // mở này coi để hiểu tại s code như v
-        // console.log(data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item, soLuong: 10} : item))
+        // console.log(order.listOrderDetail.map(item => item.product.id === id ? {...item, quantity: 10} : item))
         // xử lý tổng tiền của toàn bộ
         let total = 0;
-        data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? total+= (price*quantity) : total += item.donGia)
+        order.listOrderDetail.map(item => item.product.id === id ? total+= (price*quantity) : total += item.unitPrice)
         // đẩy dữ liệu data lên server để cập nhật khi chỉnh sửa số lượng
         if(action === "tang") { /// dấu +
           if(quantity < inventory) {
-            update({...data,
-              tongTien: total + price,
-              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
-                donGia: item.sanPham.giaSanPham * (item.soLuong + 1),
-                soLuong: item.soLuong + 1
+            update({...order,
+              totalMoney: total + price,
+              listOrderDetail: order.listOrderDetail.map(item => item.product.id === id ? {...item,
+                unitPrice: item.product.price * (item.quantity + 1),
+                quantity: item.quantity + 1
               } : item)
             });
           }
         } else if(action === "giam") { /// dấu -
           if(quantity > 1) {
-            update({...data,
-              tongTien: total - price,
-              danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
-                donGia: price * (item.soLuong - 1),
-                soLuong: item.soLuong - 1} : item)
+            update({...order,
+              totalMoney: total - price,
+              danhsachCTHD: order.listOrderDetail.map(item => item.product.id === id ? {...item,
+              unitPrice: price * (item.quantity - 1),
+              quantity: item.quantity - 1} : item)
             });
           }
         } else if(action === ""){ /// nhập vào input
             if(quantity >= 1 && quantity <= inventory) { //trong khoản từ 1 - tồn kho
-              update({...data,
+              update({...order,
                 tongTien: total,
-                danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
-                  donGia: price * Number(quantity),
-                  soLuong: quantity} : item)
+                listOrderDetail: order.listOrderDetail.map(item => item.product.id === id ? {...item,
+                unitPrice: price * Number(quantity),
+                quantity: quantity} : item)
               });
             } else { // nhập ít hơn 1 hoặc nhiêu hơn số lượng có sẵn
-              update({...data,
+              update({...order,
                 tongTien: total,
-                danhsachCTHD: data.danhsachCTHD.map(item => item.sanPham.maSanPham === id ? {...item,
-                  donGia: price * inventory,
-                  soLuong: inventory} : item)
+                listOrderDetail: order.listOrderDetail.map(item => item.product.id === id ? {...item,
+                unitPrice: price * inventory,
+                quantity: inventory} : item)
               });
             }
         }
@@ -78,11 +78,9 @@ const Cart = (props) => {
       .then(async (res) => {
         if(res.error !== true && res.data.code === 0) {
           const resutl = await res.data.result;
-          console.log(resutl);
-          
-          setData({...data,
-            tongTien: resutl.tongTien,
-            danhsachCTHD: resutl.danhsachCTHD
+          setOrder({...order,
+            totalMoney: resutl.totalMoney,
+            listOrderDetail: resutl.listOrderDetail
           })
           changeInventoryOnHeader(resutl); // thay đổi số lượng trên header ở icon giỏ hàng
         }
@@ -95,7 +93,7 @@ const Cart = (props) => {
     const state = useSelector(state => state.auth);
     // thanh toán
     let onPay = () => {
-      if(data.tongTien === 0) {
+      if(order.totalMoney === 0) {
         alertYesNo("Thông báo", "Không có sản phẩm để thanh toán", "warning", "Mua sắm")
           .then((result) => {
             if (result.value) {
@@ -116,9 +114,9 @@ const Cart = (props) => {
       }
     };
     // thay đổi số lượng trên header ở icon giỏ hàng
-    let changeInventoryOnHeader = (data) => {
+    let changeInventoryOnHeader = (order) => {
       let total = 0;
-      data.danhsachCTHD.map(item => total += item.soLuong);
+      order.listOrderDetail.map(item => total += item.quantity);
       dispatch({type: "CHANGE_INVENTORY", inventory: total});
     };
     //đây là khỏi chạy lần đầu khi load vô compoent Cart
@@ -128,12 +126,12 @@ const Cart = (props) => {
         getAllCart().then((res) => {
           if(res.error !== true && res.data.code === 0) {
             changeInventoryOnHeader(res.data.result)
-            setData({...data,
-              maHoaDon: res.data.result.maHoaDon,
-              ngayLapHoaDon: res.data.result.ngayLapHoaDon,
-              tongTien: res.data.result.tongTien,
-              danhsachCTHD: res.data.result.danhsachCTHD,
-              khachHang: res.data.result.khachHang
+            setOrder({...order,
+              id: res.data.result.id,
+              billDate: res.data.result.billDate,
+              totalMoney: res.data.result.totalMoney,
+              listOrderDetail: res.data.result.listOrderDetail,
+              customer: res.data.result.customer
             });
           }
         });
@@ -175,28 +173,28 @@ const Cart = (props) => {
                   </thead>
                   <tbody>
                     {
-                      data.danhsachCTHD.map((item, i) => (
+                      order.listOrderDetail.map((item, i) => (
                         <tr key={i}>
                         <td className="product-thumbnail">
                           <img src={but_bi} alt="Image" className="img-fluid"/>
                         </td>
                         <td className="product-name">
-                          <h2 className="h5 text-black">{item.sanPham.tenSanPham}</h2>
+                          <h2 className="h5 text-black">{item.product.name}</h2>
                         </td>
-                        <td>{item.sanPham.giaSanPham}</td>
+                        <td>{item.product.price}</td>
                         <td>
                           <div className="input-group mb-3" style={{maxWidth: '120px'}}>
                             <div className="input-group-prepend">
-                              <button onClick={() => {handleUpdateCart("giam", item.sanPham.maSanPham, item.soLuong, item.sanPham.giaSanPham); setInventory(item.sanPham.soLuongTon);}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</button>
+                              <button onClick={() => {handleUpdateCart("giam", item.product.id, item.quantity, item.product.price); setInventory(item.product.inventory);}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</button>
                             </div>
-                            <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", item.sanPham.maSanPham, Number(e.target.value), item.sanPham.giaSanPham);setInventory(item.sanPham.soLuongTon);}} value={item.soLuong} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                            <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", item.product.id, Number(e.target.value), item.product.price);setInventory(item.product.inventory);}} value={item.quantity} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                             <div className="input-group-append">
-                              <button type="button" className="btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("tang", item.sanPham.maSanPham, item.soLuong, item.sanPham.giaSanPham);setInventory(item.sanPham.soLuongTon);}}>+</button>
+                              <button type="button" className="btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("tang", item.product.id, item.quantity, item.product.price);setInventory(item.product.inventory);}}>+</button>
                             </div>
                           </div>
                         </td>
-                        <td>{item.donGia}</td>
-                        <td><span onClick={() => {removeProductFromCart(item.sanPham.maSanPham);}} className="btn btn-primary btn-sm">X</span></td>
+                        <td>{item.unitPrice}</td>
+                        <td><span onClick={() => {removeProductFromCart(item.product.id);}} className="btn btn-primary btn-sm">X</span></td>
                       </tr>
                     ))
                   }
@@ -226,7 +224,7 @@ const Cart = (props) => {
                       <span className="text-black">Tổng Tiền</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">{data.tongTien} vnd</strong>
+                      <strong className="text-black">{order.totalMoney} vnd</strong>
                     </div>
                   </div>
                   <div className="row mb-5">
@@ -234,7 +232,7 @@ const Cart = (props) => {
                       <span className="text-black">Tiền phải trả</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">{data.tongTien} vnd</strong>
+                      <strong className="text-black">{order.totalMoney} vnd</strong>
                     </div>
                   </div>
                   <div className="row">

@@ -17,7 +17,7 @@ const MyAccount = () => {
         })
     }, []);
     return (
-        <div>
+        <div className="container">
             <div className="row">
                 <div className="col-md-3">
                     <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -33,8 +33,8 @@ const MyAccount = () => {
                         <div className="tab-pane fade" id="v-pills-order" role="tabpanel" aria-labelledby="v-pills-order-tab">
                             {
                                 listOrder && listOrder.map((order) => (
-                                    order.danhsachCTHD.map((orderDetail, key) =>
-                                        <Order key={key} productName={orderDetail.sanPham.tenSanPham} inventory={orderDetail.soLuong} price={orderDetail.sanPham.giaSanPham} total={orderDetail.donGia}/>
+                                    order.listOrderDetail.map((orderDetail, key) =>
+                                        <Order key={key} productName={orderDetail.product.name} inventory={orderDetail.quantity} price={orderDetail.product.price} total={orderDetail.unitPrice}/>
                                     )
                                 ))
                             }

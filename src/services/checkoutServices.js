@@ -1,5 +1,6 @@
-import axios from "../untils/axios";
 import Cookies from 'js-cookie';
+
+import axios from "../untils/axios";
 
 const config = {
     "Content-Type": "text/plain"
@@ -7,7 +8,7 @@ const config = {
 export const getListCity = () => {
     return axios({
         method: "GET",
-        url: `diachi/thanhpho`
+        url: `address/city`
     })
     .then(async (res) => {
         return {
@@ -27,7 +28,7 @@ export const getListCity = () => {
 export const getListDistrict = (id) => {
     return axios({
         method: "GET",
-        url: `diachi/quanhuyen?id=${id}`,
+        url: `address/district?id=${id}`,
         headers: config
     })
     .then(async (res) => {
@@ -48,7 +49,7 @@ export const getListDistrict = (id) => {
 export const getListWard = (id) => {
     return axios({
         method: "GET",
-        url: `diachi/thitran?id=${id}`,
+        url: `address/ward?id=${id}`,
         id,
         headers: config
     })
@@ -70,7 +71,7 @@ export const getListWard = (id) => {
 export const payment = (data) => {
     return axios({
         method: "POST",
-        url: `hoadon/thanhtoan`,
+        url: `order/pay`,
         data,
         withCredentials: true,
         headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}

@@ -1,9 +1,10 @@
 import Cookies from 'js-cookie';
+
 import axios from '../untils/axios';
 export const login = (data) => {
     return axios({
         method: "POST",
-        url: `dangnhap`,
+        url: `login`,
         data
     })
     .then((res) => {
@@ -23,7 +24,7 @@ export const login = (data) => {
 export const signup = (data) => {
     return axios({
         method: "POST",
-        url: `dangky`,
+        url: `register`,
         data
     })
     .then((res) => {
@@ -44,7 +45,7 @@ export const signup = (data) => {
 export const getProfile = (username) => {
     return axios({
         method: "GET",
-        url: `khachhang/chitiet?username=${username}`,
+        url: `customer/detail?username=${username}`,
         headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     })
     .then(async (res) => {
@@ -65,7 +66,7 @@ export const getProfile = (username) => {
 export const update = (username, data) => {
     return axios({
         method: "POST",
-        url: `khachhang/capnhat?username=${username}`,
+        url: `customer/update?username=${username}`,
         data,
         headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     })

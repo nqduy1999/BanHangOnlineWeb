@@ -21,23 +21,23 @@ const Profile = () => {
     const [isEdit, setIsEdit] = useState(false);
     const handleDateChange = date => {
         setUser({...user,
-            ngaySinh: date
+            birthday: date
         })
       setSelectedDate(date);
     };
     const [user, setUser] = useState({
-        tenKhachHang: "",
-        diaChi: {
+        name: "",
+        address: {
 
         },
-        dienThoai: "",
-        cmnd: "",
-        ngaySinh: "",
-        taiKhoan: null
+        phone: "",
+        identityCard: "",
+        birthday: "",
+        account: null
     });
     let onSubmit = () => {
         if(isEdit === false) {
-            update(user.taiKhoan.taiKhoan, user)
+            update(user.account.username, user)
             .then(async (res) => {
                 if(res.error !== true && res.data.code === 0) {
                     alertNotify("Thông báo", "Cập nhật thành công", "success");
@@ -51,19 +51,19 @@ const Profile = () => {
     // chạy khi địa chỉ được thay đổi
     useEffect(() => {
         setUser({...user,
-            diaChi: stateAddress.address
+            address: stateAddress.address
         });
     }, [stateAddress]);
     useEffect(() => {
         if(state.user) {
-            setSelectedDate(state.user.ngaySinh);
+            setSelectedDate(state.user.birthday);
             setUser({...user,
-                tenKhachHang: state.user.tenKhachHang,
-                diaChi: state.user.diaChi,
-                dienThoai: state.user.dienThoai,
-                cmnd: state.user.cmnd,
-                ngaySinh: state.user.ngaySinh,
-                taiKhoan: state.user.taiKhoan
+                name: state.user.name,
+                address: state.user.address,
+                phone: state.user.phone,
+                identifyCard: state.user.identifyCard,
+                birthday: state.user.birthday,
+                account: state.user.account
             });
         }
     }, [state]);
@@ -73,15 +73,15 @@ const Profile = () => {
                 <div className={isEdit ? "col-md-6" : "col-md-12"}>
                     <div className="form-group">
                         <label>Họ và tên</label>
-                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="name" onChange={e => setUser({...user, tenKhachHang: e.target.value})} value={user.tenKhachHang} placeholder="Họ và tên của bạn"/>
+                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="name" onChange={e => setUser({...user, name: e.target.value})} value={user.name ? user.name : ""} placeholder="Họ và tên của bạn"/>
                     </div>
                     <div className="form-group">
                         <label>Số điện thoại</label>
-                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="phone" onChange={e => setUser({...user, dienThoai: e.target.value})} value={user.dienThoai}  placeholder="Số điện thoại của bạn"/>
+                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="phone" onChange={e => setUser({...user, phone: e.target.value})} value={user.phone ? user.phone : ""}  placeholder="Số điện thoại của bạn"/>
                     </div>
                     <div className="form-group">
                         <label>CMND</label>
-                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="ID" onChange={e => setUser({...user, cmnd: e.target.value})} value={user.cmnd}  placeholder="CMND của bạn"/>
+                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="identify" onChange={e => setUser({...user, identityCard: e.target.value})} value={ user.identityCard ? user.identityCard : ""}  placeholder="CMND của bạn"/>
                     </div>
                     <div className="form-group">
                         <label>Ngày sinh</label>
@@ -112,7 +112,7 @@ const Profile = () => {
                     <div className="col-md-12">
                         <div className="form-group">
                             <label>Địa chỉ</label>
-                            <input readOnly type="text" className="form-control" id="ID" onChange={e => setUser({...user, cmnd: e.target.value})} value={user.diaChi ? (user.diaChi.duongSoNha + ", " + user.diaChi.khuPho + ", " + user.diaChi.phuongXa + ", " + user.diaChi.quanHuyen + ", " + user.diaChi.tinhThanhPho) : ""}  placeholder="Địa chỉ giao hàng"/>
+                            <input readOnly type="text" className="form-control" id="ID" value={user.address ? (user.address.street + ", " + user.address.town + ", " + user.address.ward + ", " + user.address.district + ", " + user.address.city) : ""}  placeholder="Địa chỉ giao hàng"/>
                         </div>
                     </div>
                 }

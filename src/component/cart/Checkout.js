@@ -23,12 +23,12 @@ const Checkout = (props) => {
     const [paymentMethod, setPaymentMethod] = useState("Thanh toán khi nhận hàng")
     const onSubmit = values => {
       let orderCheckout = {
-        tongTien: data.tongTien,
-        danhsachCTHD: data.danhsachCTHD,
-        khachHang: state.user,
-        diaChi: stateAddress.address,
-        ghiChu: note,
-        cachThucThanhToan: paymentMethod
+        totalMoney: order.totalMoney,
+        listOrderDetail: order.listOrderDetail,
+        customer: state.user,
+        address: stateAddress.address,
+        note: note,
+        payMethod: paymentMethod
       }
       payment(orderCheckout).then((res) => {
         if(res.error !== true && res.data.code === 0) {
@@ -42,22 +42,22 @@ const Checkout = (props) => {
     //loading
     const [loading, setLoading] = useState(true);
     // order
-    const [data, setData] = useState({
-      maHoaDon: '',
-      ngayLapHoaDon: '',
-      tongTien: 0,
-      danhsachCTHD: [],
-      khachHang: null
+    const [order, setOrder] = useState({
+      id: '',
+      billDate: '',
+      totalMoney: 0,
+      listOrderDetail: [],
+      customer: null
     });
     useEffect(() => {
       getAllCart().then((res) => {
         if(res.error !== true && res.data.code === 0) {
-          setData({...data,
-            maHoaDon: res.data.result.maHoaDon,
-            ngayLapHoaDon: res.data.result.ngayLapHoaDon,
-            tongTien: res.data.result.tongTien,
-            danhsachCTHD: res.data.result.danhsachCTHD,
-            khachHang: res.data.result.khachHang
+          setOrder({...order,
+            id: res.data.result.id,
+            billDate: res.data.result.billDate,
+            totalMoney: res.data.result.totalMoney,
+            listOrderDetail: res.data.result.listOrderDetail,
+            customer: res.data.result.customer
           });
         }
       });
@@ -114,20 +114,20 @@ const Checkout = (props) => {
                           <th>Tổng tiền</th>
                         </tr></thead>
                       <tbody>
-                        {data.danhsachCTHD.map((item, key) => (
+                        {order.listOrderDetail.map((item, key) => (
                           <tr key={key}>
-                          <td>{item.sanPham.tenSanPham}<strong className="mx-2">x</strong> {item.soLuong}</td>
-                          <td>{item.donGia}</td>
+                          <td>{item.product.name}<strong className="mx-2">x</strong> {item.quantity}</td>
+                          <td>{item.unitPrice}</td>
                         </tr>
                         ))
                         }
                         <tr>
                           <td className="text-black font-weight-bold"><strong>Tổng tiền giỏ hàng</strong></td>
-                          <td className="text-black">{data.tongTien}</td>
+                          <td className="text-black">{order.totalMoney}</td>
                         </tr>
                         <tr>
                           <td className="text-black font-weight-bold"><strong>Tổng tiền phải trả</strong></td>
-                          <td className="text-black font-weight-bold"><strong>{data.tongTien}</strong></td>
+                          <td className="text-black font-weight-bold"><strong>{order.totalMoney}</strong></td>
                         </tr>
                       </tbody>
                     </table>

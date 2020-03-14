@@ -30,8 +30,8 @@ const Header = () => {
     order.then((res) => {
       if(res.error === false && res.data.code === 0) {
         let total = 0;
-        res.data.result.danhsachCTHD.map((item) => {
-          total += item.soLuong;
+        res.data.result.listOrderDetail.map((item) => {
+          total += item.quantity;
         })
         setInventory(total);
       }
@@ -68,7 +68,7 @@ const Header = () => {
                       (
                         <span>
                         <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                          {stateAuth.user.taiKhoan.taiKhoan}
+                          {stateAuth.user.account.username}
                         </Button>
                         <Menu
                           id="simple-menu"

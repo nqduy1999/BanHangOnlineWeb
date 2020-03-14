@@ -12,11 +12,11 @@ const Address = (props) => {
     const state = useSelector(state => state.auth);
     // React form
     const [address, setAddress] = useState({
-      tinhThanhPho: "",
-      quanHuyen: "",
-      phuongXa: "",
-      khuPho: "",
-      duongSoNha: ""
+      city: "",
+      district: "",
+      ward: "",
+      town: "",
+      street: ""
     });
     // lấy danh sách thành phố
     const [dataCity, setDataCity] = useState([]);
@@ -29,7 +29,7 @@ const Address = (props) => {
     const getListDistrictByCity = (values) => {
       if(values !== null) { // khi nhấn dấu x để xoá sẽ lỗi
         setAddress({...address,
-          tinhThanhPho: values.name
+          city: values.name
         })
         getListDistrict(values.code).then((res) => {
           if(res.error !== true && res.data.code === 0) {
@@ -44,7 +44,7 @@ const Address = (props) => {
     const getListWardByDistrict = (values) => {
       if(values !== null) { // khi nhấn dấu x để xoá sẽ lỗi
         setAddress({...address,
-          quanHuyen: values.name
+          district: values.name
         })
         getListWard(values.code).then((res) => {
           if(res.error !== true && res.data.code === 0) {
@@ -57,7 +57,7 @@ const Address = (props) => {
     }
     useEffect(() => {
       if(state.user) {
-        setAddress({...state.user.diaChi}); // nếu như người dùng muốn  cập nhật 1 field của địa chỉ thì ko cần phải nhập lại tất cả
+        setAddress({...state.user.address}); // nếu như người dùng muốn  cập nhật 1 field của địa chỉ thì ko cần phải nhập lại tất cả
       }
       getListCity().then((res) => {
         if(res.error !== true && res.data.code === 0) {
@@ -85,7 +85,7 @@ const Address = (props) => {
             </div>
             <div className="form-group">
             <label htmlFor="c_country" className="text-black">Phường/Xã <span className="text-danger">*</span></label>
-            <Autocomplete onChange={(e, values) => {values !== null ? setAddress({...address, phuongXa: values.name}) : setAddress({...address}); dispatch({type: "SET_ADDRESS", address: address});}}  id="combo-box-ward"
+            <Autocomplete onChange={(e, values) => {values !== null ? setAddress({...address, ward: values.name}) : setAddress({...address}); dispatch({type: "SET_ADDRESS", address: address});}}  id="combo-box-ward"
             options={dataWard}
             getOptionLabel={option => option.name}
             renderInput={params => <TextField className="form-control" {...params} label="Phường/Xã" size="small" variant="outlined" />}/>
@@ -93,14 +93,14 @@ const Address = (props) => {
             <div className="form-group row">
             <div className="col-md-12">
                 <label htmlFor="c_address" className="text-black">Khu phố <span className="text-danger">*</span></label>
-                <input type="text" className="form-control" id="town" onChange={(e) => {setAddress({...address, khuPho: e.target.value});}}
+                <input type="text" className="form-control" id="town" onChange={(e) => {setAddress({...address, town: e.target.value});}}
                 onBlur={() => {dispatch({type: "SET_ADDRESS", address: address});}} name="town" placeholder="Khu phố" />
             </div>
             </div>
             <div className="form-group row">
             <div className="col-md-12">
                 <label htmlFor="c_address" className="text-black">Địa chỉ <span className="text-danger">*</span></label>
-                <input type="text" className="form-control" id="street" name="street" onChange={(e) => {setAddress({...address, duongSoNha: e.target.value});}} onBlur={() => {dispatch({type: "SET_ADDRESS", address: address});}} placeholder="Tên đường/Số nhà" />
+                <input type="text" className="form-control" id="street" name="street" onChange={(e) => {setAddress({...address, street: e.target.value});}} onBlur={() => {dispatch({type: "SET_ADDRESS", address: address});}} placeholder="Tên đường/Số nhà" />
             </div>
             </div>
         </div>

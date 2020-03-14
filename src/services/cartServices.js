@@ -2,7 +2,7 @@ import axios from "../untils/axios";
 export const addProductToCart = (data) => {
     return axios({
         method: "POST",
-        url: `giohang/them`,
+        url: `cart/add`,
         data,
         withCredentials: true // bật true để tự động set JSESSIONID Cookie vào request, ko để ở ngoài hàm vì khi chạy nó sẽ tự động thay đổi JSSESSIONID
     })
@@ -24,7 +24,7 @@ export const addProductToCart = (data) => {
 export const getAllCart = () => {
     return axios({
         method: "GET",
-        url: `giohang/dulieu`,
+        url: `cart/data`,
         withCredentials: true
     })
     .then((res) => {
@@ -45,7 +45,7 @@ export const getAllCart = () => {
 export const update = (data) => {
     return axios({
         method: "POST",
-        url: `giohang/capnhat`,
+        url: `cart/update`,
         data,
         withCredentials: true
     })
@@ -67,7 +67,7 @@ export const update = (data) => {
 export const remove = (id) => {
     return axios({
         method: "POST",
-        url: `giohang/xoa?id=${id}`,
+        url: `cart/delete?id=${id}`,
         withCredentials: true
     })
     .then((res) => {

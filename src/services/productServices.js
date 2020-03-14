@@ -2,7 +2,7 @@ import axios from '../untils/axios';
 export const getOrder = () => {
     return axios({
         method: "GET",
-        url: `giohang/dulieu`
+        url: `cart/data`
     })
     .then((res) => {
         return {
@@ -22,7 +22,7 @@ export const getOrder = () => {
 export const getALlProduct = (index) => {
     return axios({
         method: "GET",
-        url: `sanpham/trang?index=${index}`
+        url: `product/page?index=${index}`
     })
     .then((res) => {
         return {
@@ -42,7 +42,7 @@ export const getALlProduct = (index) => {
 export const getProductDetail = (id) => {
     return axios({
         method: "GET",
-        url: `quanly/sanpham/chitiet?id=${id}`
+        url: `product/detail?id=${id}`
     })
     .then((res) => {
         return {

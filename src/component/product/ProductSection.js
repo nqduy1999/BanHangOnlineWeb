@@ -97,8 +97,8 @@ const ProductSection = (props) => {
               <div className="row mb-5">
                 {listProduct.sort((a, b) => {
                   // đang test
-                  let nameA = a.tenSanPham.toUpperCase(); // bỏ qua hoa thường
-                  let nameB = b.tenSanPham.toUpperCase(); // bỏ qua hoa thường
+                  let nameA = a.name.toUpperCase(); // bỏ qua hoa thường
+                  let nameB = b.name.toUpperCase(); // bỏ qua hoa thường
                   if (nameA < nameB) {
                     return -1;
                   }
@@ -108,7 +108,7 @@ const ProductSection = (props) => {
                   // name trùng nhau
                   return 0;
                 }).map((item, i) => (
-                    <ProductCard key={i} id={item.maSanPham} data={dataTest.data} content={item.moTa} name={item.tenSanPham} description={item.moTa} price={item.giaSanPham}/>
+                    <ProductCard key={i} id={item.id} data={dataTest.data} content={item.description} name={item.name} description={item.description} price={item.price}/>
                   ))}
               </div>
               <div className="row" data-aos="fade-up">

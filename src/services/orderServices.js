@@ -4,7 +4,7 @@ import axios from "../untils/axios";
 export const getAllOrder = (username) => {
     return axios({
         method: "GET",
-        url: `hoadon/danhsach?username=${username}`,
+        url: `order/list?username=${username}`,
         headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     })
     .then((res) => {

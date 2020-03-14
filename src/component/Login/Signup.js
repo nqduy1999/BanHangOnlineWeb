@@ -64,13 +64,13 @@ const Signup = (props) => {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <input className="form-control" name="taiKhoan" type="text" ref={register({required: true, maxLength: 32, minLength: 6})} />
+                    <input className="form-control" name="username" type="text" ref={register({required: true, maxLength: 32, minLength: 6})} />
                   </div>
                 </div>
                 <div className="col-md-3">
-                  {errors.taiKhoan && errors.taiKhoan.type === 'required' && <span className="alert alert-danger ml-2" role="alert">Vui lòng nhập tên tài khoản</span>}
-                  {errors.taiKhoan && errors.taiKhoan.type === 'maxLength' && <span className="alert alert-danger" role="alert">Tên tài khoản nhỏ hơn 32 kí tự</span>}
-                  {errors.taiKhoan && errors.taiKhoan.type === 'minLength' && <span className="alert alert-danger" role="alert">Tên tài khoản lớn hơn 6 kí tự</span>}
+                  {errors.username && errors.username.type === 'required' && <span className="alert alert-danger ml-2" role="alert">Vui lòng nhập tên tài khoản</span>}
+                  {errors.username && errors.username.type === 'maxLength' && <span className="alert alert-danger" role="alert">Tên tài khoản nhỏ hơn 32 kí tự</span>}
+                  {errors.username && errors.username.type === 'minLength' && <span className="alert alert-danger" role="alert">Tên tài khoản lớn hơn 6 kí tự</span>}
                 </div>
               </div>
               <div className="row">
@@ -96,13 +96,13 @@ const Signup = (props) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                    <input className="form-control" name="matKhau" type="password" ref={register({required: true, maxLength: 32, minLength: 8})} />
+                    <input className="form-control" name="password" type="password" ref={register({required: true, maxLength: 32, minLength: 8})} />
                     </div>
                   </div>
                   <div className="col-md-3">
-                    {errors.matKhau && errors.matKhau.type === 'required' && <span className="alert alert-danger" role="alert">Vui lòng nhập mật khẩu</span>}
-                    {errors.matKhau && errors.matKhau.type === 'maxLength' && <span className="alert alert-danger" role="alert">Mật khẩu phải nhỏ hơn 32 kí tự</span>}
-                    {errors.matKhau && errors.matKhau.type === 'minLength' && <span className="alert alert-danger" role="alert">Mật khẩu phải lớn hơn 8 kí tự</span>}
+                    {errors.password && errors.password.type === 'required' && <span className="alert alert-danger" role="alert">Vui lòng nhập mật khẩu</span>}
+                    {errors.password && errors.password.type === 'maxLength' && <span className="alert alert-danger" role="alert">Mật khẩu phải nhỏ hơn 32 kí tự</span>}
+                    {errors.password && errors.password.type === 'minLength' && <span className="alert alert-danger" role="alert">Mật khẩu phải lớn hơn 8 kí tự</span>}
                   </div>
                 </div>
                 <div className="row">
@@ -111,12 +111,12 @@ const Signup = (props) => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                       <input className="form-control" name="matKhauXacNhan" type="password" ref={register({required: true, validate: (value) => value === watch("matKhau")})} />
+                       <input className="form-control" name="passwordConfirm" type="password" ref={register({required: true, validate: (value) => value === watch("password")})} />
                     </div>
                   </div>
                   <div className="col-md-3">
-                    {errors.matKhauXacNhan && errors.matKhauXacNhan.type === 'required' && <span className="alert alert-danger" role="alert">Vui lòng nhập mật khẩu xác nhận</span>}
-                    {errors.matKhauXacNhan && errors.matKhauXacNhan.type === 'validate' && <span className="alert alert-danger" role="alert">Mật khẩu không trùng khớp</span>}
+                    {errors.passwordConfirm && errors.passwordConfirm.type === 'required' && <span className="alert alert-danger" role="alert">Vui lòng nhập mật khẩu xác nhận</span>}
+                    {errors.passwordConfirm && errors.passwordConfirm.type === 'validate' && <span className="alert alert-danger" role="alert">Mật khẩu không trùng khớp</span>}
                   </div>
                 </div>
             <div className="row">

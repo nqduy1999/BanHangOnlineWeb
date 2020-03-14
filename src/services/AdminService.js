@@ -3,7 +3,7 @@ import axios from "../untils/axios";
 export const getListProduct = () => {
     return axios({
         method: "GET",
-        url: `quanly/sanpham/danhsach`,
+        url: `admin/product/list`,
     })
         .then((res) => {
             return {
@@ -24,7 +24,7 @@ export const getListProduct = () => {
 export const removeProduct = (id) =>{
     return axios({
         method: "POST",
-        url:`quanly/sanpham/xoa?id=${id}`
+        url:`admin/product/delete?id=${id}`
     })
     .then((res) => {
         return {
@@ -46,7 +46,7 @@ export const addProduct = (value) =>{
     console.log(value);
     return axios({
         method: "POST",
-        url:`quanly/sanpham/them`,
+        url:`admin/product/add`,
         data:value
     })
     .then((res) => {
@@ -68,7 +68,7 @@ export const addProduct = (value) =>{
 export const updateProduct = (id, value) =>{
     return axios({
         method:"POST",
-        url:`quanly/sanpham/capnhat?id=${id}`,
+        url:`admin/product/update?id=${id}`,
         data:value
     })
     .then((res) => {
@@ -91,7 +91,7 @@ export const updateProduct = (id, value) =>{
 export const getListCus = () => {
     return axios({
         method: "GET",
-        url: `quanly/khachhang/danhsach`,
+        url: `admin/customer/list`,
     })
         .then((res) => {
             return {
