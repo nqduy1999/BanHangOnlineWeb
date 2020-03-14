@@ -1,17 +1,17 @@
 import React from 'react';
 const ProductItem = (props) => {
-    const {maSanPham, tenSanPham, moTa, giaSanPham, soLuongTon} = props.product
+    const {id, name, description, price, inventory} = props.product
    return (
         <tbody>
             <tr>
-                <th scope="row">{maSanPham}</th>
-                <td>{tenSanPham}</td>
-                <td>{moTa}</td>
-                <td>{giaSanPham}</td>
-                <td>{soLuongTon}</td>
+                <th scope="row">{id}</th>
+                <td>{name}</td>
+                <td>{description}</td>
+                <td>{price}</td>
+                <td>{inventory}</td>
                 <td></td>
                 <td>
-                    <button onClick={()=>{props.removePd(maSanPham)}} 
+                    <button onClick={()=>{props.removePd(id)}} 
                         className=" btn-danger">
                         Xoá
                     </button>

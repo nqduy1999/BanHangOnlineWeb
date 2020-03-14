@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import AuthenticationReducer from './authenticationReducer.js';
-import CartReducer from './cartReducer';
+import AuthenticationReducer from './AuthenticationReducer.js';
+import CartReducer from './CartReducer';
 import AddressReducer from './AddressReducer';
 
 const rootReducer = combineReducers({

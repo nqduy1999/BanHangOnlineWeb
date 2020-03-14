@@ -1,27 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { getListProduct, removeProduct, addProduct, updateProduct } from "../../../services/AdminService";
+import { useLocation } from 'react-router-dom';
 import ProductItem from "./ProductItem";
 import UpdateProduct from "./UpdateProduct";
 const Product = () => {
-    const [listdata, setData] = useState([
-        {
-            maSanPham: "",
-            tenSanPham: "",
-            moTa: "",
-            giaSanPham: 0,
-            soLuongTon: 0,
-            nhaCungCap: null,
-            hinhAnh: null,
-            loaiSanPham: null
-        }
-    ]);
-    const [updateUser, getUpdateUser]=useState(null)
+    const [listdata, setData] = useState([{}]);
+    const [updateUser, getUpdateUser] = useState(null);
     let removePd = id => {
         removeProduct(id)
-            .then(async res => {
+            .then(res => {
                 if (res.error !== true && res.data.code === 0) {
-                    const resutl = await res.data.result;
+                    const resutl = res.data.result;
                     console.log(resutl);
                     setData(resutl);
                 }
@@ -30,31 +20,33 @@ const Product = () => {
                 console.log(err);
             });
     };
-    const handleAddProduct=(value)=>{
+    const handleAddProduct = (value) => {
         addProduct(value)
-        .then(() => {
-            getListProduct()
-            .then(res=>{
-                setData(res.data.result)
+            .then(() => {
+                getListProduct()
+                    .then(res => {
+                        setData(res.data.result)
+                    })
+                    ;
             })
-            ;
-        })
-        .catch(err =>{
-            console.log(err);     
-        })
+            .catch(err => {
+                console.log(err);
+            })
     }
-    const handleUpdateProduct=(id, value)=>{
+    const handleUpdateProduct = (id, value) => {
         updateProduct(id, value)
-        .then(() => {
-            getListProduct()
-            .then(res=>{
-                setData(res.data.result)
+            .then(() => {
+                console.log(value);
+                getListProduct()
+                    .then(res => {
+                        console.log(res.data.result);
+                        setData(res.data.result)
+                    })
+                    ;
             })
-            ;
-        })
-        .catch(err =>{
-            console.log(err);     
-        })
+            .catch(err => {
+                console.log(err);
+            })
     }
     useEffect(() => {
         getListProduct().then(res => {
@@ -83,7 +75,7 @@ const Product = () => {
                         className="btn btn-success"
                         data-toggle="modal"
                         data-target="#capnhat"
-                        onClick={()=> getUpdateUser(null)}
+                        onClick={() => getUpdateUser(null)}
                     >
                         Thêm sản phẩm
           </button>
@@ -114,11 +106,11 @@ const Product = () => {
                     })}
                 </table>
             </div>
-            { listdata.map((item)=>{
+            {listdata.map((item) => {
                 return (
-            <UpdateProduct product={item} updateUser={updateUser} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct}/>
+                    <UpdateProduct product={item} updateUser={updateUser} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} />
                 )
-        })}
+            })}
         </div>
     );
 };

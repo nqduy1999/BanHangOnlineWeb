@@ -2,21 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 import CustomerItem from './CustomerItem';
 import { getListCus } from '../../../services/AdminService';
+import Cookies from 'js-cookie';
 const ListCustomer = () => {
-    const [listCus, setListCus] = useState([
-        {
-        maKhachHang : "",
-        taiKhoan: {
-            taiKhoan: "",
-            email: "",
-        }
-        }
-    ])
+    console.log(Cookies.get("authtoken"));
+    const [listCus, setListCus] = useState([])
     useEffect(() => {
         getListCus()
             .then((res) => {
                 if (res.error !== true) {
-                    setListCus(res.data)
+                    setListCus(res.data.result)
                     console.log(res.data)
                 }
             })
@@ -28,7 +22,6 @@ const ListCustomer = () => {
                 <table className="table table-light">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Tài khoản</th>
                             <th scope="col">Email</th>
                             <th scope="col">Xem chi tiết</th>
@@ -37,7 +30,7 @@ const ListCustomer = () => {
                         </tr>
                     </thead>
                     {listCus.map((item, key)=>(
-                    <CustomerItem key={key} maKhachHang={item.maKhachHang} taiKhoan={item.taiKhoan.taiKhoan} email={item.taiKhoan.email}/>
+                    <CustomerItem key={key} customer={item}/>
                     ))
 }
                 </table>

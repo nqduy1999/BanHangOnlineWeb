@@ -1,9 +1,9 @@
 import axios from "../untils/axios";
-
-export const getListProduct = () => {
+import Cookies from 'js-cookie'
+export const getListProduct = (index) => {
     return axios({
         method: "GET",
-        url: `admin/product/list`,
+        url: `product/list`
     })
         .then((res) => {
             return {
@@ -43,7 +43,6 @@ export const removeProduct = (id) =>{
     })
 }
 export const addProduct = (value) =>{
-    console.log(value);
     return axios({
         method: "POST",
         url:`admin/product/add`,
@@ -108,4 +107,26 @@ export const getListCus = () => {
                 complete: true
             }
         })
+}
+export const getDetailCus = (username) =>{
+    return axios({
+        method:"GET",
+        url:`customer/detail?username=${username}`,
+        headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
+    })
+    .then((res) => {
+        return {
+            data: res.data,
+            error: false,
+            complete: true
+        };
+
+    })
+    .catch(() => {
+        return {
+            data: null,
+            error: true,
+            complete: true
+        }
+    })
 }

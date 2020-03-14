@@ -1,13 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 const CustomerItem = (props) => {
-
+    const {username, email} = props.customer.account
     return (
         <tbody>
             <tr>
-                <th scope="row">{props.maKhachHang}</th>
-                <td>{props.taiKhoan}</td>
-                <td>{props.email}</td>
-                <td> <button className="btn-warning">Click !</button></td>
+                <td>{username}</td>
+                <td>{email}</td>
+                <td> 
+                <Link to={`danhsachkhachhang/khachhang/${username}`}>
+                <button className="btn-warning">
+                    Click !
+                    </button>
+                </Link>
+                    </td>
                 <td>
                     <button className="btn-primary">Cập nhật chi tiết</button>
                 </td>

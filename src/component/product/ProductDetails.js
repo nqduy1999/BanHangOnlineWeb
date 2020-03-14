@@ -75,6 +75,7 @@ const ProductDetails = (props) => {
       getProductDetail(id.get("id")).then((res) => {
         if(res.error !== true && res.data.code === 0) {
           setProduct(res.data.result);
+          console.log(res.data.result);
           setOrderDetail({...orderDetail,
             product:  res.data.result,
             unitPrice: res.data.result.price,
