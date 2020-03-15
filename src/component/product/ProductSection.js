@@ -6,6 +6,8 @@ import { withCookies } from 'react-cookie';
 
 import HashLoader from "react-spinners/HashLoader";
 
+import { useSelector, useDispatch } from 'react-redux';
+
 import { getALlProduct } from '../../services/productServices';
 
 import ProductCard from './ProductCard';
@@ -14,7 +16,9 @@ const ProductSection = (props) => {
   let useQuery = () => {
     return new URLSearchParams(useLocation().search);
   }
+  const state = useSelector(state => state.pageProduct);
   const id = useQuery();
+  const dispatch = useDispatch();
     const [pages, setPages] = useState([]);
     // lấy page hiện tại đang hiển thị
     const [currentPage, setCurrentPage] = useState(0);
@@ -42,13 +46,23 @@ const ProductSection = (props) => {
     // lấy tổng số page
     useEffect(() => {
       setLoading(false);
-      getALlProduct(id.get("index")).then((res) => {
-        if(res.error !== true && res.data.code === 0) {
-          setListProduct(res.data.result.content)
-          genPage(res.data.result.totalPages);
-        }
-      });
-    }, [currentPage])
+      if(state.pageProduct) {
+        setListProduct(state.pageProduct.content)
+        genPage(state.pageProduct.totalPages);
+      } else {
+        getALlProduct(id.get("index")).then((res) => {
+          if(res.error !== true && res.data.code === 0) {
+            setListProduct(res.data.result.content)
+            genPage(res.data.result.totalPages);
+          }
+        });
+      }
+    }, [currentPage, state]);
+    useEffect(() => {
+      return () => {
+        dispatch({type: "DELETE_PAGEPRODUCT"});
+      }
+    }, []);
     return loading ?
         (
           <div className="container pl-5 pb-5">

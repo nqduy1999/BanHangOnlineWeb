@@ -6,14 +6,18 @@ import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
-import { getOrder } from '../services/productServices';
-const Header = () => {
+import { useForm } from 'react-hook-form';
+
+import { getOrder, getProductByTextSearch } from '../services/productServices';
+const Header = (props) => {
   const stateAuth = useSelector(state => state.auth);
   const stateCart = useSelector(state => state.cart);
+
+  const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   // các url api
   const [inventory, setInventory] = useState(0);
@@ -43,6 +47,14 @@ const Header = () => {
     Cookies.remove('username');
     Cookies.remove('authtoken');
   }
+  let onSubmit = (data) => {
+    getProductByTextSearch(0, data.keyword).then((res) => {
+      if(res.error !== true && res.data.code === 0) {
+        dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
+        props.history.replace("/sanpham?index=0");
+      }
+    })
+  }
     return (
         <div>
           <header className="site-navbar" role="banner">
@@ -50,9 +62,9 @@ const Header = () => {
             <div className="container">
               <div className="row align-items-center">
                 <div className="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-                  <form className="site-block-top-search">
+                  <form onSubmit={handleSubmit(onSubmit)} className="site-block-top-search">
                     <span className="icon icon-search2" />
-                    <input type="text" className="form-control border-0" placeholder="Tìm Kiếm" />
+                    <input name="keyword" type="text"  ref={register({ required: false })} className="form-control border-0" placeholder="Tìm Kiếm" />
                   </form>
                 </div>
                 <div className="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
@@ -181,4 +193,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default withRouter(Header);

@@ -58,3 +58,23 @@ export const getProductDetail = (id) => {
         };
     });
 }
+
+export const getProductByTextSearch = (index, keyword) => {
+    return axios({
+        method: "GET",
+        url: `product/search?index=${index}&keyword=${keyword}`
+    })
+    .then((res) => {
+        return {
+            data: res.data,
+            error: false,
+            complete: true
+        };
+    }).catch((err) => {
+        return {
+            data: null,
+            error: true,
+            complete: true
+        };
+    });
+}
