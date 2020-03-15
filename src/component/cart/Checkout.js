@@ -26,18 +26,23 @@ const Checkout = (props) => {
         totalMoney: order.totalMoney,
         listOrderDetail: order.listOrderDetail,
         customer: state.user,
-        address: stateAddress.address,
+        address: order.customer.address ? order.customer.address : stateAddress.address,
         note: note,
         payMethod: paymentMethod
       }
-      payment(orderCheckout).then((res) => {
-        if(res.error !== true && res.data.code === 0) {
-          props.history.push("/thongbao");
-          dispatch({type: "CHANGE_INVENTORY", inventory: 0});
-        } else {
-          alertNotify("Thông báo", "Lỗi thanh toán vui lòng quay lại sau", "error");
-        }
-      })
+      if(orderCheckout.address) {
+        payment(orderCheckout).then((res) => {
+          if(res.error !== true && res.data.code === 0) {
+            props.history.push("/thongbao");
+            dispatch({type: "CHANGE_INVENTORY", inventory: 0});
+            dispatch({type: "SET_ADDRESS", address: ""});
+          } else {
+            alertNotify("Thông báo", "Lỗi thanh toán vui lòng quay lại sau", "error");
+          }
+        })
+      } else {
+        alertNotify("Thông báo", "Vui lòng nhập địa chỉ giao hàng", "warning");
+      }
     };
     //loading
     const [loading, setLoading] = useState(true);

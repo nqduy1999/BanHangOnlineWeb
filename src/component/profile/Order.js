@@ -20,7 +20,7 @@ const Order = (props) => {
                 </div>
                 <div className="row">
                     <div className="col-md-9">
-                        <input type="button" className="btn btn-primary" value="Xem chi tiết"/>
+                        <button type="button" onClick={props.onClick} className="btn btn-primary">Xem chi tiết</button>
                     </div>
                     <div className="col-md-3 text-primary">
                         <p>Tổng tiền: {props.total}</p>

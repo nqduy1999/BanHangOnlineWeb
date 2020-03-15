@@ -1,12 +1,13 @@
 import {combineReducers} from 'redux';
+
+import AddressReducer from './AddressReducer';
 import AuthenticationReducer from './AuthenticationReducer.js';
 import CartReducer from './CartReducer';
-import AddressReducer from './AddressReducer';
 
-const rootReducer = combineReducers({
+const RootReducer = combineReducers({
     auth: AuthenticationReducer,
     cart: CartReducer,
     address: AddressReducer
 });
 
-export default rootReducer;
+export default RootReducer;

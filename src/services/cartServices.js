@@ -1,8 +1,9 @@
 import axios from "../untils/axios";
+import Cookies from 'js-cookie';
 export const addProductToCart = (data) => {
     return axios({
         method: "POST",
-        url: `cart/add`,
+        url: `cart/add?username=${Cookies.get("username")}`,
         data,
         withCredentials: true // bật true để tự động set JSESSIONID Cookie vào request, ko để ở ngoài hàm vì khi chạy nó sẽ tự động thay đổi JSSESSIONID
     })

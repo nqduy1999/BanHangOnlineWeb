@@ -61,14 +61,14 @@ const Profile = () => {
                 name: state.user.name,
                 address: state.user.address,
                 phone: state.user.phone,
-                identifyCard: state.user.identifyCard,
+                identityCard: state.user.identityCard,
                 birthday: state.user.birthday,
                 account: state.user.account
             });
         }
     }, [state]);
     return (
-        <form className="container" onSubmit={handleSubmit(onSubmit)}>
+        <form className="container card" onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
                 <div className={isEdit ? "col-md-6" : "col-md-12"}>
                     <div className="form-group">
@@ -81,7 +81,7 @@ const Profile = () => {
                     </div>
                     <div className="form-group">
                         <label>CMND</label>
-                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="identify" onChange={e => setUser({...user, identityCard: e.target.value})} value={ user.identityCard ? user.identityCard : ""}  placeholder="CMND của bạn"/>
+                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="identityCard" onChange={e => setUser({...user, identityCard: e.target.value})} value={ user.identityCard ? user.identityCard : ""}  placeholder="CMND của bạn"/>
                     </div>
                     <div className="form-group">
                         <label>Ngày sinh</label>
