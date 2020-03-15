@@ -20,7 +20,9 @@ const Order = (props) => {
                 </div>
                 <div className="row">
                     <div className="col-md-9">
-                        <button type="button" onClick={props.onClick} className="btn btn-primary">Xem chi tiết</button>
+                        {
+                            props.turnOnBtn === true ? <button type="button" onClick={props.onClick} className="btn btn-primary">Xem chi tiết</button> : ""
+                        }
                     </div>
                     <div className="col-md-3 text-primary">
                         <p>Tổng tiền: {props.total}</p>

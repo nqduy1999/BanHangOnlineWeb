@@ -36,12 +36,13 @@ const MyAccount = () => {
                         <div className="tab-pane fade" id="v-pills-order" role="tabpanel" aria-labelledby="v-pills-order-tab">
                             {
                                 isSeeDetail ?
-                                <OrderDetail id={idOrder}/>
+                                <OrderDetail onClick={() => {setIsDetail(false);}} id={idOrder}/>
                                 :
-                                listOrder && listOrder.map((order) => (
-                                    order.listOrderDetail.map((orderDetail, key) =>
-                                        <Order onClick={() => {setIsDetail(true); setIdOrder(order.id)}} key={key} productName={orderDetail.product.name} inventory={orderDetail.quantity} price={orderDetail.product.price} total={orderDetail.unitPrice}/>
-                                    )
+                                listOrder && listOrder.map((order, key) => (
+                                    order.listOrderDetail.map((orderDetail, key) => (
+                                        key === 0 ?
+                                            <Order turnOnBtn={true} onClick={() => {setIsDetail(true); setIdOrder(order.id)}} key={key} productName={orderDetail.product.name} inventory={order.listOrderDetail.length} price={orderDetail.product.unitPrice} total={order.totalMoney}/> : ""
+                                    ))
                                 ))
                             }
                         </div>
