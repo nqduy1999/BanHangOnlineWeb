@@ -8,14 +8,16 @@ const CustomerItem = (props) => {
                 <td>{username}</td>
                 <td>{email}</td>
                 <td> 
-                <Link to={`danhsachkhachhang/khachhang/${username}`}>
+                <Link to={`danhsachkhachhang/profile/${username}`}>
                 <button className="btn-warning">
                     Click !
                     </button>
                 </Link>
                     </td>
                 <td>
+                <Link to={`danhsachkhachhang/update/${username}`}>
                     <button className="btn-primary">Cập nhật chi tiết</button>
+                </Link>
                 </td>
             </tr>
         </tbody>

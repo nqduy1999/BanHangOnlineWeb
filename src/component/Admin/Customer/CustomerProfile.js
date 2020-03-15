@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDetailCus } from "../../../services/AdminService";
+import { Link } from "react-router-dom";
 const CustomerProfile = props => {
   const name = props.match.params.name;
   const [customer, setCustomer] = useState({});
@@ -52,12 +53,9 @@ const CustomerProfile = props => {
             </div>
           </div>
           <div className="col-md-2">
-            <input
-              type="submit"
-              className="profile-edit-btn"
-              name="btnAddMore"
-              defaultValue="Edit Profile"
-            />
+            <Link to={`/admin/danhsachkhachhang/update/${name}`}>
+            <button className="btn-success">Cập nhật thông tin</button>
+            </Link>
           </div>
         </div>
         <div className="row">

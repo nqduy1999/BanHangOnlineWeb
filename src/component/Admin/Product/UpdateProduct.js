@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
 import { useForm } from "react-hook-form";
 const UpdateProduct = props => {
   const { register, handleSubmit } = useForm();
