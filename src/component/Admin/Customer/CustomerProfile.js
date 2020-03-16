@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getDetailCus } from "../../../services/AdminService";
 import { Link } from "react-router-dom";
+import { alertNotify } from "../../../untils/alert";
 const CustomerProfile = props => {
   const name = props.match.params.name;
   const [customer, setCustomer] = useState({
@@ -13,7 +14,7 @@ const CustomerProfile = props => {
   });
   useEffect(() => {
     getDetailCus(name).then(async res => {
-      if (res.error !== true && res.data.code === 0) {
+      if (res.error !== true && res.data.code === 0 && res.data.result.address !== null) {
         console.log(res.data.result);
         const result = await res.data.result;
         setCustomer({
@@ -25,6 +26,9 @@ const CustomerProfile = props => {
           identityCard: result.identityCard,
           birthday: result.birthday
         });
+      }
+      else{
+        alertNotify("Vui lòng cập nhật thông tin để xem chi tiết");
       }
     });
   }, []);
