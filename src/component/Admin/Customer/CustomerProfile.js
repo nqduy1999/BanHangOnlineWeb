@@ -3,12 +3,28 @@ import { getDetailCus } from "../../../services/AdminService";
 import { Link } from "react-router-dom";
 const CustomerProfile = props => {
   const name = props.match.params.name;
-  const [customer, setCustomer] = useState({});
+  const [customer, setCustomer] = useState({
+    id: "",
+    name: "",
+    address: {},
+    phone: "",
+    identityCard: "",
+    birthday: ""
+  });
   useEffect(() => {
-    getDetailCus(name).then(res => {
+    getDetailCus(name).then(async res => {
       if (res.error !== true && res.data.code === 0) {
         console.log(res.data.result);
-        setCustomer(res.data.result);
+        const result = await res.data.result;
+        setCustomer({
+          ...customer,
+          id: result.id,
+          name: result.name,
+          address: result.address,
+          phone: result.phone,
+          identityCard: result.identityCard,
+          birthday: result.birthday
+        });
       }
     });
   }, []);
@@ -31,9 +47,10 @@ const CustomerProfile = props => {
           <div className="col-md-6">
             <div className="profile-head">
               <h5>{customer.name}</h5>
-              <h6>{customer.address}</h6>
+              <h6>{customer.phone}</h6>
               <p className="proile-rating">
-                BirthDay : <span>{customer.birthday}</span>
+                BirthDay : {customer.birthday}
+                <span></span>
               </p>
               <ul className="nav nav-tabs" id="myTab" role="tablist">
                 <li className="nav-item">
@@ -54,7 +71,7 @@ const CustomerProfile = props => {
           </div>
           <div className="col-md-2">
             <Link to={`/admin/danhsachkhachhang/update/${name}`}>
-            <button className="btn-success">Cập nhật thông tin</button>
+              <button className="btn-success">Cập nhật thông tin</button>
             </Link>
           </div>
         </div>
@@ -88,7 +105,17 @@ const CustomerProfile = props => {
                     <label>Address</label>
                   </div>
                   <div className="col-md-6">
-                    <p>{customer.address}</p>
+                    <p>
+                      {customer.address.street +
+                        ", " +
+                        customer.address.town +
+                        ", " +
+                        customer.address.ward +
+                        ", " +
+                        customer.address.district +
+                        ", " +
+                        customer.address.city}
+                    </p>
                   </div>
                 </div>
                 <div className="row">
