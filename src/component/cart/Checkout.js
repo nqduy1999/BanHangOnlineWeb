@@ -37,7 +37,7 @@ const Checkout = (props) => {
             dispatch({type: "CHANGE_INVENTORY", inventory: 0});
             dispatch({type: "SET_ADDRESS", address: ""});
           } else {
-            alertNotify("Thông báo", "Lỗi thanh toán vui lòng quay lại sau", "error");
+            alertNotify("Thông báo", "Lỗi thanh toán vui lòng quay lại sau hoặc F5 để thử lại", "error");
           }
         })
       } else {

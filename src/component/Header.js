@@ -12,7 +12,8 @@ import Cookies from 'js-cookie';
 
 import { useForm } from 'react-hook-form';
 
-import { getOrder, getProductByTextSearch } from '../services/productServices';
+import { getOrder } from '../services/cartServices';
+import { getProductByTextSearch } from '../services/productServices';
 const Header = (props) => {
   const stateAuth = useSelector(state => state.auth);
   const stateCart = useSelector(state => state.cart);
@@ -32,6 +33,8 @@ const Header = (props) => {
   const order = getOrder();
   useEffect(() => {
     order.then((res) => {
+      console.log(res);
+      
       if(res.error === false && res.data.code === 0) {
         let total = 0;
         res.data.result.listOrderDetail.map((item) => {
@@ -120,7 +123,7 @@ const Header = (props) => {
                   <Link to="/gioithieu">Giới thiệu</Link>
                 </li>
                 <li className="has-children">
-                  <Link to="/sanpham?index=0">Sản phẩm</Link>
+                  <Link to="/sanpham">Sản phẩm</Link>
                   <ul className="dropdown">
                     <li className="has-children">
                       <Link to="/may-tinh-thiet-bi-van-phong">Máy tính - Thiết bị văn phòng </Link>

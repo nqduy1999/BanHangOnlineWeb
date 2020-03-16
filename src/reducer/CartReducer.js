@@ -1,5 +1,5 @@
 
-const CartReducer = (state = 0, action) => {
+const CartReducer = (state = {}, action) => {
   switch (action.type) {
     case "CHANGE_INVENTORY":
       return {
