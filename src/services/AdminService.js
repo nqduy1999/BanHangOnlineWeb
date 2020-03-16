@@ -91,6 +91,7 @@ export const getListCus = () => {
     return axios({
         method: "GET",
         url: `admin/customer/list`,
+        headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     })
         .then((res) => {
             return {
@@ -108,7 +109,7 @@ export const getListCus = () => {
             }
         })
 }
-export const getDetailCus = (username) =>{
+export const getDetailCus = (username,) =>{
     return axios({
         method:"GET",
         url:`customer/detail?username=${username}`,
@@ -130,3 +131,25 @@ export const getDetailCus = (username) =>{
         }
     })
 }
+export const updateCus = (username, value) =>{
+    return axios({
+        method:"POST",
+        url:`customer/update?username=${username}`,
+        data:value,
+        headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
+    })
+    .then((res) => {
+        return {
+            data: res.data,
+            error: false,
+            complete: true
+        };
+
+    })
+    .catch(() => {
+        return {
+            data: null,
+            error: true,
+            complete: true
+        }
+    })}

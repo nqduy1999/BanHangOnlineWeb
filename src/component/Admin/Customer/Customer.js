@@ -5,6 +5,7 @@ import { getListCus } from '../../../services/AdminService';
 import Cookies from 'js-cookie';
 const ListCustomer = () => {
     console.log(Cookies.get("authtoken"));
+    
     const [listCus, setListCus] = useState([])
     useEffect(() => {
         getListCus()

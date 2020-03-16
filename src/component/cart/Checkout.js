@@ -4,11 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import HashLoader from "react-spinners/HashLoader";
-
 import { useForm } from 'react-hook-form';
-
 import { useDispatch, useSelector } from 'react-redux';
-
 import Address from '../profile/Address';
 import { getAllCart } from '../../services/cartServices';
 import { payment } from '../../services/checkoutServices';
@@ -43,6 +40,7 @@ const Checkout = (props) => {
       } else {
         alertNotify("Thông báo", "Vui lòng nhập địa chỉ giao hàng", "warning");
       }
+      console.log(orderCheckout);
     };
     //loading
     const [loading, setLoading] = useState(true);

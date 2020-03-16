@@ -4,7 +4,6 @@ const UpdateProduct = props => {
   const { register, handleSubmit } = useForm();
   const onSubmit = data => {
     if (props.updateUser === null) {
-      console.log(data.id);
       {
         props.handleAddSubmit(data);
       }
