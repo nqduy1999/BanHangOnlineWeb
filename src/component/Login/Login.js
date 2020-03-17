@@ -10,7 +10,7 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { useDispatch } from 'react-redux';
 
-import { login } from '../../services/userServices';
+import { login } from '../../services/UserServices';
 import { alertNotify } from '../../untils/alert';
 const Login = (props) => {
   // React form

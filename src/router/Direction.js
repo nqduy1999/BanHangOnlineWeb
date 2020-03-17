@@ -10,7 +10,7 @@ import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Home from '../pages/Home';
 import Product from '../pages/Product';
-import { getProfile } from '../services/userServices';
+import { getProfile } from '../services/UserServices';
 import { alertNotify } from '../untils/alert';
 import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';

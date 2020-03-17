@@ -4,8 +4,8 @@ import { useLocation, withRouter } from 'react-router-dom';
 
 import HashLoader from "react-spinners/HashLoader";
 
-import { addProductToCart } from '../../services/cartServices';
-import { getProductDetail } from '../../services/productServices';
+import { addProductToCart } from '../../services/CartServices';
+import { getProductDetail } from '../../services/ProductServices';
 import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
 const ProductDetails = (props) => {
     // lấy query String

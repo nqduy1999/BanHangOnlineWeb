@@ -6,7 +6,7 @@ import { withRouter, Link } from 'react-router-dom';
 
 import HashLoader from "react-spinners/HashLoader";
 
-import { signup } from '../../services/userServices';
+import { signup } from '../../services/UserServices';
 import { alertNotify } from '../../untils/alert';
 const Signup = (props) => {
   // react form

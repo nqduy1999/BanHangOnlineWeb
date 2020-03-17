@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Cookies from 'js-cookie';
 
-import { getListOrderByUsername } from '../../services/orderServices';
+import { getListOrderByUsername } from '../../services/OrderServices';
 
 import Order from './Order';
 import OrderDetail from './OrderDetail';
