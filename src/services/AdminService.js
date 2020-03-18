@@ -86,6 +86,11 @@ export const updateProduct = (id, value) =>{
         }
     })
 }
+export const searchProduct =(key) =>{
+    return axios({
+        method:"GET"
+    })
+}
 //
 export const getListCus = () => {
     return axios({

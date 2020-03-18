@@ -5,7 +5,16 @@ import { useLocation } from 'react-router-dom';
 import ProductItem from "./ProductItem";
 import UpdateProduct from "./UpdateProduct";
 const Product = () => {
-    const [listdata, setData] = useState([{}]);
+    const [listdata, setData] = useState([{
+        id:"",
+        name:"",
+        description:"",
+        price:"",
+        inventory:"",
+        supplier:{
+        },
+        category:""
+    }]);
     const [updateUser, getUpdateUser] = useState(null);
     let removePd = id => {
         removeProduct(id)
@@ -91,6 +100,8 @@ const Product = () => {
                             <td scope="col">Giá</td>
                             <td scope="col">Số Lượng</td>
                             <td scope="col">Hình Ảnh</td>
+                            <td scope="col">Nhà cung cấp</td>
+                            <td scope="col">Loại Hàng</td>
                             <td> Cập Nhật</td>
                         </tr>
                     </thead>

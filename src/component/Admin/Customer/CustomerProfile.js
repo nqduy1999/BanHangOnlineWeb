@@ -28,7 +28,7 @@ const CustomerProfile = props => {
         });
       }
       else{
-        alertNotify("Vui lòng cập nhật thông tin để xem chi tiết");
+        alertNotify("Thông báo","Vui lòng cập nhật thông tin để xem chi tiết","warning");
       }
     });
   }, []);

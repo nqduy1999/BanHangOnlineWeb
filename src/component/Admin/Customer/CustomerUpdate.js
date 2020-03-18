@@ -31,7 +31,7 @@ const CustomerUpdate = props => {
       }
     updateCus(username, customerUp)
     .then((res)=>{
-      alertNotify("Cập Nhật Thành Công ");
+      alertNotify("Trạng Thái","Cập Nhật Thành Công ", "success");
       setRedirect(true);
     })
   };
