@@ -35,6 +35,11 @@ const Profile = () => {
         birthday: "",
         account: null
     });
+    const handleInput = (e) => {
+        setUser({...user,
+            [e.target.name]: e.target.value
+        })
+    }
     let onSubmit = () => {
         if(isEdit === false) {
             update(user.account.username, user)
@@ -73,15 +78,15 @@ const Profile = () => {
                 <div className={isEdit ? "col-md-6" : "col-md-12"}>
                     <div className="form-group">
                         <label>Họ và tên</label>
-                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="name" onChange={e => setUser({...user, name: e.target.value})} value={user.name ? user.name : ""} placeholder="Họ và tên của bạn"/>
+                        <input type="text" name="name" readOnly={isEdit ? false : true} className="form-control" id="name" onChange={handleInput} value={user.name ? user.name : ""} placeholder="Họ và tên của bạn"/>
                     </div>
                     <div className="form-group">
                         <label>Số điện thoại</label>
-                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="phone" onChange={e => setUser({...user, phone: e.target.value})} value={user.phone ? user.phone : ""}  placeholder="Số điện thoại của bạn"/>
+                        <input type="text" name="phone" readOnly={isEdit ? false : true} className="form-control" id="phone" onChange={handleInput} value={user.phone ? user.phone : ""}  placeholder="Số điện thoại của bạn"/>
                     </div>
                     <div className="form-group">
                         <label>CMND</label>
-                        <input type="text" readOnly={isEdit ? false : true} className="form-control" id="identityCard" onChange={e => setUser({...user, identityCard: e.target.value})} value={ user.identityCard ? user.identityCard : ""}  placeholder="CMND của bạn"/>
+                        <input type="text" name="identityCard" readOnly={isEdit ? false : true} className="form-control" id="identityCard" onChange={handleInput} value={ user.identityCard ? user.identityCard : ""}  placeholder="CMND của bạn"/>
                     </div>
                     <div className="form-group">
                         <label>Ngày sinh</label>
