@@ -7,7 +7,7 @@ const ProductCard = (props) => {
         <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
         <div className="block-4 text-center border">
           <figure className="block-4-image">
-          <Link to={"/chitiet?id="+ props.id}><img src={`data:image/jpeg;base64,${props.data}`} alt={props.content} className="img-fluid" /></Link>
+          <Link to={"/chitiet?id="+ props.id}><img src={props.url} alt={props.content} className="img-fluid" /></Link>
           </figure>
           <div className="block-4-text p-4">
             <h3><Link to={"/chitiet?id="+ props.id}>{props.name}</Link></h3>

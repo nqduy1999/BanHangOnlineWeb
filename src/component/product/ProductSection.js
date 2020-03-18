@@ -136,7 +136,7 @@ const ProductSection = (props) => {
               </div>
               <div className="row mb-5">
                 {listProduct.map((item, i) => (
-                    <ProductCard key={i} id={item.id} data={dataTest.data} content={item.description} name={item.name} description={item.description} price={item.price}/>
+                    <ProductCard key={i} id={item.id} url={item.urlImage} content={item.description} name={item.name} description={item.description} price={item.price}/>
                   ))}
               </div>
               <div className="row" data-aos="fade-up">
