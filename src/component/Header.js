@@ -33,8 +33,6 @@ const Header = (props) => {
   const order = getOrder();
   useEffect(() => {
     order.then((res) => {
-      console.log(res);
-      
       if(res.error === false && res.data.code === 0) {
         let total = 0;
         res.data.result.listOrderDetail.map((item) => {
@@ -122,69 +120,8 @@ const Header = (props) => {
                 <li>
                   <Link to="/gioithieu">Giới thiệu</Link>
                 </li>
-                <li className="has-children">
+                <li>
                   <Link to="/sanpham">Sản phẩm</Link>
-                  <ul className="dropdown">
-                    <li className="has-children">
-                      <Link to="/may-tinh-thiet-bi-van-phong">Máy tính - Thiết bị văn phòng </Link>
-                      <i className="fa fa-angle-down" />
-                      <ul className="dropdown">
-                        <li><Link to="/may-tinh-casio">Máy tính casio </Link></li>
-                        <li><Link to="/chuot-banphim">Chuột máy tính bàn phím </Link></li>
-                        <li><Link to="/o-cam-dien">Ổ cắm điện - phích cắm </Link></li>
-                        <li><Link to="/pin-cd-dvd-usb">Pin - CD - DVD - USB - Điện thoại bàn </Link></li>
-                      </ul>
-                    </li>
-                    <li className="has-children">
-                      <Link to="muc-in-but">Mực in - Bút</Link>
-                      <ul className="dropdown">
-                        <li><Link to="/but-bi-thien-long">Bút bi thiên long</Link></li>
-                        <li><Link to="/but-bi-but-nuoc-but-ky">Bút bi - Bút nước - Bút ký</Link></li>
-                        <li><Link to="/but-da-quang">Bút dạ quang - Lông bảng - Lông dầu</Link></li>
-                        <li><Link to="/but-xoa">Bút xoá</Link></li>
-                        <li><Link to="/but-chi">Bút chì  - Ruột chì - Tẩy - Chuốt</Link></li>
-                        <li><Link to="/muc-dau-muc-long-ban">Mực dấu - Mực lông bản - Mực dầu</Link></li>
-                      </ul>
-                    </li>
-                    <li className="has-children">
-                      <Link to="/sotap">Sổ - Tập</Link>
-                      <ul className="dropdown">
-                        <li><Link to="/tap-vo">Tập vở - Bao thư</Link></li>
-                        <li><Link to="/namecard">Sổ Namecard - Hộp Đựng Namecard</Link></li>
-                        <li><Link to="/o-cam-dien">Ổ cắm điện - phích cắm</Link></li>
-                        <li><Link to="/phieuthuchi">Phiếu thu chi - Phiếu xuất nhập kho</Link></li>
-                      </ul>
-                    </li>
-                    <li className="has-children">
-                      <Link to="/bachhoavanphong">Bách hoá văn phòng </Link>
-                      <ul className="dropdown">
-                        <li><Link to="/chamsocsuckhoe">Chăm sóc sức khoẻ và sắc đẹp</Link></li>
-                        <li><Link to="/thucphamvanphong">Thực phẩm văn phòng</Link></li>
-                        <li><Link to="/chattayrua">Chất tẩy rửa - giấy vệ sinh - Khăn giấy</Link></li>
-                        <li><Link to="/baoholaodong">Bảo hộ lao động</Link></li>
-                        <li><Link to="/vanphongphamkhac">Văn phòng phẩm khác</Link></li>
-                      </ul>
-                    </li>
-                    <li className="has-children">
-                      <Link to="/bangviet">Bảng viết - Bút lông</Link>
-                      <ul className="dropdown">
-                        <li><Link to="/maytinhcasio">Máy tính casio</Link></li>
-                        <li><Link to="/chuotmaytinh">Chuột máy tính bàn phím</Link></li>
-                        <li><Link to="/ocamdien">Ổ cắm điện - phích cắm</Link></li>
-                        <li><Link to="/pincd">Pin - CD - DVD - USB - Điện thoại bàn</Link></li>
-                      </ul>
-                    </li>
-                    <li className="has-children">
-                      <Link to="/giayinvanphong">Giấy in văn phòng</Link>
-                      <ul className="dropdown">
-                        <li><Link to="/giayvanphong">Giấy văn phòng phẩm - Giấy photo</Link></li>
-                        <li><Link to="/biathai">Bìa thái - Giấy FO màu - Bìa kiếng</Link></li>
-                        <li><Link to="/giayinmau">Giấy in màu - In ảnh - Giấy kẻ ngang</Link></li>
-                        <li><Link to="/pincddvd">Pin - CD - DVD - USB - Điện thoại bàn</Link></li>
-                      </ul>
-                    </li>
-                    <li><Link to="/combovanphongpham">Combo Văn phòng phẩm</Link></li>
-                  </ul>
                 </li>
                 <li><Link to="/lienhe">Liên Hệ</Link></li>
               </ul>

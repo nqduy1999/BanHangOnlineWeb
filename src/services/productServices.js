@@ -100,3 +100,23 @@ export const sortByDesc = (index, fieldSort) => {
     });
 }
 
+export const findAllProductByCategory = (index, id) => {
+    return axios({
+        method: "GET",
+        url: `product/category?index=${index}&id=${id}`
+    })
+    .then((res) => {
+        return {
+            data: res.data,
+            error: false,
+            complete: true
+        };
+    }).catch((err) => {
+        return {
+            data: null,
+            error: true,
+            complete: true
+        };
+    });
+}
+

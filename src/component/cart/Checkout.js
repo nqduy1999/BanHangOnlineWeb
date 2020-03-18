@@ -4,8 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import HashLoader from "react-spinners/HashLoader";
+
 import { useForm } from 'react-hook-form';
+
 import { useDispatch, useSelector } from 'react-redux';
+
 import Address from '../profile/Address';
 import { getAllCart } from '../../services/cartServices';
 import { payment } from '../../services/checkoutServices';
@@ -23,7 +26,7 @@ const Checkout = (props) => {
         totalMoney: order.totalMoney,
         listOrderDetail: order.listOrderDetail,
         customer: state.user,
-        address: order.customer.address ? order.customer.address : stateAddress.address,
+        address: stateAddress.address ? stateAddress.address : order.customer.address,
         note: note,
         payMethod: paymentMethod
       }
@@ -34,13 +37,12 @@ const Checkout = (props) => {
             dispatch({type: "CHANGE_INVENTORY", inventory: 0});
             dispatch({type: "SET_ADDRESS", address: ""});
           } else {
-            alertNotify("Thông báo", "Lỗi thanh toán vui lòng quay lại sau hoặc F5 để thử lại", "error");
+            alertNotify("Thông báo", res.data.message, "error");
           }
         })
       } else {
         alertNotify("Thông báo", "Vui lòng nhập địa chỉ giao hàng", "warning");
       }
-      console.log(orderCheckout);
     };
     //loading
     const [loading, setLoading] = useState(true);

@@ -86,7 +86,7 @@ export const updateProduct = (id, value) =>{
         }
     })
 }
-export const searchProduct =(key) =>{
+export const searchProduct =(key, index) =>{
     return axios({
         method:"GET"
     })

@@ -8,7 +8,8 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getALlProduct, sortByAsc, sortByDesc } from '../../services/productServices';
+import { findALlCategory } from '../../services/categoryServices';
+import { getALlProduct, sortByAsc, sortByDesc, findAllProductByCategory } from '../../services/productServices';
 
 import ProductCard from './ProductCard';
 import dataTest from './datatest.json';
@@ -20,6 +21,8 @@ const ProductSection = (props) => {
     const [currentPage, setCurrentPage] = useState(0);
     //loading
     const [loading, setLoading] = useState(true);
+    // danh sách category
+    const [listCategory, setListCategory] = useState([]);
     // lấy danh sách sản phẩm hiển thị
 
     // hiển thị tổng số trang
@@ -48,16 +51,23 @@ const ProductSection = (props) => {
       })
     }
       // sắp xếp giảm dần - fieldSort là thuộc tính cần sắp xếp
-      const sortByDESC = (index, fieldSort) => {
-        sortByDesc(index, fieldSort).then((res) => {
-          if(res.error !== true && res.data.code === 0) {
-            dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
-          }
-        })
-      }
+    const sortByDESC = (index, fieldSort) => {
+      sortByDesc(index, fieldSort).then((res) => {
+        if(res.error !== true && res.data.code === 0) {
+          dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
+        }
+      })
+    }
+
+    const getALLProductByCategory = (index, id) => {
+      findAllProductByCategory(index, id).then((res) => {
+        if(res.error !== true && res.data.code === 0) {
+          dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
+        }
+      })
+    }
     // lấy tổng số page
     useEffect(() => {
-      setLoading(false);
       if(state.pageProduct) { // state cho tìm kiếm và sắp xếp
         setListProduct(state.pageProduct.content)
         genPage(state.pageProduct.totalPages);
@@ -72,6 +82,15 @@ const ProductSection = (props) => {
           }
         });
     }, [currentPage]);
+
+    useEffect(() => {
+      setLoading(false);
+      findALlCategory().then((res) => {
+        if(res.error === false && res.data.code === 0) {
+          setListCategory(res.data.result);
+        }
+      })
+    }, []);
     useEffect(() => {
       return () => {
         dispatch({type: "DELETE_PAGEPRODUCT"});
@@ -117,7 +136,7 @@ const ProductSection = (props) => {
               </div>
               <div className="row mb-5">
                 {listProduct.map((item, i) => (
-                    <ProductCard key={i} id={item.id} data={dataTest.data} content={item.description} name={item.name} description={item.description} price={item.price}/>
+                    <ProductCard key={i} id={item.id} url={item.urlImage} content={item.description} name={item.name} description={item.description} price={item.price}/>
                   ))}
               </div>
               <div className="row" data-aos="fade-up">
@@ -142,13 +161,11 @@ const ProductSection = (props) => {
               <div className="border p-4 rounded mb-4">
                 <h3 className="mb-3 h6 text-uppercase text-black d-block font-weight-bold">Loại sản phẩm</h3>
                 <ul className="list-unstyled mb-0 text-primary"  style={{cursor: "pointer"}}>
-                  <li className="mb-1"><span>Máy tính - Thiết bị Văn phòng</span></li>
-                  <li className="mb-1"><span>Mực in - Bút</span></li>
-                  <li className="mb-1"><span>Sổ tập</span></li>
-                  <li className="mb-1"><span>Bách hoá văn phòng</span></li>
-                  <li className="mb-1"><span>Bảng viết - Bút Lông</span></li>
-                  <li className="mb-1"><span>Giấy in văn phòng</span></li>
-                  <li className="mb-1"><span>Combo văn phòng phẩm</span></li>
+                      {
+                        listCategory.map((item, key) => (
+                          <li key={key} className="mb-1" onClick={() => getALLProductByCategory(currentPage, item.id)}><span>{item.name}</span></li>
+                        ))
+                      }
                 </ul>
               </div>
             </div>

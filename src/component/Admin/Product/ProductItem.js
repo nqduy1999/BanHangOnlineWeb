@@ -18,7 +18,6 @@ const ProductItem = props => {
   useEffect(() => {
     setProduct(props.product);
     if(props.product.supplier !== null){
-      product.supplier.name = props.product.supplier.name; 
     }
   }, )
   const onClick = () => {

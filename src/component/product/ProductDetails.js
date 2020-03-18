@@ -6,6 +6,7 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { addProductToCart } from '../../services/cartServices';
 import { getProductDetail } from '../../services/productServices';
+import { alertNotify } from '../../untils/alert';
 import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
 const ProductDetails = (props) => {
     // lấy query String
@@ -75,7 +76,6 @@ const ProductDetails = (props) => {
       getProductDetail(id.get("id")).then((res) => {
         if(res.error !== true && res.data.code === 0) {
           setProduct(res.data.result);
-          console.log(res.data.result);
           setOrderDetail({...orderDetail,
             product:  res.data.result,
             unitPrice: res.data.result.price,
@@ -86,13 +86,17 @@ const ProductDetails = (props) => {
     }, []);
     // thêm chi tiết hoá đơn vào giỏ hàng
     let onAddOrderDetailsToShoppingCard = () => {
-      addProductToCart(orderDetail).then((res) => {
-        if(res.error !== true && res.data.code !== 0) {
-          setMessage(res.data.message);
-        } else if(res.error !== true && res.data.code === 0) {
-          props.history.push("/giohang"); // direct
-        }
-      });
+      if(orderDetail.quantity > product.inventory || product.inventory === 0) {
+        alertNotify("Thông báo", "Sản phẩm không đủ số lượng" , "warning");
+      } else {
+        addProductToCart(orderDetail).then((res) => {
+          if(res.error !== true && res.data.code !== 0) {
+            setMessage(res.data.message);
+          } else if(res.error !== true && res.data.code === 0) {
+            props.history.push("/giohang"); // direct
+          }
+        });
+      }
     }
     return loading ?
           (
@@ -118,9 +122,13 @@ const ProductDetails = (props) => {
                 </div>
                 <div className="col-md-6">
                   <h2 className="text-black">{product.name}</h2>
-                  <p>{product.description}</p>
-                  <p className="mb-4">Ex numquam veritatis debitis minima quo error quam eos dolorum quidem perferendis. Quos repellat dignissimos minus, eveniet nam voluptatibus molestias omnis reiciendis perspiciatis illum hic magni iste, velit aperiam quis.</p>
-                  <p><strong className="text-primary h4">{product.price}</strong></p>
+                  <p>Mô tả sản phẩm: {product.description}</p>
+                  <div>
+                  </div>
+                  <p className="mb-4">Nhà cung cấp: {product.supplier && product.supplier.name}</p>
+                  <p className="mb-4">Mô tả: {product.supplier && product.supplier.description}</p>
+                  <p className="mb-4">Số lượng còn: {product.inventory}</p>
+                  <p><strong className="text-primary h4">Giá sản phẩm: {product.price}đ</strong></p>
                   <div className="mb-5 ml-5">
                     <div className="input-group mb-3" style={{maxWidth: 120}}>
                       <div className="input-group-prepend">
