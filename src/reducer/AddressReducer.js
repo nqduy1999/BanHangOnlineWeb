@@ -1,5 +1,4 @@
 const initialState = {
-  address: ""
 }
 const AddressReducer = (state = initialState, action) => {
     switch (action.type) {

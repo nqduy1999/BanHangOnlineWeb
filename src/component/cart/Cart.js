@@ -40,7 +40,7 @@ const Cart = (props) => {
             update({...order,
               totalMoney: total + price,
               listOrderDetail: order.listOrderDetail.map(item => item.product.id === id ? {...item,
-                unitPrice: item.product.price * (item.quantity + 1),
+                unitPrice: price * (item.quantity + 1),
                 quantity: item.quantity + 1
               } : item)
             });
@@ -49,9 +49,10 @@ const Cart = (props) => {
           if(quantity > 1) {
             update({...order,
               totalMoney: total - price,
-              danhsachCTHD: order.listOrderDetail.map(item => item.product.id === id ? {...item,
-              unitPrice: price * (item.quantity - 1),
-              quantity: item.quantity - 1} : item)
+              listOrderDetail: order.listOrderDetail.map(item => item.product.id === id ? {...item,
+                unitPrice: price * (item.quantity - 1),
+                quantity: item.quantity - 1
+              } : item)
             });
           }
         } else if(action === ""){ /// nhập vào input

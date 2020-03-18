@@ -162,8 +162,8 @@ const ProductSection = (props) => {
                 <h3 className="mb-3 h6 text-uppercase text-black d-block font-weight-bold">Loại sản phẩm</h3>
                 <ul className="list-unstyled mb-0 text-primary"  style={{cursor: "pointer"}}>
                       {
-                        listCategory.map((item) => (
-                          <li className="mb-1" onClick={() => getALLProductByCategory(currentPage, item.id)}><span>{item.name}</span></li>
+                        listCategory.map((item, key) => (
+                          <li key={key} className="mb-1" onClick={() => getALLProductByCategory(currentPage, item.id)}><span>{item.name}</span></li>
                         ))
                       }
                 </ul>
