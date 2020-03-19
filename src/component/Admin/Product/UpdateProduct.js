@@ -2,21 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 const UpdateProduct = props => {
   const { register, handleSubmit } = useForm();
-  const {product, setProduct} =useState({
-    name:"",
-    description:"",
-    price:"",
-    inventory:"",
-    supplier:"",
-    image:"",
-    caterogy:""
+  const [product, setProduct] = useState({
   })
-  const [onHide, show] = useState(false)
   const onSubmit = data => {
     if (props.updateUser === null) {
       {
         console.log(data);
-        
+
         props.handleAddSubmit(data);
       }
     } else {
@@ -25,9 +17,6 @@ const UpdateProduct = props => {
       }
     }
   };
-  const onChange = ()=>{
-
-  }
   return (
     <div
       className="modal fade"
@@ -60,6 +49,7 @@ const UpdateProduct = props => {
                   className="form-control"
                   name="name"
                   required
+                  value={props.updateUser ? props.product.name : ""}
                   ref={register}
                 />
               </div>
@@ -96,16 +86,6 @@ const UpdateProduct = props => {
                 />
               </div>
               <div className="form-group">
-                <label>Nhà cung cấp</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="supplier"
-                  required
-                  ref={register}
-                />
-              </div>
-              <div className="form-group">
                 <label>Loại Hàng</label>
                 <input
                   type="text"
@@ -115,8 +95,7 @@ const UpdateProduct = props => {
                   ref={register}
                 />
               </div>
-              <button type="submit" className="btn btn-success">
-                Submit
+              <button type="submit" className="btn btn-success" >                Submit
               </button>
             </form>
           </div>

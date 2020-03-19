@@ -8,17 +8,11 @@ const ProductItem = props => {
     description:"",
     price:"",
     inventory:"",
-    supplier:{
-      id:"",
-      name:"",
-      description:""
-    },
-    category:""
+    supplier:{},
+    category:{}
   })
   useEffect(() => {
     setProduct(props.product);
-    if(props.product.supplier !== null){
-    }
   }, )
   const onClick = () => {
     alertYesNo("Thông báo", "Bạn có muốn xoá sản phẩm ", "warning", "Yes").then(
@@ -36,29 +30,44 @@ const ProductItem = props => {
   };
   return (
     <tbody>
-      <tr>
-        <th scope="row">{product.id}</th>
-        <td>{product.name}</td>
-        <td>{product.description}</td>
-        <td>{product.price}</td>
-        <td>{product.inventory}</td>
-        <td>{product.category}</td>
-        <td>
-          <button onClick={onClick} className=" btn-danger">
+      <tr className="row100">
+              <td className="column100 column1" data-column="column1">
+                {product.name}
+              </td>
+              <td className="column100 column2" data-column="column2">
+                {product.id}              </td>
+              <td className="column100 column3" data-column="column3">
+                {product.description}
+              </td>
+              <td className="column100 column4" data-column="column4">
+                {product.price}
+              </td>
+              <td className="column100 column5" data-column="column5">
+                {product.inventory}
+              </td>
+              <td className="column100 column6" data-column="column6">
+                {}
+              </td>
+              <td className="column100 column7" data-column="column7">
+                {product.supplier.name}
+              </td>
+              <td className="column100 column7" data-column="column7">
+                {product.category.name}
+              </td>
+              <td className="column100 column8" data-column="column8">
+              <button onClick={onClick} className=" btn-danger btn">
             Xoá
-          </button>
-        </td>
-        <td>
+          </button>  
           <button
-            className="btn-primary"
+            className="btn-primary btn"
             data-toggle="modal"
             data-target="#capnhat"
             onClick={() => props.getUpdateUser(props.product)}
           >
             Sửa
-          </button>
-        </td>
-      </tr>
+          </button>               
+          </td>
+            </tr>
     </tbody>
   );
 };

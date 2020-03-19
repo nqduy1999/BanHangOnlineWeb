@@ -17,7 +17,7 @@ const Profile = () => {
     const state = useSelector(state => state.auth);
     const stateAddress = useSelector(state => state.address);
     const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit } = useForm();
     const [isEdit, setIsEdit] = useState(false);
     const handleDateChange = date => {
         setUser({...user,

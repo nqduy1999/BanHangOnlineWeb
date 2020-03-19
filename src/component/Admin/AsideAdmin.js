@@ -48,9 +48,15 @@ const AsideAdmin = () => {
     </a>
     <div id="donhang" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div className="bg-white py-2 collapse-inner rounded">
-        <a className="collapse-item" href="cards.html">Danh sách đơn hàng</a>
+        <Link to="/admin/danhsachdonhang" className="collapse-item" >Danh sách đơn hàng</Link>
       </div>
     </div>
+  </li>
+  <li className="nav-item">
+    <a className="nav-link collapsed" data-toggle="collapse" data-target="#cungcap" aria-expanded="true" aria-controls="collapseTwo">
+    <i class="fa fa-university"></i>
+     <span>Danh sách nhà cung cấp</span>
+    </a>
   </li>
   {/* Nav Item - Tables */}
   {/* Divider */}

@@ -2,7 +2,7 @@ import React from 'react';
 import AsideAdmin from './AsideAdmin';
 import TopNavAdmin from './TopnavAdmin';
 import "../../resource/css/fontawesome-free/css/all.min.css";
-import FooterAdmin from './FooterAdmin';
+import "../../resource/css/admintable.css";
 import DirectionAdmin from './DirectionAdmin';
 const Admin = () => {
     return (
@@ -12,7 +12,6 @@ const Admin = () => {
             <div id="content">
                 <TopNavAdmin/>
                 <DirectionAdmin/>
-                <FooterAdmin/>
             </div>
             </div>
         </div>

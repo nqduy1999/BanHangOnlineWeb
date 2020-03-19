@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDetailCus } from "../../../services/AdminService";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { alertNotify } from "../../../untils/alert";
 const CustomerProfile = props => {
   const name = props.match.params.name;
@@ -28,7 +28,7 @@ const CustomerProfile = props => {
         });
       }
       else{
-        alertNotify("Thông báo","Vui lòng cập nhật thông tin để xem chi tiết","warning");
+        alertNotify("Thông báo","Vui lòng cập nhật thông tin để xem chi tiết","warning")
       }
     });
   }, []);
@@ -39,13 +39,9 @@ const CustomerProfile = props => {
           <div className="col-md-4">
             <div className="profile-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
+                src=""
                 alt
               />
-              <div className="file btn btn-lg btn-primary">
-                Change Photo
-                <input type="file" name="file" />
-              </div>
             </div>
           </div>
           <div className="col-md-6">
