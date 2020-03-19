@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getListDistrict, getListWard, getListCity } from '../../services/checkoutServices';
+import { getListDistrict, getListWard, getListCity } from '../../services/CheckoutServices';
 
 const Address = (props) => {
     const dispatch = useDispatch();

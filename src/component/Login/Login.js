@@ -1,6 +1,6 @@
 import React, {useState, useEffect}from 'react';
 
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, useLocation } from 'react-router-dom';
 
 import { useForm } from "react-hook-form";
 
@@ -10,7 +10,7 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { useDispatch } from 'react-redux';
 
-import { login } from '../../services/userServices';
+import { login } from '../../services/UserServices';
 import { alertNotify } from '../../untils/alert';
 const Login = (props) => {
   // React form
@@ -19,6 +19,10 @@ const Login = (props) => {
     //loading
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
+    // auth route
+    let location = useLocation();
+
+    let { from } = location.state || { from: { pathname: "/" } };
     // Đăng nhập
     const onSubmit = data => {
         login(data).then((res) => {
@@ -41,6 +45,7 @@ const Login = (props) => {
     }; // your form submit function which will invoke after successful validation
     useEffect(() => {
       setLoading(false);
+      Cookies.get("authtoken") ? props.history.replace(from) : props.history.push('/dangnhap');
     }, []);
     return loading ?
       (

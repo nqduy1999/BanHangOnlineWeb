@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 
 import { useForm } from "react-hook-form";
 
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, useLocation } from 'react-router-dom';
+
+import Cookies from 'js-cookie';
 
 import HashLoader from "react-spinners/HashLoader";
 
 import { sendEmail } from '../../services/EmailSerivces';
-import { signup } from '../../services/userServices';
+import { signup } from '../../services/UserServices';
 import { alertNotify } from '../../untils/alert';
 const Signup = (props) => {
   // react form
@@ -15,6 +17,10 @@ const Signup = (props) => {
     const [resutl, setResutl] = useState();
     //loading
     const [loading, setLoading] = useState(true);
+    // auth route
+    let location = useLocation();
+
+    let { from } = location.state || { from: { pathname: "/" } };
     // Đăng ký
     const onSubmit = data =>{
       setLoading(true);
@@ -39,6 +45,7 @@ const Signup = (props) => {
     }
     useEffect(() => {
       setLoading(false);
+      Cookies.get("authtoken") ? props.history.replace(from) : props.history.push('/dangky');
     }, []);
 
     return loading ?

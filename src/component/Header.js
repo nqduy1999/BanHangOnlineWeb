@@ -12,8 +12,8 @@ import Cookies from 'js-cookie';
 
 import { useForm } from 'react-hook-form';
 
-import { getOrder } from '../services/cartServices';
-import { getProductByTextSearch } from '../services/productServices';
+import { getOrder } from '../services/CartServices';
+import { getProductByTextSearch } from '../services/ProductServices';
 const Header = (props) => {
   const stateAuth = useSelector(state => state.auth);
   const stateCart = useSelector(state => state.cart);
