@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import HashLoader from "react-spinners/HashLoader";
 
-import { getAllCart, update, remove } from '../../services/cartServices';
+import { getAllCart, update, remove } from '../../services/CartServices';
 import { alertYesNo } from '../../untils/alert';
 import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = (props) => {

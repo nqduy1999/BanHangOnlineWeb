@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 export const getListProduct = (index) => {
     return axios({
         method: "GET",
-        url: `product/list`
+        url: `product/page?index=${index}`
     })
         .then((res) => {
             return {

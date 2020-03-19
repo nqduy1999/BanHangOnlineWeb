@@ -8,8 +8,8 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { findALlCategory } from '../../services/categoryServices';
-import { getALlProduct, sortByAsc, sortByDesc, findAllProductByCategory } from '../../services/productServices';
+import { findALlCategory } from '../../services/CategoryServices';
+import { getALlProduct, sortByAsc, sortByDesc, findAllProductByCategory } from '../../services/ProductServices';
 
 import ProductCard from './ProductCard';
 import dataTest from './datatest.json';

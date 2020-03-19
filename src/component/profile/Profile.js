@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 import { useForm } from 'react-hook-form';
 
-import { update } from '../../services/userServices';
+import { update } from '../../services/UserServices';
 import { alertNotify } from '../../untils/alert';
 
 import Address from './Address';

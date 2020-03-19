@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { alertNotify } from "../../../untils/alert";
 import {
   getListProduct,
   removeProduct,
@@ -7,9 +8,24 @@ import {
   updateProduct
 } from "../../../services/AdminService";
 import ProductItem from "./ProductItem";
-import UpdateProduct from "./UpdateProduct";
 import AddProduct from "./AddProduct";
+import { Link } from "react-router-dom";
 const Product = () => {
+  const [pages, setPages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  let genPage = total => {
+    let array = [];
+    for (let index = 0; index < total; index++) {
+      array.push(index);
+    }
+    setPages(array);
+  };
+  let handleMoveLeft = () => {
+    return currentPage - 1 < 0 ? currentPage : currentPage - 1;
+  };
+  let handleMoveRight = () => {
+    return currentPage + 1 > pages.length - 1 ? currentPage : currentPage + 1;
+  };
   const [listdata, setData] = useState([
     {
       id: "",
@@ -18,17 +34,16 @@ const Product = () => {
       price: "",
       inventory: "",
       supplier: {},
-      category: ""
+      category: {}
     }
   ]);
-  const [updateUser, getUpdateUser] = useState(null);
   let removePd = id => {
     removeProduct(id)
       .then(res => {
         if (res.error !== true && res.data.code === 0) {
-          const resutl = res.data.result;
-          console.log(resutl);
-          setData(resutl);
+          getListProduct(currentPage).then(res=>{
+            setData(res.data.result.content);
+          })
         }
       })
       .catch(err => {
@@ -37,9 +52,15 @@ const Product = () => {
   };
   const handleAddProduct = value => {
     addProduct(value)
-      .then(() => {
-        getListProduct().then(res => {
-          setData(res.data.result);
+      .then(res => {
+        console.log(res);
+        if (res.data.code === 0) {
+          alertNotify("Thông báo", res.data.message, "success");
+        } else {
+          alertNotify("Thông báo", res.data.message, "warning");
+        }
+        getListProduct(currentPage).then(res => {
+          setData(res.data.result.content);
         });
       })
       .catch(err => {
@@ -50,9 +71,8 @@ const Product = () => {
     updateProduct(id, value)
       .then(() => {
         console.log(value);
-        getListProduct().then(res => {
-          console.log(res.data.result);
-          setData(res.data.result);
+        getListProduct(currentPage).then(res => {
+          setData(res.data.result.content);
         });
       })
       .catch(err => {
@@ -60,13 +80,13 @@ const Product = () => {
       });
   };
   useEffect(() => {
-    getListProduct().then(res => {
-      if (res.error !== true) {
-        setData(res.data.result);
+    getListProduct(currentPage).then(res => {
+      if (res.error !== true && res.data.code === 0) {
+        setData(res.data.result.content);
+        genPage(res.data.result.totalPages);
       }
     });
-  }, []);
-
+  }, [currentPage]);
   return (
     <div>
       <div className="d-flex flex-row bd-highlight">
@@ -132,39 +152,55 @@ const Product = () => {
             </tr>
           </thead>
           {listdata.map((item, i) => {
-            return (
-              <ProductItem
-                key={i}
-                product={item}
-                removePd={removePd}
-                getUpdateUser={getUpdateUser}
-              />
-            );
+            return <ProductItem key={i} product={item} removePd={removePd} />;
           })}
         </table>
         <div></div>
       </div>
       {listdata.map(item => {
-        return (
-          <UpdateProduct
-            product={item}
-            updateUser={updateUser}
-            handleAddSubmit={handleAddProduct}
-            handleUpdateProduct={handleUpdateProduct}
-          />
-        );
+        return <div></div>;
       })}
       <div className="row" data-aos="fade-up">
         <div className="col-md-12 text-center">
           <div className="site-block-27">
             <ul>
-              <li>&lt;</li>
-              <li>&gt;</li>
+              <li>
+                <Link
+                  to="danhsachsanpham"
+                  onClick={() => {
+                    setCurrentPage(handleMoveLeft());
+                  }}
+                >
+                  <i class="fa fa-arrow-alt-circle-left"></i>
+                </Link>
+              </li>
+              {pages.map((item, i) => (
+                <li key={i} className={currentPage === item ? "active" : ""}>
+                  <Link
+                    to="danhsachsanpham"
+                    onClick={() => {
+                      setCurrentPage(item);
+                    }}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  to="danhsachsanpham"
+                  onClick={() => {
+                    setCurrentPage(handleMoveRight());
+                  }}
+                >
+                  <i class="fa fa-arrow-circle-right"></i>{" "}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
       </div>
-      <AddProduct />
+      <AddProduct product={listdata} handleAddSubmit={handleAddProduct} />
     </div>
   );
 };

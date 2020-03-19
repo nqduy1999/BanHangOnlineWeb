@@ -10,7 +10,7 @@ import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Home from '../pages/Home';
 import Product from '../pages/Product';
-import { getProfile } from '../services/userServices';
+import { getProfile } from '../services/UserServices';
 import { alertNotify } from '../untils/alert';
 import Cart from '../component/cart/Cart';
 import Checkout from '../component/cart/Checkout';
@@ -19,6 +19,8 @@ import Login from '../component/login/Login';
 import Signup from '../component/login/Signup';
 import ProductDetails from '../component/product/ProductDetails';
 import MyAccount from '../component/profile/MyAccout';
+
+import PrivateRoute from './PrivateRoute';
 const Direction = () => {
     const dispatch = useDispatch();
     const profile = getProfile(Cookies.get("username"));
@@ -38,9 +40,9 @@ const Direction = () => {
     }, [profile]);
     return (
         <Switch>
-            <Route path={"/" + Cookies.get("username")}>
+            <PrivateRoute path={"/" + Cookies.get("username")}>
                 <MyAccount/>
-            </Route>
+            </PrivateRoute>
             <Route path="/sanpham">
             <Product />
             </Route>
@@ -53,9 +55,9 @@ const Direction = () => {
             <Route path="/giohang">
                 <Cart />
             </Route>
-            <Route path="/thanhtoan">
+            <PrivateRoute path="/thanhtoan">
                 <Checkout />
-            </Route>
+            </PrivateRoute>
             <Route path="/thongbao">
                 <Noti/>
             </Route>
@@ -68,32 +70,12 @@ const Direction = () => {
             <Route exact path="/">
             <Home />
             </Route>
-            {
-                !Cookies.get("authtoken") ?
-                (
-                    <Route path="/dangnhap">
-                    <Login/>
-                    </Route>
-                ) :
-                (
-                    <Route path="/">
-                    <Home/>
-                    </Route>
-                )
-            }
-            {
-                !Cookies.get("authtoken") ?
-                (
-                    <Route path="/dangky">
-                        <Signup/>
-                    </Route>
-                ) :
-                (
-                    <Route path="/">
-                    <Home/>
-                    </Route>
-                )
-            }
+            <Route path="/dangnhap">
+            <Login/>
+            </Route>
+            <Route path="/dangky">
+                <Signup/>
+            </Route>
         </Switch>
     );
 };

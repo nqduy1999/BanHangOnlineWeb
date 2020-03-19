@@ -1,108 +1,125 @@
-import React, {useState, useEffect}from 'react';
+import React, { useState, useEffect } from "react";
 
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, useLocation } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 import HashLoader from "react-spinners/HashLoader";
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
-import { login } from '../../services/userServices';
-import { alertNotify } from '../../untils/alert';
-const Login = (props) => {
+import { login } from "../../services/UserServices";
+import { alertNotify } from "../../untils/alert";
+const Login = props => {
   // React form
-    const { register, handleSubmit, errors } = useForm();
-    const [resutl, setResutl] = useState();
-    //loading
-    const [loading, setLoading] = useState(true);
-    const dispatch = useDispatch();
-    // Đăng nhập
-    const onSubmit = data => {
-        login(data).then((res) => {
-            setLoading(false);
-            // kiểm tra lỗi từ server
-            if(res.error !== true && res.data.code !== 0) {
-              setResutl(res.data.message);
-            } else {
-              Cookies.set('authtoken', res.data.result); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
-              Cookies.set('username', data.username); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
-              //thông báo
-              alertNotify("Thông báo", "Đăng nhập thành công", "success");
-              dispatch({type: "SAVE", user: {account: {
-                username: data.username
-              }}});
-              // chuyển hướng
-              props.history.push('/trangchu');
-            }
-        });
-    }; // your form submit function which will invoke after successful validation
-    useEffect(() => {
+  const { register, handleSubmit, errors } = useForm();
+  const [resutl, setResutl] = useState();
+  //loading
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  // auth route
+  let location = useLocation();
+
+  let { from } = location.state || { from: { pathname: "/" } };
+  // Đăng nhập
+  const onSubmit = data => {
+    login(data).then(res => {
       setLoading(false);
-    }, []);
-    return loading ?
-      (
-        <div className="container pl-5 pb-5">
-          <div className="row">
-            <div className="col-md-12 d-flex justify-content-center">
-              <HashLoader
-              size={300}
-              //size={"150px"} this also works
-              color={"#7971ea"}
-              loading={loading}
-              />
-            </div>
+      // kiểm tra lỗi từ server
+      if (res.error !== true && res.data.code !== 0) {
+        setResutl(res.data.message);
+      } else {
+        Cookies.set("authtoken", res.data.result); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
+        Cookies.set("username", data.username); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
+        //thông báo
+        alertNotify("Thông báo", "Đăng nhập thành công", "success");
+        dispatch({
+          type: "SAVE",
+          user: {
+            account: {
+              username: data.username
+            }
+          }
+        });
+        // chuyển hướng
+        props.history.push("/trangchu");
+      }
+    });
+  }; // your form submit function which will invoke after successful validation
+  useEffect(() => {
+    setLoading(false);
+    Cookies.get("authtoken")
+      ? props.history.replace(from)
+      : props.history.push("/dangnhap");
+  }, []);
+  return loading ? (
+    <div className="container pl-5 pb-5">
+      <div className="row">
+        <div className="col-md-12 d-flex justify-content-center">
+          <HashLoader
+            size={300}
+            //size={"150px"} this also works
+            color={"#7971ea"}
+            loading={loading}
+          />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="container">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="card">
+          <h5 className="card-header primary-color white-text text-center py-4">
+            <strong>Đăng Nhập</strong>
+          </h5>
+          <div className="card-body px-lg-5 pt-0">
+            <form
+              className="text-center"
+              style={{ color: "#757575" }}
+              action="#!"
+            >
+              <div className="md-form">
+                <input
+                className="form-control"
+                  name="username"
+                  type="text"
+                  ref={register({ required: true })}
+                  placeholder="Tài Khoản"
+                />
+              </div>
+              <div className="d-flex justify-content-around">
+              {errors.username && <p>Tài Khoản không được để trống</p>}
+              </div>
+              <div className="md-form">
+                <input
+                  className="form-control"
+                  type="password"
+                  name="password"
+                  ref={register({ required: true })}
+                  placeholder="Mật Khẩu"
+                />
+              </div>
+              <div className="d-flex justify-content-around">
+              {errors.password && <p>Mật khẩu không được để trống</p>}
+              </div>
+              <button
+                className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
+                type="submit"
+              >
+                Đăng Nhập
+              </button>
+              <p>
+                Bạn chưa có tài khoản ?
+                <Link to="/dangky">Nhấn vào đây để đăng ký</Link>
+              </p>
+            </form>
           </div>
         </div>
-      ) :
-    (
-      <div>
-      <form className="container" onSubmit={handleSubmit(onSubmit)} >
-      <div className="row">
-      <div className="col-md-5">
-        <h1>Đăng nhập</h1>
-      </div>
-      {
-        resutl ? <div className="alert alert-warning" role="alert">{resutl}</div> : ''
-      }
-    </div>
-          <div className="row">
-            <div className="col-md-3">
-              <label>Tài Khoản</label>
-            </div>
-            <div className="col-md-6">
-              <div className="form-group">
-              <input className="form-control" name="username" type="text" ref={register({ required: true })}/>
-              </div>
-            </div>
-            <div className="col-md-3">
-            {errors.taiKhoan && <p>Tài khoản không được để trống</p>}
-            </div>
-            </div>
-            <div className="row">
-              <div className="col-md-3">
-              <label>Mật Khẩu</label>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                <input className="form-control" name="password" type="password" ref={register({ required: true })}/>
-                </div>
-              </div>
-              <div className="col-md-3">
-              {errors.pass && <p>Mật khẩu không được để trống</p>}
-              </div>
-            </div>
-          <div className="row">
-            <div className="col-md-9">
-              <input className="btn btn-info" type="submit" value="Đăng Nhập"/>
-            </div>
-          </div>
-          <Link to="/dangky"><p>Bạn chưa có tài khoản ? Nhấn vào đây để đăng ký </p></Link>
       </form>
-      </div>
-    );
+    </div>
+  );
 };
 
 export default withRouter(Login);

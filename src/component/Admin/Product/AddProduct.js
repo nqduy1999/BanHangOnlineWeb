@@ -1,8 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 
 const AddProduct = (props) => {
   const { register, handleSubmit } = useForm();
+  const [product, setProduct] = useState({
+    name: "",
+    description: "",
+    price: "",
+    inventory: "",
+    supplier: {
+      name:"",
+      description:""
+    },
+    category: {
+      name:""
+    }
+  });
+  const [] = useState();
+  useEffect(() => {
+  })
+  const onSubmit = (data) =>{
+    console.log(data);
+      setProduct(
+        {
+          ...product,
+          name: data.name,
+          description:data.description,
+          price:data.price,
+          inventory:data.inventory,
+          supplier:{
+            name:data.supllierName,
+            description:data.supllierDescription
+          },
+          category:{
+            name:data.categoryName
+          }
+        }
+      )
+      props.handleAddSubmit(product)
+  }
     return (
           <div
             className="modal fade right"
@@ -18,7 +54,6 @@ const AddProduct = (props) => {
               role="document"
             >
               <div className="modal-content">
-                {/*Header*/}
                 <div className="modal-header">
                   <p className="heading lead">Thêm sản phẩm mới</p>
                   <button
@@ -34,6 +69,7 @@ const AddProduct = (props) => {
                 </div>
                 {/*Body*/}
                 <div className="modal-body">
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="text-center">
                     <i className="fa fa-book-dead fa-4x mb-3 animated rotateIn" />
                   </div>
@@ -47,7 +83,7 @@ const AddProduct = (props) => {
                       type="text"
                       className="md-text form-control"
                       name="name"
-                      defaultValue={""}
+                      ref={register}
                       placeholder="Nhập tên sản phẩm"
                     />
                   </div>
@@ -58,6 +94,7 @@ const AddProduct = (props) => {
                     <input
                       type="text"
                       name="description"
+                      ref={register}
                       className="md-text form-control"
                       defaultValue={""}
                       placeholder="Nhập mô tả sản phẩm"
@@ -71,6 +108,7 @@ const AddProduct = (props) => {
                       type="text"
                       name="inventory"
                       required
+                      ref={register}
                       className="md-text form-control"
                       defaultValue={""}
                       placeholder="Nhập số lượng sản phẩm"
@@ -84,6 +122,7 @@ const AddProduct = (props) => {
                       type="text"
                       name="price"
                       required
+                      ref={register}
                       className="md-text form-control"
                       defaultVaulue={""}
                       placeholder="Nhập giá sản phẩm"
@@ -97,6 +136,7 @@ const AddProduct = (props) => {
                       type="text"
                       name="supllierName"
                       required
+                      ref={register}
                       className="md-text form-control"
                       placeholder="Nhập tên nhà cung cấp"
                     />
@@ -104,9 +144,10 @@ const AddProduct = (props) => {
                   <div className="md-form ">
                     <textarea
                       type="text"
-                      name="supllierDes"
+                      name="supllierDescription"
                       required
                       rows="3"
+                      ref={register}
                       className="md-textarea form-control"
                       placeholder="Nhập mô tả nhà cung cấp"
                     />
@@ -119,30 +160,34 @@ const AddProduct = (props) => {
                       type="text"
                       name="categoryName"
                       required
+                      ref={register}
                       className="md-text form-control"
                       placeholder="Nhập tên loại sản phẩm "
                     />
                   </div>
-                </div>
-                <div className="modal-footer justify-content-center">
-                  <a
-                    type="button"
+                  <div className="justify-content-center">
+
+                  <button
+                    type="submit"
                     className="btn btn-primary waves-effect waves-light"
                   >
                     Thêm 
-                    <i className="fa fa-paper-plane ml-1" />
-                  </a>
-                  <a
+                    <i class="fa fa-plus"></i>                  
+                    </button>
+                  <button
                     type="button"
                     className="btn btn-outline-primary waves-effect"
                     data-dismiss="modal"
                   >
                     Cancel
-                  </a>
+                  </button>
+                  </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
+
     );
 };
 

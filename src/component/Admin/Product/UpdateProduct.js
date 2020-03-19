@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 const UpdateProduct = props => {
   const { register, handleSubmit } = useForm();
-  const [product, setProduct] = useState({
-  })
   const onSubmit = data => {
     if (props.updateUser === null) {
       {

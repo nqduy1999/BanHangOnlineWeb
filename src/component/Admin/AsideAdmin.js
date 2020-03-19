@@ -4,8 +4,7 @@ import {Link} from "react-router-dom";
 import "../../resource/css/sb-admin-2.css"
 const AsideAdmin = () => {
     return (
-        <div>
-  <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion fixed" id="accordionSidebar">
   {/* Sidebar - Brand */}
   <Link className="sidebar-brand d-flex align-items-center justify-content-center"  to ="/admin">
     <div className="sidebar-brand-text mx-3">Ananas Admin </div>
@@ -67,7 +66,6 @@ const AsideAdmin = () => {
   </div>
 </ul>
 
-        </div>
     );
 };
 
