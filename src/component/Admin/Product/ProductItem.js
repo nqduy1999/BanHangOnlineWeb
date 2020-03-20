@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { alertYesNo } from "../../../untils/alert";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 const ProductItem = props => {
   const [product, setProduct] = useState({
     id:"",
@@ -29,6 +30,13 @@ const ProductItem = props => {
       }
     );
   };
+  const dispatch = useDispatch();
+  const dispatchItem = () =>{
+    dispatch({
+      type: "CLICK",
+        product: props.product
+    });
+  }
   return (
     <tbody>
       <tr className="row100">
@@ -60,7 +68,7 @@ const ProductItem = props => {
             Xoá
           </button>  
           <button className="btn-primary btn">
-            <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white">
+            <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white" onClick={dispatchItem}>
             Sửa
             </Link>
           </button>               

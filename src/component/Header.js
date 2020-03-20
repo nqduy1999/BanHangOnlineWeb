@@ -64,8 +64,8 @@ const Header = (props) => {
               <div className="row align-items-center">
                 <div className="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
                   <form onSubmit={handleSubmit(onSubmit)} className="site-block-top-search">
-                    <span className="icon icon-search2" />
                     <input name="keyword" type="text"  ref={register({ required: false })} className="form-control border-0" placeholder="Tìm Kiếm" />
+                    <button type="submit"><i class="fa fa-search"></i> </button>
                   </form>
                 </div>
                 <div className="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">

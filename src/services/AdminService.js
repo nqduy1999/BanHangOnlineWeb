@@ -86,6 +86,25 @@ export const updateProduct = (id, value) =>{
         }
     })
 }
+export const getProductDetail = (id) => {
+    return axios({
+        method: "GET",
+        url: `product/detail?id=${id}`
+    })
+    .then((res) => {
+        return {
+            data: res.data,
+            error: false,
+            complete: true
+        };
+    }).catch((err) => {
+        return {
+            data: null,
+            error: true,
+            complete: true
+        };
+    });
+}
 export const searchProduct =(key, index) =>{
     return axios({
         method:"GET"
