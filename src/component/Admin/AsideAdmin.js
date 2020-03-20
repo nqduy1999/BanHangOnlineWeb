@@ -1,10 +1,8 @@
 import React from 'react';
-import duyImg from "../../resource/images/duyyy.png";
 import {Link} from "react-router-dom";
-import "../../resource/css/sb-admin-2.css"
 const AsideAdmin = () => {
     return (
-  <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion fixed" id="accordionSidebar">
+  <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion fixed" id="accordionSidebar">
   {/* Sidebar - Brand */}
   <Link className="sidebar-brand d-flex align-items-center justify-content-center"  to ="/admin">
     <div className="sidebar-brand-text mx-3">Ananas Admin </div>
@@ -19,7 +17,7 @@ const AsideAdmin = () => {
   {/* Nav Item - Pages Collapse Menu */}
   <li className="nav-item">
     <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sanpham" aria-expanded="true" aria-controls="collapseTwo">
-      <i className="fas fa-fw fa-cog" />
+      <i className="fa fa-fw fa-cog" />
       <span>Quản lý sản phẩm</span>
     </a>
     <div id="sanpham" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

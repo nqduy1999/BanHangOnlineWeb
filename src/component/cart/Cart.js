@@ -186,11 +186,11 @@ const Cart = (props) => {
                         <td>
                           <div className="input-group mb-3" style={{maxWidth: '120px'}}>
                             <div className="input-group-prepend">
-                              <button onClick={() => {handleUpdateCart("giam", item.product.id, item.quantity, item.product.price); setInventory(item.product.inventory);}} className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-minus" type="button">−</button>
+                              <button onClick={() => {handleUpdateCart("giam", item.product.id, item.quantity, item.product.price); setInventory(item.product.inventory);}} className=" btn-outline-primary js-btn-minus  " type="button">−</button>
                             </div>
                             <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", item.product.id, Number(e.target.value), item.product.price);setInventory(item.product.inventory);}} value={item.quantity} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                             <div className="input-group-append">
-                              <button type="button" className="btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("tang", item.product.id, item.quantity, item.product.price);setInventory(item.product.inventory);}}>+</button>
+                              <button type="button" className=" btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("tang", item.product.id, item.quantity, item.product.price);setInventory(item.product.inventory);}}>+</button>
                             </div>
                           </div>
                         </td>

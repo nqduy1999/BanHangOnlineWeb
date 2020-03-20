@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { alertYesNo } from "../../../untils/alert";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 const ProductItem = props => {
   const [product, setProduct] = useState({
     id:"",
@@ -58,13 +59,10 @@ const ProductItem = props => {
               <button onClick={onClick} className=" btn-danger btn">
             Xoá
           </button>  
-          <button
-            className="btn-primary btn"
-            data-toggle="modal"
-            data-target="#capnhat"
-            onClick={() => props.getUpdateUser(props.product)}
-          >
+          <button className="btn-primary btn">
+            <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white">
             Sửa
+            </Link>
           </button>               
           </td>
             </tr>

@@ -1,5 +1,4 @@
 import React from 'react';
-import duy from "../../resource/images/duyyy.png"
 import {Link} from "react-router-dom"
 const AdminSearch = () => {
     return (
