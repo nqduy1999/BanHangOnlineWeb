@@ -67,18 +67,6 @@ const Product = () => {
         console.log(err);
       });
   };
-  const handleUpdateProduct = (id, value) => {
-    updateProduct(id, value)
-      .then(() => {
-        console.log(value);
-        getListProduct(currentPage).then(res => {
-          setData(res.data.result.content);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
   useEffect(() => {
     getListProduct(currentPage).then(res => {
       if (res.error !== true && res.data.code === 0) {

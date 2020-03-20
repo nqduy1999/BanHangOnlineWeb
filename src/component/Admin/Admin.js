@@ -1,7 +1,6 @@
 import React from 'react';
 
 import "../../resource/css/AdminTable.css";
-import "../../resource/css/fontawesome-free/css/all.min.css";
 
 import AsideAdmin from './AsideAdmin';
 import DirectionAdmin from './DirectionAdmin';

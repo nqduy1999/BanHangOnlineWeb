@@ -7,7 +7,6 @@ import HashLoader from "react-spinners/HashLoader";
 import { addProductToCart } from '../../services/CartServices';
 import { getProductDetail } from '../../services/ProductServices';
 import { alertNotify } from '../../untils/alert';
-import bao_thu_a3 from '../../resource/images/bao_thu_a3.jpg';
 const ProductDetails = (props) => {
     // lấy query String
     let useQuery = () => {
@@ -118,7 +117,7 @@ const ProductDetails = (props) => {
             <div className="container">
               <div className="row">
                 <div className="col-md-6">
-                  <img src={bao_thu_a3} alt="Image" className="img-fluid" />
+                  <img  alt="Image" className="img-fluid" />
                 </div>
                 <div className="col-md-6">
                   <h2 className="text-black">{product.name}</h2>
