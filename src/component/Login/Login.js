@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
-import { Link, withRouter, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
-import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+
+import { Link, withRouter, useLocation } from "react-router-dom";
 
 import HashLoader from "react-spinners/HashLoader";
-
-import { useDispatch } from "react-redux";
 
 import { login } from "../../services/UserServices";
 import { alertNotify } from "../../untils/alert";
@@ -75,6 +75,11 @@ const Login = props => {
             <strong>Đăng Nhập</strong>
           </h5>
           <div className="card-body px-lg-5 pt-0">
+              { resutl ?
+                <div className="col-md-12">
+                  <p className=" alert alert-danger">{resutl}</p>
+                </div> : ""
+              }
             <form
               className="text-center"
               style={{ color: "#757575" }}

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
-import { withRouter, Link, useLocation } from "react-router-dom";
-
 import Cookies from "js-cookie";
 
 import HashLoader from "react-spinners/HashLoader";
+
+import { withRouter, Link, useLocation } from "react-router-dom";
 
 import { sendEmail } from "../../services/EmailSerivces";
 import { signup } from "../../services/UserServices";
@@ -67,7 +67,7 @@ const Signup = props => {
   ) : (
       <div className="container">
         <div className="card">
-          <h5 className="card-header danger-color white-text text-center py-4">
+          <h5 className="card-header primary-color white-text text-center py-4">
             <strong>Đăng Ký</strong>
           </h5>
           <div className="card-body px-lg-5 pt-0">
@@ -77,6 +77,11 @@ const Signup = props => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="form-row">
+                { resutl ?
+                  <div className="col-md-12">
+                    <span className=" alert alert-danger">{resutl}</span>
+                  </div> : ""
+                }
                 <div className="col">
                   {/* First name */}
                   <div className="md-form">
@@ -85,15 +90,15 @@ const Signup = props => {
                       className="form-control"
                       name="username"
                       type="text"
+                      placeholder="Tên tài khoản"
                       ref={register({
                         required: true,
                         maxLength: 32,
                         minLength: 6
                       })}
                     />
-                    <label htmlFor="username">Tài khoản</label>
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-md-12">
               {errors.username && errors.username.type === "required" && (
                 <span className="alert alert-danger ml-2" role="alert">
                   Vui lòng nhập tên tài khoản
@@ -118,6 +123,7 @@ const Signup = props => {
                   className="form-control"
                   name="email"
                   type="email"
+                  placeholder="Email"
                   ref={register({
                     required: true,
                     pattern: {
@@ -126,9 +132,8 @@ const Signup = props => {
                     }
                   })}
                 />
-                <label htmlFor="email">Email</label>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-12">
               {errors.email && errors.email.type === "pattern" && (
                 <span className="alert alert-danger" role="alert">
                   {errors.email.message}
@@ -146,11 +151,11 @@ const Signup = props => {
                   className="form-control"
                   name="password"
                   type="password"
+                  placeholder="Mật khẩu"
                   ref={register({ required: true, maxLength: 32, minLength: 8 })}
                 />
-                <label htmlFor="password">Mật Khẩu</label>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-12">
               {errors.password && errors.password.type === "required" && (
                 <span className="alert alert-danger" role="alert">
                   Vui lòng nhập mật khẩu
@@ -173,14 +178,14 @@ const Signup = props => {
                   className="form-control"
                   name="passwordConfirm"
                   type="password"
+                  placeholder="Nhập lại mật khẩu"
                   ref={register({
                     required: true,
                     validate: value => value === watch("password")
                   })}
                 />
-                <label htmlFor="passwordConfirm">Nhập lại Mật Khẩu</label>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-12">
               {errors.passwordConfirm &&
                 errors.passwordConfirm.type === "required" && (
                   <span className="alert alert-danger" role="alert">
@@ -202,10 +207,7 @@ const Signup = props => {
             </button>
               {/* Terms of service */}
               <p>
-                Nhấn <em> Đăng Ký </em> là bạn đã chấp nhận{" "}
-                <a href target="_blank">
-                  điều khoản của chúng tôi
-              </a>
+                Nhấn <em> <Link to="/dangnhap">Đăng nhập</Link> </em> nếu bạn đã có tài khoản.
               </p>
             </form>
             {/* Form */}

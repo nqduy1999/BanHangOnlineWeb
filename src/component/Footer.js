@@ -3,7 +3,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "../resource/icomoon/style.css"
 import "../resource/css/style.css"
-import "../resource/css/bootstrap.min.css"
 import "../resource/css/jquery-ui.css"
 import "../resource/css/magnific-popup.css"
 import "../resource/css/aos.css"

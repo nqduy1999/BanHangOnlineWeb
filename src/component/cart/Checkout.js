@@ -172,7 +172,7 @@ const Checkout = (props) => {
                           <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
                         </div>
                         <div className="col-2">
-                          <input type="radio" name="checkout" onChange={() => setPaymentMethod("Paypal")} defaultValue={1} id="c_ship_different_address" />
+                          <input type="radio" name="checkout" onClick={() => setPaymentMethod("Paypal")} defaultValue={1} id="c_ship_different_address" />
                         </div>
                       </div>
                       <div className="collapse" id="collapsepaypal">
@@ -187,7 +187,7 @@ const Checkout = (props) => {
                         <h3 className="h6 mb-0"><a className="d-block" data-toggle="collapse" href="#collapseorder" role="button" aria-expanded="false" aria-controls="collapseorder">Thanh toán khi nhận hàng </a></h3>
                         </div>
                         <div className="col-2">
-                          <input type="radio" name="checkout" onChange={() => setPaymentMethod("Thanh toán khi nhận hàng")} checked defaultValue={1} id="c_ship_different_address" />
+                          <input type="radio" name="checkout" onClick={() => setPaymentMethod("Thanh toán khi nhận hàng")} defaultValue={1} id="c_ship_different_address" />
                         </div>
                       </div>
                       <div className="collapse" id="collapseorder">

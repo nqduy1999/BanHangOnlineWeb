@@ -14,10 +14,10 @@ import App from './App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
-import RootReducer from './reducer/RootReducer';
+import rootReducer from './reducer/RootReducer';
 const loggerMiddleware = createLogger();
 const store = createStore(
-    RootReducer,
+    rootReducer,
     applyMiddleware(
         thunkMiddleware,
         loggerMiddleware

@@ -1,9 +1,11 @@
 import React from 'react';
-import AsideAdmin from './AsideAdmin';
-import TopNavAdmin from './TopnavAdmin';
+
+import "../../resource/css/AdminTable.css";
 import "../../resource/css/fontawesome-free/css/all.min.css";
-import "../../resource/css/admintable.css";
+
+import AsideAdmin from './AsideAdmin';
 import DirectionAdmin from './DirectionAdmin';
+import TopNavAdmin from './TopnavAdmin';
 const Admin = () => {
     return (
         <div id="wrapper">
