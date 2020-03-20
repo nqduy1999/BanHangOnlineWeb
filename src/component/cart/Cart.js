@@ -156,59 +156,54 @@ const Cart = (props) => {
             </div>
           </div>
         ) : (
-        <div className="site-section">
         <div className="container">
-          <div className="row mb-5">
-            <form className="col-md-12" method="post">
-              <div className="site-blocks-table">
-                <table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th className="product-thumbnail">Hình ảnh</th>
-                      <th className="product-name">Sản phẩm</th>
-                      <th className="product-price">Đơn giá</th>
-                      <th className="product-quantity">Số lượng</th>
-                      <th className="product-total">Tổng tiền</th>
-                      <th className="product-remove">Xoá sản phẩm</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      order.listOrderDetail.map((item, i) => (
-                        <tr key={i}>
-                        <td className="product-thumbnail">
-                          <img src={but_bi} alt="Image" className="img-fluid"/>
-                        </td>
-                        <td className="product-name">
-                          <h2 className="h5 text-black">{item.product.name}</h2>
-                        </td>
-                        <td>{item.product.price}</td>
-                        <td>
-                          <div className="input-group mb-3" style={{maxWidth: '120px'}}>
-                            <div className="input-group-prepend">
-                              <button onClick={() => {handleUpdateCart("giam", item.product.id, item.quantity, item.product.price); setInventory(item.product.inventory);}} className=" btn-outline-primary js-btn-minus  " type="button">−</button>
-                            </div>
-                            <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", item.product.id, Number(e.target.value), item.product.price);setInventory(item.product.inventory);}} value={item.quantity} aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                            <div className="input-group-append">
-                              <button type="button" className="pt-1 pr-1 pl-1 btn-outline-primary js-btn-plus" onClick={() => {handleUpdateCart("tang", item.product.id, item.quantity, item.product.price);setInventory(item.product.inventory);}}>+</button>
-                            </div>
-                          </div>
-                        </td>
-                        <td>{item.unitPrice}</td>
-                        <td><span onClick={() => {removeProductFromCart(item.product.id);}} className="btn btn-primary btn-sm">X</span></td>
-                      </tr>
-                    ))
-                  }
-                  </tbody>
-                </table>
-              </div>
-            </form>
-          </div>
+          <table className="table">
+            <thead>
+              <tr className="text-black">
+                <th scope="col">#</th>
+                <th scope="col">Hình ảnh</th>
+                <th scope="col">Sản phẩm</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Tổng tiền</th>
+                <th scope="col">Xoá sản phẩm</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                order.listOrderDetail.map((item, i) => (
+                  <tr key={i}>
+                  <th scope="row">{i}</th>
+                  <td>
+                    <img src={but_bi} alt="Image" className="img-fluid"/>
+                  </td>
+                  <td>
+                    <h2 className="h5 text-black font-weight-normal">{item.product.name}</h2>
+                  </td>
+                  <td>{item.product.price}</td>
+                  <td>
+                    <div className="input-group mb-3" style={{maxWidth: '120px'}}>
+                      <div className="input-group-prepend">
+                        <button onClick={() => {handleUpdateCart("giam", item.product.id, item.quantity, item.product.price); setInventory(item.product.inventory);}} className="btn-outline-primary btn" type="button">−</button>
+                      </div>
+                      <input type="text" className="form-control text-center" onChange={(e) => {handleUpdateCart("", item.product.id, Number(e.target.value), item.product.price);setInventory(item.product.inventory);}} value={item.quantity} aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                      <div className="input-group-append">
+                        <button type="button" className="btn-outline-primary btn" onClick={() => {handleUpdateCart("tang", item.product.id, item.quantity, item.product.price);setInventory(item.product.inventory);}}>+</button>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{item.unitPrice}</td>
+                  <td><span onClick={() => {removeProductFromCart(item.product.id);}} className="btn btn-primary btn-sm">X</span></td>
+                </tr>
+              ))
+            }
+            </tbody>
+          </table>
           <div className="row">
             <div className="col-md-6">
               <div className="row mb-5">
                 <div className="col-md-6">
-                  <Link to="/sanpham?index=0" className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</Link>
+                  <Link to="/sanpham" className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</Link>
                 </div>
               </div>
             </div>
@@ -246,7 +241,6 @@ const Cart = (props) => {
             </div>
           </div>
         </div>
-      </div>
     );
 };
 

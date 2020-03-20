@@ -52,7 +52,7 @@ const Header = (props) => {
     getProductByTextSearch(0, data.keyword).then((res) => {
       if(res.error !== true && res.data.code === 0) {
         dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
-        props.history.replace("/sanpham?index=0");
+        props.history.replace("/sanpham");
       }
     })
   }
@@ -62,18 +62,18 @@ const Header = (props) => {
           <div className="site-navbar-top">
             <div className="container">
               <div className="row align-items-center">
-                <div className="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+                <div className="col-md-4 order-2 order-md-1 site-search-icon text-left">
                   <form onSubmit={handleSubmit(onSubmit)} className="site-block-top-search">
                     <input name="keyword" type="text"  ref={register({ required: false })} className="form-control border-0" placeholder="Tìm Kiếm" />
-                    <button type="submit"><i className="fa fa-search"></i> </button>
+                    <span type="submit"><i className="fa fa-search"></i></span>
                   </form>
                 </div>
-                <div className="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+                <div className="col-md-4 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
                   <div className="site-logo">
                     <Link to="/" className="js-logo-clone">Ananas<i className="fab fa-accusoft"></i></Link>
                   </div>
                 </div>
-                <div className="col-6 col-md-4 order-3 order-md-3 text-right">
+                <div className="col-md-4 col-md-4 order-3 order-md-3 text-right">
                   <div className="site-top-icons">
                     <ul>
                     {

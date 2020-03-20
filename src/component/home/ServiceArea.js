@@ -4,7 +4,7 @@ const ServiceArea = () => {
     <div className="site-section site-section-sm site-blocks-1">
     <div className="container">
       <div className="row">
-        <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay>
+        <div className="col-md-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay>
           <div className="icon mr-4 align-self-start">
           <i className="fa fa-truck" style={{fontSize:"35px"}}/>
           </div>
@@ -13,17 +13,17 @@ const ServiceArea = () => {
             <p>Miễn phí vận chuyển với đơn hàng trên 200000vnd </p>
           </div>
         </div>
-        <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay={100}>
+        <div className="col-md-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay={100}>
           <div className="icon mr-4 align-self-start">
           <i className="fa fa-sync-alt" style={{fontSize:"35px"}}/>
           </div>
           <div className="text">
             <h2 className="text-uppercase">Miễn Phí Đổi Trả</h2>
-            <p>Miễn phí đổi trả với các sản phẩm bị lỗi trong vòng 7 - 14 ngày 
+            <p>Miễn phí đổi trả với các sản phẩm bị lỗi trong vòng 7 - 14 ngày
             </p>
           </div>
         </div>
-        <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay={200}>
+        <div className="col-md-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay={200}>
           <div className="icon mr-4 align-self-start">
           <i className="fa fa-question-circle" style={{fontSize:"35px"}} />
           </div>

@@ -131,11 +131,11 @@ const ProductDetails = (props) => {
                   <div className="mb-5 ml-5">
                     <div className="input-group mb-3" style={{maxWidth: 120}}>
                       <div className="input-group-prepend">
-                        <button className=" btn-outline-primary js-btn-minus" type="button" onClick={() => {handleUpdateQuantity(1, "giam");}}>−</button>
+                        <button className=" btn-outline-primary btn" type="button" onClick={() => {handleUpdateQuantity(1, "giam");}}>−</button>
                       </div>
                       <input type="text" className="form-control text-center" onChange={e => {handleUpdateQuantity(Number(e.target.value), "");}} value={orderDetail.quantity} aria-label="Example text with button addon" aria-describedby="button-addon1" />
                       <div className="input-group-append">
-                        <button className=" btn-outline-primary js-btn-plus" type="button" onClick={() => {handleUpdateQuantity(1, "tang");}}>+</button>
+                        <button className=" btn-outline-primary btn" type="button" onClick={() => {handleUpdateQuantity(1, "tang");}}>+</button>
                       </div>
                     </div>
                   </div>

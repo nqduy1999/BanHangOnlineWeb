@@ -12,6 +12,7 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { login } from "../../services/UserServices";
 import { alertNotify } from "../../untils/alert";
+
 const Login = props => {
   // React form
   const { register, handleSubmit, errors } = useForm();
@@ -69,22 +70,17 @@ const Login = props => {
     </div>
   ) : (
     <div className="container">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="form-medium" onSubmit={handleSubmit(onSubmit)}>
         <div className="card">
-          <h5 className="card-header primary-color white-text text-center py-4">
+          <h5 className="card-header primary-color white-text text-center py-4 mb-3">
             <strong>Đăng Nhập</strong>
           </h5>
           <div className="card-body px-lg-5 pt-0">
               { resutl ?
-                <div className="col-md-12">
-                  <p className=" alert alert-danger">{resutl}</p>
-                </div> : ""
+                  <p className=" alert alert-danger">{resutl}</p>: ""
               }
-            <form
-              className="text-center"
-              style={{ color: "#757575" }}
-            >
-              <div className="md-form">
+            <form>
+              <div className="form-group">
                 <input
                 className="form-control"
                   name="username"
@@ -93,10 +89,10 @@ const Login = props => {
                   placeholder="Tài Khoản"
                 />
               </div>
-              <div className="d-flex justify-content-around">
-              {errors.username && <p>Tài Khoản không được để trống</p>}
+              <div className="d-flex justify-content-around mt-3 mb-3">
+                {errors.username && <p>Tài Khoản không được để trống</p>}
               </div>
-              <div className="md-form">
+              <div className="form-group">
                 <input
                   className="form-control"
                   type="password"
@@ -105,7 +101,7 @@ const Login = props => {
                   placeholder="Mật Khẩu"
                 />
               </div>
-              <div className="d-flex justify-content-around">
+              <div className="d-flex justify-content-around mt-3 mb-3">
               {errors.password && <p>Mật khẩu không được để trống</p>}
               </div>
               <button

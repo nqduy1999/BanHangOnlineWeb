@@ -83,7 +83,6 @@ const Checkout = (props) => {
             </div>
           </div>
         ) : (
-        <div className="site-section">
         <div className="container">
           <div className="row mb-5">
             <div className="col-md-12">
@@ -94,7 +93,7 @@ const Checkout = (props) => {
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row">
-            <div className="col-md-6 mb-5 mb-md-0">
+            <div className="col-md-6 mb-5">
               <h2 className="h3 mb-3 text-black">Chi tiết hoá đơn</h2>
               <div className="p-3 p-lg-5 border">
                 <p>Mặc định chúng tôi sẽ giao hàng tới địa chỉ mà bạn cung cấp trong thông tin trong tài khoản</p>
@@ -206,7 +205,6 @@ const Checkout = (props) => {
           </div>
           </form>
         </div>
-      </div>
     );
 };
 

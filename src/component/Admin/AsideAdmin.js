@@ -1,69 +1,187 @@
-import React from 'react';
-import {Link} from "react-router-dom";
-const AsideAdmin = () => {
-    return (
-  <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion fixed" id="accordionSidebar">
-  {/* Sidebar - Brand */}
-  <Link className="sidebar-brand d-flex align-items-center justify-content-center"  to ="/admin">
-    <div className="sidebar-brand-text mx-3">Ananas Admin </div>
-  </Link>
-  {/* Divider */}
-  <hr className="sidebar-divider my-0" />
-  {/* Nav Item - Dashboard */}
-  {/* Heading */}
-  <div className="sidebar-heading">
-    Quản lý
-  </div>
-  {/* Nav Item - Pages Collapse Menu */}
-  <li className="nav-item">
-    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sanpham" aria-expanded="true" aria-controls="collapseTwo">
-      <i className="fa fa-fw fa-cog" />
-      <span>Quản lý sản phẩm</span>
-    </a>
-    <div id="sanpham" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-      <div className="bg-white py-2 collapse-inner rounded">
-        <Link to ="/admin/danhsachsanpham"className="collapse-item" >Danh sách sản phẩm</Link>
-      </div>
-    </div>
-  </li>
-  {/* Nav Item - Utilities Collapse Menu */}
-  <li className="nav-item">
-    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#khachhang" aria-expanded="true" aria-controls="collapseTwo">
-   <i className="fa fa-user" />
-      <span>Quản lý khách hàng</span>
-    </a>
-    <div id="khachhang" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-      <div className="bg-white py-2 collapse-inner rounded">
-      <Link to ="/admin/danhsachkhachhang"className="collapse-item" >Danh sách khách hàng</Link>
-      </div>
-    </div>
-  </li>
-  <li className="nav-item">
-    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#donhang" aria-expanded="true" aria-controls="collapseTwo">
-   <i className="fa fa-file" />
-   <span>Quản lý đơn hàng</span>
-    </a>
-    <div id="donhang" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-      <div className="bg-white py-2 collapse-inner rounded">
-        <Link to="/admin/danhsachdonhang" className="collapse-item" >Danh sách đơn hàng</Link>
-      </div>
-    </div>
-  </li>
-  <li className="nav-item">
-    <a className="nav-link collapsed" data-toggle="collapse" data-target="#cungcap" aria-expanded="true" aria-controls="collapseTwo">
-    <i class="fa fa-university"></i>
-     <span>Danh sách nhà cung cấp</span>
-    </a>
-  </li>
-  {/* Nav Item - Tables */}
-  {/* Divider */}
-  <hr className="sidebar-divider d-none d-md-block" />
-  {/* Sidebar Toggler (Sidebar) */}
-  <div className="text-center d-none d-md-inline">
-    <button className="rounded-circle border-0" id="sidebarToggle" />
-  </div>
-</ul>
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import { IconButton, useTheme } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
+import CategoryIcon from '@material-ui/icons/Category';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 
+import React, { useState, useEffect } from 'react';
+
+import clsx from 'clsx';
+
+import {Link} from "react-router-dom";
+
+import ListCustomer from './Customer/Customer';
+import Product from './Product/Product';
+const drawerWidth = 240;
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9) + 1,
+    },
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}));
+const AsideAdmin = () => {
+    const classes = useStyles();
+    const theme = useTheme();
+    const [open, setOpen] = useState(false);
+    const [showComponent, setShowComponent] = useState("product");
+    const handleDrawerOpen = () => {
+      setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+      setOpen(false);
+    };
+
+    const show = (nameComponent) => {
+      setShowComponent(nameComponent);
+    }
+    const [currentComponent, setCurrentComponent] = useState(<Product/>);
+    useEffect(() => {
+      switch(showComponent) {
+        case 'product':
+          setCurrentComponent(<Product/>)
+            break;
+
+        case 'customer':
+          setCurrentComponent(<ListCustomer/>)
+            break;
+
+        default:
+            setCurrentComponent("loading");
+    }
+    }, [showComponent]);
+    return (
+      <div className={classes.root}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: open,
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            Mini variant drawer
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
+        }}
+      >
+        <div className={classes.toolbar}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          <ListItem button onClick={() => {show("product")}}>
+            <ListItemIcon><LocalGroceryStoreIcon /></ListItemIcon>
+            <ListItemText primary="Quản lý sản phẩm" />
+          </ListItem>
+          <ListItem button onClick={() => {show("customer")}}>
+            <ListItemIcon><SupervisorAccountIcon /></ListItemIcon>
+            <ListItemText primary="Quản lý khách hành" />
+          </ListItem>
+        </List>
+        <Divider />
+      </Drawer>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {currentComponent}
+      </main>
+    </div>
     );
 };
 

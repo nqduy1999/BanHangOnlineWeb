@@ -1,15 +1,7 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import "../resource/icomoon/style.css"
-import "../resource/css/style.css"
-import "../resource/css/bootstrap.min.css"
-import "../resource/css/magnific-popup.css"
-import "../resource/css/aos.css"
-import "../resource/css/owl.carousel.min.css"
-import "../resource/css/owl.theme.default.min.css"
-import "../resource/css/mdb.min.css"
-import "../resource/css/mdb.lite.min.css"
+
 const Footer = () => {
     return (
         <footer className="site-footer border-top text-left">
