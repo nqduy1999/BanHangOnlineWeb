@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "../resource/icomoon/style.css"
 import "../resource/css/style.css"
-import "../resource/css/jquery-ui.css"
+import "../resource/css/bootstrap.min.css"
 import "../resource/css/magnific-popup.css"
 import "../resource/css/aos.css"
 import "../resource/css/owl.carousel.min.css"
@@ -39,9 +39,9 @@ const Footer = () => {
                 <div className="block-5 mb-5">
                   <h3 className="footer-heading mb-4">Thông tin liên hệ</h3>
                   <ul className="list-unstyled">
-                  <li> <i class="fa fa-location-arrow"></i> Số 14 Nguyễn Văn Bảo, Phường 4, Quận Gò Vấp, Thành Phố Hồ Chí Minh, Việt Nam</li>
-                    <li> <i class="fa fa-phone"></i><a href="tel://23923929210"> +84 0987654321</a></li>
-                    <li> <i class="fa fa-envelope"></i> emailaddress@gmail.com</li>
+                  <li> <i className="fa fa-location-arrow"></i> Số 14 Nguyễn Văn Bảo, Phường 4, Quận Gò Vấp, Thành Phố Hồ Chí Minh, Việt Nam</li>
+                    <li> <i className="fa fa-phone"></i><a href="tel://23923929210"> +84 0987654321</a></li>
+                    <li> <i className="fa fa-envelope"></i> emailaddress@gmail.com</li>
                   </ul>
                 </div>
               </div>

@@ -6,7 +6,7 @@ const ServiceArea = () => {
       <div className="row">
         <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay>
           <div className="icon mr-4 align-self-start">
-          <i class="fa fa-truck" style={{fontSize:"35px"}}/>
+          <i className="fa fa-truck" style={{fontSize:"35px"}}/>
           </div>
           <div className="text">
             <h2 className="text-uppercase">Miễn Phí Vận Chuyển</h2>
@@ -15,7 +15,7 @@ const ServiceArea = () => {
         </div>
         <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay={100}>
           <div className="icon mr-4 align-self-start">
-          <i class="fa fa-sync-alt" style={{fontSize:"35px"}}/>
+          <i className="fa fa-sync-alt" style={{fontSize:"35px"}}/>
           </div>
           <div className="text">
             <h2 className="text-uppercase">Miễn Phí Đổi Trả</h2>
@@ -25,7 +25,7 @@ const ServiceArea = () => {
         </div>
         <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay={200}>
           <div className="icon mr-4 align-self-start">
-          <i class="fa fa-question-circle" style={{fontSize:"35px"}} />
+          <i className="fa fa-question-circle" style={{fontSize:"35px"}} />
           </div>
           <div className="text">
             <h2 className="text-uppercase">Chăm sóc khách hàng</h2>

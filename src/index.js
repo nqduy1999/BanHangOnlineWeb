@@ -15,6 +15,8 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 import RootReducer from './reducer/RootReducer';
+import './resource/css/main.css';
+
 const loggerMiddleware = createLogger();
 const store = createStore(
     RootReducer,

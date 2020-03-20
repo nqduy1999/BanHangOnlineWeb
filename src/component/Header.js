@@ -65,12 +65,12 @@ const Header = (props) => {
                 <div className="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
                   <form onSubmit={handleSubmit(onSubmit)} className="site-block-top-search">
                     <input name="keyword" type="text"  ref={register({ required: false })} className="form-control border-0" placeholder="Tìm Kiếm" />
-                    <button type="submit"><i class="fa fa-search"></i> </button>
+                    <button type="submit"><i className="fa fa-search"></i> </button>
                   </form>
                 </div>
                 <div className="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
                   <div className="site-logo">
-                    <Link to="/" className="js-logo-clone">Ananas<i class="fab fa-accusoft"></i></Link>
+                    <Link to="/" className="js-logo-clone">Ananas<i className="fab fa-accusoft"></i></Link>
                   </div>
                 </div>
                 <div className="col-6 col-md-4 order-3 order-md-3 text-right">
@@ -95,12 +95,12 @@ const Header = (props) => {
                         </span>
                       )
                       : (
-                        <li><Link to="/dangnhap" ><i class="fa fa-user"></i></Link></li>
+                        <li><Link to="/dangnhap" ><i className="fa fa-user"></i></Link></li>
                       )
                     }
                       <li>
                         <Link to="/giohang" className="site-cart">
-                        <i class="fa fa-shopping-cart"></i>
+                        <i className="fa fa-shopping-cart"></i>
                           <span className="count">{stateCart.inventory ? stateCart.inventory : inventory }</span>
                         </Link>
                       </li>

@@ -83,7 +83,6 @@ const Login = props => {
             <form
               className="text-center"
               style={{ color: "#757575" }}
-              action="#!"
             >
               <div className="md-form">
                 <input
