@@ -62,12 +62,11 @@ const Update = (props) => {
             id="capnhat"
             tabIndex={-1}
             role="dialog"
-            aria-labelledby="exampleModalLabel"
             aria-hidden="true"
             data-backdrop="false"
           >
             <div
-              className="modal-dialog modal-full-height modal-right modal-notify modal-info"
+              className="modal-dialog modal-full-height modal-right modal-notify modal-info modal-lg"
               role="document"
             >
               <div className="modal-content">
@@ -86,7 +85,7 @@ const Update = (props) => {
                       ×
                     </span>
                   </button>
-                <h1 className="heading lead text-center">{state.product ? "Sửa sản phẩm": "Thêm sản phẩm mới"}</h1>
+                <h1 className="heading lead text-center">{props.updateUser ? "Sửa sản phẩm": "Thêm sản phẩm mới"}</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   {/* Radio */}
                   <p>
@@ -98,7 +97,7 @@ const Update = (props) => {
                       name="name"
                       ref={register}
                       onChange={handleInput}
-                      value={state.product ? product.name : ""}
+                      value={props.updateUser ? product.name : ""}
                       placeholder="Nhập tên sản phẩm"
                     />
                   <p>
@@ -111,7 +110,7 @@ const Update = (props) => {
                       ref={register}
                       className="md-text form-control"
                       onChange={handleInput}
-                      value={state.product ? product.description : ""}
+                      value={props.updateUser ? product.description : ""}
                       placeholder="Nhập mô tả sản phẩm"
                     />
                   </div>
@@ -126,7 +125,7 @@ const Update = (props) => {
                       ref={register}
                       className="md-text form-control"
                       onChange={handleInput}
-                      value={state.product ? product.inventory : ""}
+                      value={props.updateUser ? product.inventory : ""}
                       placeholder="Nhập số lượng sản phẩm"
                     />
                   </div>
@@ -142,7 +141,7 @@ const Update = (props) => {
                       className="md-text form-control"
                       defaultVaulue={""}
                       onChange={handleInput}
-                      value={state.product ? product.price : ""}
+                      value={props.updateUser ? product.price : ""}
                       placeholder="Nhập giá sản phẩm"
                     />
                   </div>
@@ -157,7 +156,7 @@ const Update = (props) => {
                       ref={register}
                       className="md-text form-control"
                       onChange={handleInput}
-                      value={state.product ? product.supplier.name : ""}
+                      value={props.updateUser ? product.supplier.name : ""}
                       placeholder="Nhập tên nhà cung cấp"
                     />
                   </div>
@@ -170,7 +169,7 @@ const Update = (props) => {
                       ref={register}
                       className="md-textarea form-control"
                       onChange={handleInput}
-                      value={state.product ? product.supplier.description : ""}
+                      value={props.updateUser ? product.supplier.description : ""}
                       placeholder="Nhập mô tả nhà cung cấp"
                     />
                   </div>
@@ -186,7 +185,7 @@ const Update = (props) => {
                       className="md-text form-control"
                       placeholder="Nhập tên loại sản phẩm "
                       onChange={handleInput}
-                      value={state.product ? product.category.name : ""}
+                      value={props.updateUser ? product.category.name : ""}
                     />
                   </div>
                   <div className="justify-content-center">
@@ -195,7 +194,7 @@ const Update = (props) => {
                     type="submit"
                     className="btn btn-primary waves-effect waves-light"
                   >
-                    {state.product ? "Sửa" : "Thêm"} 
+                    {props.updateUser ? "Sửa" : "Thêm"} 
                     <i class="fa fa-plus"></i>                  
                     </button>
                   <button

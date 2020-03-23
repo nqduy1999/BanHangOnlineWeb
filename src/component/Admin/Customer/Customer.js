@@ -5,7 +5,6 @@ import { getListCus } from "../../../services/AdminService";
 import Cookies from "js-cookie";
 const ListCustomer = () => {
   console.log(Cookies.get("authtoken"));
-
   const [listCus, setListCus] = useState([]);
   useEffect(() => {
     getListCus().then(res => {
@@ -19,7 +18,7 @@ const ListCustomer = () => {
     <div>
       <h1>Danh sách khách hàng </h1>
       <div className="table100 ver5 m-b-110">
-        <table data-vertable="ver2">
+        <table data-vertable="ver5">
           <thead>
           <tr className="row100 head">
              <th className="column100 column1" data-column="column1">
@@ -33,7 +32,7 @@ const ListCustomer = () => {
             </tr>
           </thead>
           {listCus.map((item, key) => (
-            <CustomerItem key={key} customer={item} />
+            <CustomerItem key={key} customer={item}/>
           ))}
         </table>
       </div>

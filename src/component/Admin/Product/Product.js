@@ -202,7 +202,7 @@ const Product = (props) => {
           </div>
         </div>
       </div>
-      <Update product={listdata} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateUser={updateUser}/>
+      <Update handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateUser={updateUser}/>
     </div>
   );
 };

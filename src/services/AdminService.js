@@ -133,7 +133,7 @@ export const getListCus = () => {
             }
         })
 }
-export const getDetailCus = (username,) =>{
+export const getDetailCus = (username) =>{
     return axios({
         method:"GET",
         url:`customer/detail?username=${username}`,
