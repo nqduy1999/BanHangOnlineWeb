@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
+import { useSelector } from 'react-redux';
 
-const AddProduct = (props) => {
+const Update = (props) => {
   const { register, handleSubmit } = useForm();
   const [product, setProduct] = useState({
     name: "",
@@ -16,9 +17,19 @@ const AddProduct = (props) => {
       name:""
     }
   });
-  const [] = useState();
+  const handleInput=(e)=>{
+    setProduct({...product,
+      [e.target.name]:e.target.value
+    })
+    console.log(product); // qua kia
+  }
+  const state = useSelector(state => state.admin);
   useEffect(() => {
-  })
+    if(state.product){
+      setProduct(state.product)
+      console.log(product);
+    }
+  },[state]);
   const onSubmit = (data) =>{
     console.log(data);
       setProduct(
@@ -37,12 +48,18 @@ const AddProduct = (props) => {
           }
         }
       )
+      if(state.product !==null){
+        props.handleUpdateProduct(state.product.id, product)
+      }
+      else{
       props.handleAddSubmit(product)
+      }
   }
+  
     return (
           <div
             className="modal fade right"
-            id="modalPoll-1"
+            id="capnhat"
             tabIndex={-1}
             role="dialog"
             aria-labelledby="exampleModalLabel"
@@ -55,8 +72,11 @@ const AddProduct = (props) => {
             >
               <div className="modal-content">
                 <div className="modal-header">
-                  <p className="heading lead">Thêm sản phẩm mới</p>
-                  <button
+                  
+                </div>
+                {/*Body*/}
+                <div className="modal-body">
+                <button
                     type="button"
                     className="close"
                     data-dismiss="modal"
@@ -66,28 +86,22 @@ const AddProduct = (props) => {
                       ×
                     </span>
                   </button>
-                </div>
-                {/*Body*/}
-                <div className="modal-body">
+                <h1 className="heading lead text-center">{state.product ? "Sửa sản phẩm": "Thêm sản phẩm mới"}</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="text-center">
-                    <i className="fa fa-book-dead fa-4x mb-3 animated rotateIn" />
-                  </div>
-                  <hr />
                   {/* Radio */}
-                  <p className="text-center">
+                  <p>
                     <strong>Tên sản phẩm</strong>
                   </p>
-                  <div className="md-form form">
                     <input
                       type="text"
                       className="md-text form-control"
                       name="name"
                       ref={register}
+                      onChange={handleInput}
+                      value={state.product ? product.name : ""}
                       placeholder="Nhập tên sản phẩm"
                     />
-                  </div>
-                  <p className="text-center">
+                  <p>
                     <strong>Mô tả sản phẩm</strong>
                   </p>
                   <div className="md-form form">
@@ -96,11 +110,12 @@ const AddProduct = (props) => {
                       name="description"
                       ref={register}
                       className="md-text form-control"
-                      defaultValue={""}
+                      onChange={handleInput}
+                      value={state.product ? product.description : ""}
                       placeholder="Nhập mô tả sản phẩm"
                     />
                   </div>
-                  <p className="text-center">
+                  <p>
                     <strong>Số Lượng</strong>
                   </p>
                   <div className="md-form form">
@@ -110,11 +125,12 @@ const AddProduct = (props) => {
                       required
                       ref={register}
                       className="md-text form-control"
-                      defaultValue={""}
+                      onChange={handleInput}
+                      value={state.product ? product.inventory : ""}
                       placeholder="Nhập số lượng sản phẩm"
                     />
                   </div>
-                  <p className="text-center">
+                  <p>
                     <strong>Giá</strong>
                   </p>
                   <div className="md-form form">
@@ -125,10 +141,12 @@ const AddProduct = (props) => {
                       ref={register}
                       className="md-text form-control"
                       defaultVaulue={""}
+                      onChange={handleInput}
+                      value={state.product ? product.price : ""}
                       placeholder="Nhập giá sản phẩm"
                     />
                   </div>
-                  <p className="text-center">
+                  <p>
                     <strong>Nhà cung cấp</strong>
                   </p>
                   <div className="md-form form">
@@ -138,6 +156,8 @@ const AddProduct = (props) => {
                       required
                       ref={register}
                       className="md-text form-control"
+                      onChange={handleInput}
+                      value={state.product ? product.supplier.name : ""}
                       placeholder="Nhập tên nhà cung cấp"
                     />
                   </div>
@@ -149,10 +169,12 @@ const AddProduct = (props) => {
                       rows="3"
                       ref={register}
                       className="md-textarea form-control"
+                      onChange={handleInput}
+                      value={state.product ? product.supplier.description : ""}
                       placeholder="Nhập mô tả nhà cung cấp"
                     />
                   </div>
-                  <p className="text-center">
+                  <p>
                     <strong>Loại sản phẩm</strong>
                   </p>
                   <div className="md-form form">
@@ -163,15 +185,17 @@ const AddProduct = (props) => {
                       ref={register}
                       className="md-text form-control"
                       placeholder="Nhập tên loại sản phẩm "
+                      onChange={handleInput}
+                      value={state.product ? product.category.name : ""}
                     />
                   </div>
                   <div className="justify-content-center">
-
+                    <hr/>
                   <button
                     type="submit"
                     className="btn btn-primary waves-effect waves-light"
                   >
-                    Thêm 
+                    {state.product ? "Sửa" : "Thêm"} 
                     <i class="fa fa-plus"></i>                  
                     </button>
                   <button
@@ -191,4 +215,4 @@ const AddProduct = (props) => {
     );
 };
 
-export default AddProduct;
+export default Update;

@@ -15,17 +15,13 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
-import CategoryIcon from '@material-ui/icons/Category';
-import ReceiptIcon from '@material-ui/icons/Receipt';
-
+import InfoIcon from '@material-ui/icons/Info';
 import React, { useState, useEffect } from 'react';
 
 import clsx from 'clsx';
-
-import {Link} from "react-router-dom";
-
 import ListCustomer from './Customer/Customer';
 import Product from './Product/Product';
+import AboutUs from '../about/AboutMember';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -108,14 +104,15 @@ const AsideAdmin = () => {
     const [currentComponent, setCurrentComponent] = useState(<Product/>);
     useEffect(() => {
       switch(showComponent) {
+        case 'info':
+          setCurrentComponent(<AboutUs/>)
+          break;
         case 'product':
           setCurrentComponent(<Product/>)
             break;
-
         case 'customer':
           setCurrentComponent(<ListCustomer/>)
             break;
-
         default:
             setCurrentComponent("loading");
     }
@@ -142,7 +139,7 @@ const AsideAdmin = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Admin
           </Typography>
         </Toolbar>
       </AppBar>
@@ -166,6 +163,10 @@ const AsideAdmin = () => {
         </div>
         <Divider />
         <List>
+        <ListItem button onClick={() => {show("info")}}>
+            <ListItemIcon><InfoIcon /></ListItemIcon>
+            <ListItemText primary="Thông tin Admin" />
+          </ListItem>
           <ListItem button onClick={() => {show("product")}}>
             <ListItemIcon><LocalGroceryStoreIcon /></ListItemIcon>
             <ListItemText primary="Quản lý sản phẩm" />
