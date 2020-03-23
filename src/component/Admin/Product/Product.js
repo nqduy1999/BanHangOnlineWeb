@@ -8,11 +8,12 @@ import {
   updateProduct
 } from "../../../services/AdminService";
 import ProductItem from "./ProductItem";
-import AddProduct from "./AddProduct";
+import Update from "./Update";
 import { Link } from "react-router-dom";
-const Product = () => {
+const Product = (props) => {
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [updateUser, getUpdateUser]=useState(null)
   let genPage = total => {
     let array = [];
     for (let index = 0; index < total; index++) {
@@ -67,6 +68,18 @@ const Product = () => {
         console.log(err);
       });
   };
+  const handleUpdateProduct=(id, value)=>{
+    updateProduct(id, value)
+    .then((res) => {
+      console.log(res);
+      if(res.data !== null && res.error !== false){
+        alertNotify("Thông Báo", res.data.message,"success")
+      }  
+      else if(res.data ===null){
+        alertNotify("Thông Báo", "Bạn Nhập Sai", "warning")
+      }
+    })	        
+  }
   useEffect(() => {
     getListProduct(currentPage).then(res => {
       if (res.error !== true && res.data.code === 0) {
@@ -100,7 +113,8 @@ const Product = () => {
           <button
             className="btn btn-primary"
             data-toggle="modal"
-            data-target="#modalPoll-1"
+            data-target="#capnhat"
+            onClick={()=> getUpdateUser(null)}
           >
             Thêm sản phẩm
           </button>
@@ -140,7 +154,7 @@ const Product = () => {
             </tr>
           </thead>
           {listdata.map((item, i) => {
-            return <ProductItem key={i} product={item} removePd={removePd} />;
+            return <ProductItem key={i} product={item} removePd={removePd}  getUpdateUser={getUpdateUser}/>;
           })}
         </table>
         <div></div>
@@ -188,7 +202,7 @@ const Product = () => {
           </div>
         </div>
       </div>
-      <AddProduct product={listdata} handleAddSubmit={handleAddProduct} />
+      <Update product={listdata} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateUser={updateUser}/>
     </div>
   );
 };

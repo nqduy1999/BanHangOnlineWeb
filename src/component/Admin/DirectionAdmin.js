@@ -6,16 +6,11 @@ import Customer from "./Customer/Customer.js";
 import Order from "./Order/Order.js";
 import CustomerProfile from "./Customer/CustomerProfile";
 import CustomerUpdate from "./Customer/CustomerUpdate";
-import Update from "./Product/UpdateProd";
 const DirectionAdmin = (props) => {
   return (
     <div>
       <Switch>
         <Order path="/admin/danhsachdonhang" />
-        <Route
-          exact
-          path="/admin/danhsachsanpham/update/:id"
-          render={(props) => <Update {...props} />}        />
         <Route
           exact
           path="/admin/danhsachkhachhang/profile/:name"

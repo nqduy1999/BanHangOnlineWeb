@@ -67,10 +67,11 @@ const ProductItem = props => {
               <button onClick={onClick} className=" btn-danger btn">
             Xoá
           </button>  
-          <button className="btn-primary btn">
-            <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white" onClick={dispatchItem}>
+          <button className="btn-primary btn" data-toggle="modal"
+                  data-target="#capnhat"
+                  onClick={dispatchItem}>
+            {/* <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white" onClick={dispatchItem}> */}{/* </Link> */}
             Sửa
-            </Link>
           </button>               
           </td>
             </tr>
