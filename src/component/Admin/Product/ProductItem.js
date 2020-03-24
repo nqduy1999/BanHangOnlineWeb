@@ -32,6 +32,7 @@ const ProductItem = props => {
   };
   const dispatch = useDispatch();
   const dispatchItem = () =>{
+    props.getUpdateUser(props.product)
     dispatch({
       type: "CLICK",
         product: props.product
@@ -70,7 +71,7 @@ const ProductItem = props => {
           <button className="btn-primary btn" data-toggle="modal"
                   data-target="#capnhat"
                   onClick={dispatchItem}>
-            {/* <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white" onClick={dispatchItem}> */}{/* </Link> */}
+            {/* <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white" onClick={dispatchItem}> */}            {/* </Link> */}
             Sửa
           </button>               
           </td>

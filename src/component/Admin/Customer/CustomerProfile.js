@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { getDetailCus } from "../../../services/AdminService";
 import { Link, Redirect } from "react-router-dom";
 import { alertNotify } from "../../../untils/alert";
+import { useSelector } from "react-redux";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 const CustomerProfile = props => {
-  const name = props.match.params.name;
   const [customer, setCustomer] = useState({
     id: "",
     name: "",
@@ -12,134 +14,77 @@ const CustomerProfile = props => {
     identityCard: "",
     birthday: ""
   });
+  const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'))
+  const state = useSelector(state => state.admin);
   useEffect(() => {
-    getDetailCus(name).then(async res => {
-      if (res.error !== true && res.data.code === 0 && res.data.result.address !== null) {
-        console.log(res.data.result);
-        const result = await res.data.result;
-        setCustomer({
-          ...customer,
-          id: result.id,
-          name: result.name,
-          address: result.address,
-          phone: result.phone,
-          identityCard: result.identityCard,
-          birthday: result.birthday
-        });
-      }
-      else{
-        alertNotify("Thông báo","Vui lòng cập nhật thông tin để xem chi tiết","warning")
-      }
-    });
-  }, []);
+    if(state.customer){
+      getDetailCus(state.customer.account.username)
+      .then((res)=>{
+        setCustomer(res.data.result);
+        setSelectedDate(res.data.result.birthday)
+      })    
+    }
+  },[state])
+  const handleDateChange = date => {
+    setCustomer({...customer,
+        birthday: date
+    })
+  setSelectedDate(date);
+};
   return (
-    <div className="container emp-profile">
-      <form method="post">
-        <div className="row">
-          <div className="col-md-4">
-            <div className="profile-img">
-              <img
-                src=""
-                alt
-              />
-            </div>
+<div className="modal fade" id="xemchitiet" tabIndex={-1} role="dialog" aria-hidden="true">
+  <div className="modal-dialog" role="document">
+    <div className="modal-content">
+      <div className="modal-header">
+      </div>
+      <div className="modal-body">
+      <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+        </button>
+      <h5 className="text-center" id="xemchitiet">Thông tin khách hàng</h5>
+        <form>
+          <div className="form-group">
+            <label htmlFor="recipient-name" className="col-form-label">Id:</label>
+            <input type="text" readOnly className="form-control" value={customer.id}/>
           </div>
-          <div className="col-md-6">
-            <div className="profile-head">
-              <h5>{customer.name}</h5>
-              <h6>{customer.phone}</h6>
-              <p className="proile-rating">
-                BirthDay : {customer.birthday}
-                <span></span>
-              </p>
-              <ul className="nav nav-tabs" id="myTab" role="tablist">
-                <li className="nav-item">
-                  <a
-                    className="nav-link active"
-                    id="home-tab"
-                    data-toggle="tab"
-                    href="#home"
-                    role="tab"
-                    aria-controls="home"
-                    aria-selected="true"
-                  >
-                    About
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <div className="form-group">
+            <label htmlFor="message-text" className="col-form-label">Tên :</label>
+            <input type="text" readOnly className="form-control" value={customer.name === null ? "Khách chưa cập nhật tên !" : customer.name}/>
           </div>
-          <div className="col-md-2">
-            <Link to={`/admin/danhsachkhachhang/update/${name}`}>
-              <button className="btn-success">Cập nhật thông tin</button>
-            </Link>
+          <div className="form-group">
+            <label htmlFor="message-text" className="col-form-label">Ngày sinh :</label>
+            <MuiPickersUtilsProvider  utils={DateFnsUtils}>
+                        <KeyboardDatePicker className="form-control"
+                            margin="normal"
+                            id="date-picker-dialog"
+                            label="Date picker dialog"
+                            format="MM/dd/yyyy"
+                            value={selectedDate}
+                            readOnly={props.edit ? false : true}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                            }}
+                        />
+          </MuiPickersUtilsProvider>          </div>
+          <div className="form-group">
+            <label htmlFor="message-text" className="col-form-label">CMND :</label>
+            <input type="text" readOnly={props.edit ? false : true} className="form-control" value={customer.identityCard === null ? "Khách chưa cập nhật CMND !" : customer.identityCard}/>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-8">
-            <div className="tab-content profile-tab" id="myTabContent">
-              <div
-                className="tab-pane fade show active"
-                id="home"
-                role="tabpanel"
-                aria-labelledby="home-tab"
-              >
-                <div className="row">
-                  <div className="col-md-6">
-                    <label>User Id</label>
-                  </div>
-                  <div className="col-md-6">
-                    <p>{customer.id}</p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <label> Name</label>
-                  </div>
-                  <div className="col-md-6">
-                    <p>{customer.name}</p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <label>Address</label>
-                  </div>
-                  <div className="col-md-6">
-                    <p>
-                      {customer.address.street +
-                        ", " +
-                        customer.address.town +
-                        ", " +
-                        customer.address.ward +
-                        ", " +
-                        customer.address.district +
-                        ", " +
-                        customer.address.city}
-                    </p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <label>Phone</label>
-                  </div>
-                  <div className="col-md-6">
-                    <p>{customer.phone}</p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <label>BirthDay</label>
-                  </div>
-                  <div className="col-md-6">
-                    <p>{customer.birthday}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="form-group">
+            <label htmlFor="message-text" className="col-form-label">Số điện thoại :</label>
+            <input type="text" readOnly className="form-control" value={customer.phone === null ? "Khách chưa cập nhật số điện thoại !" : customer.phone}/>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Cập Nhật</button>
+      </div>
     </div>
+  </div>
+</div>
+
   );
 };
 

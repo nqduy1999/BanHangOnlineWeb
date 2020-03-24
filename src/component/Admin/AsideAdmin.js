@@ -173,7 +173,7 @@ const AsideAdmin = () => {
           </ListItem>
           <ListItem button onClick={() => {show("customer")}}>
             <ListItemIcon><SupervisorAccountIcon /></ListItemIcon>
-            <ListItemText primary="Quản lý khách hành" />
+            <ListItemText primary="Quản lý khách hàng" />
           </ListItem>
         </List>
         <Divider />
