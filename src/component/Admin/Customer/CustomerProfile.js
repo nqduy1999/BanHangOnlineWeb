@@ -15,12 +15,45 @@ const CustomerProfile = props => {
     birthday: ""
   });
   const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'))
+  const stateAddress = useSelector(state => state.address);
   const state = useSelector(state => state.admin);
+  console.log(state);
   useEffect(() => {
     if(state.customer){
       getDetailCus(state.customer.account.username)
       .then((res)=>{
-        setCustomer(res.data.result);
+        if(state.customer.address === null){
+        setCustomer({...customer,
+        id:state.customer.id,
+        name:state.customer.name,
+        address:{
+          street:"Chưa cập nhật",
+          town:"Chưa cập nhật",
+          ward:"Chưa cập nhật",
+          district:"Chưa cập nhật",
+          city:"Chưa cập nhật",
+        },
+        phone:state.customer.phone,
+        identityCard:state.customer.identityCard,
+        birthday:state.customer.birthday
+      })
+    }
+    else{
+      setCustomer({...customer,
+        id:state.customer.id,
+        name:state.customer.name,
+        address:{
+          street:state.customer.address.street,
+          town:state.customer.address.town,
+          ward:state.customer.address.ward,
+          district:state.customer.address.district,
+          city:state.customer.address.city,
+        },
+        phone:state.customer.phone,
+        identityCard:state.customer.identityCard,
+        birthday:state.customer.birthday
+      })
+    }
         setSelectedDate(res.data.result.birthday)
       })    
     }
@@ -28,6 +61,7 @@ const CustomerProfile = props => {
   const handleDateChange = date => {
     setCustomer({...customer,
         birthday: date
+
     })
   setSelectedDate(date);
 };
@@ -73,7 +107,43 @@ const CustomerProfile = props => {
           </div>
           <div className="form-group">
             <label htmlFor="message-text" className="col-form-label">Số điện thoại :</label>
-            <input type="text" readOnly className="form-control" value={customer.phone === null ? "Khách chưa cập nhật số điện thoại !" : customer.phone}/>
+            <input type="text" readOnly className="form-control" 
+            value={customer.phone === null ? "Khách chưa cập nhật số điện thoại !" : customer.phone}
+            />
+          </div>
+          <div className="form-group row">
+            <div className="col-md-6">
+            <label htmlFor="message-text" className="col-form-label">Số Nhà :</label>
+            <input type="text" readOnly className="form-control"
+             value={customer.address.street === null ? "Khách chưa cập nhật số nhà!" : customer.address.street}
+             />
+            </div>
+            <div className="col-md-6">
+            <label htmlFor="message-text" className="col-form-label">Tên Đường :</label>
+            <input type="text" readOnly className="form-control" 
+            value={customer.address.town === null ? "Khách chưa cập nhật tên đường!" : customer.address.town}
+            />
+            </div>
+          </div>
+          <div className="form-group row">
+            <div className="col-md-4">
+            <label htmlFor="message-text" className="col-form-label">Phường :</label>
+            <input type="text" readOnly className="form-control" 
+            value={customer.address.ward === null ? "Khách chưa cập nhật tên phường!" : customer.address.ward}
+            />
+            </div>
+            <div className="col-md-4">
+            <label htmlFor="message-text" className="col-form-label">Quận :</label>
+            <input type="text" readOnly className="form-control" 
+            value={customer.address.district === null ? "Khách chưa cập nhật tên quận!" : customer.address.district}
+            />
+            </div>
+            <div className="col-md-4">
+            <label htmlFor="message-text" className="col-form-label">Thành Phố :</label>
+            <input type="text" readOnly className="form-control" 
+            value={customer.address.city === null ? "Khách chưa cập nhật tên thành phố!" : customer.address.city}
+            />
+            </div>
           </div>
         </form>
       </div>

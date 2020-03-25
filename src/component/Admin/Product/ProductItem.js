@@ -65,10 +65,10 @@ const ProductItem = props => {
                 {product.category.name}
               </td>
               <td className="column100 column8" data-column="column8">
-              <button onClick={onClick} className=" btn-danger btn">
+              <button onClick={onClick} className=" btn-danger">
             Xoá
           </button>  
-          <button className="btn-primary btn" data-toggle="modal"
+          <button className="btn-primary" data-toggle="modal"
                   data-target="#capnhat"
                   onClick={dispatchItem}>
             {/* <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white" onClick={dispatchItem}> */}            {/* </Link> */}

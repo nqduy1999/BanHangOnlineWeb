@@ -15,6 +15,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
+import DescriptionIcon from '@material-ui/icons/Description';
+import StoreIcon from '@material-ui/icons/Store';
 import InfoIcon from '@material-ui/icons/Info';
 import React, { useState, useEffect } from 'react';
 
@@ -22,6 +24,8 @@ import clsx from 'clsx';
 import ListCustomer from './Customer/Customer';
 import Product from './Product/Product';
 import AboutUs from '../about/AboutMember';
+import MainOrder from './Order/Order';
+import Supplier from './Supplier/Supplier';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -113,6 +117,12 @@ const AsideAdmin = () => {
         case 'customer':
           setCurrentComponent(<ListCustomer/>)
             break;
+        case 'order':
+          setCurrentComponent(<MainOrder/>);
+          break;
+        case 'supplier':
+          setCurrentComponent(<Supplier/>);
+          break;
         default:
             setCurrentComponent("loading");
     }
@@ -174,6 +184,14 @@ const AsideAdmin = () => {
           <ListItem button onClick={() => {show("customer")}}>
             <ListItemIcon><SupervisorAccountIcon /></ListItemIcon>
             <ListItemText primary="Quản lý khách hàng" />
+          </ListItem>
+          <ListItem button onClick={() => {show("order")}}>
+            <ListItemIcon><DescriptionIcon /></ListItemIcon>
+            <ListItemText primary="Danh sách đơn hàng" />
+          </ListItem>
+          <ListItem button onClick={() => {show("supplier")}}>
+            <ListItemIcon><StoreIcon /></ListItemIcon>
+            <ListItemText primary="Danh sách nhà cung cấp" />
           </ListItem>
         </List>
         <Divider />

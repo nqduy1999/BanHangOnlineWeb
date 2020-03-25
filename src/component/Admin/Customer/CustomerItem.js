@@ -14,7 +14,8 @@ const CustomerItem = props => {
       dispatch({
         type: "CLICK_CUSTOMER",
           customer: props.customer
-      });
+      })
+      ;
   }  
   const updateCustomer = () =>{
       getEdit(true);

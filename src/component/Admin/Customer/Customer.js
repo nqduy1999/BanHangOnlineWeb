@@ -13,7 +13,7 @@ const ListCustomer = () => {
         console.log(res.data);
       }
     });
-  }, []);
+  },[]);
   return (
     <div>
       <h1>Danh sách khách hàng </h1>
