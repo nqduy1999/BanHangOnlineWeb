@@ -21,7 +21,6 @@ const Header = (props) => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   // các url api
-  const [inventory, setInventory] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   // xử lý dropdown của profile
   const handleClick = event => {
@@ -38,7 +37,7 @@ const Header = (props) => {
         res.data.result.listOrderDetail.map((item) => {
           total += item.quantity;
         })
-        setInventory(total);
+        dispatch({type: "CHANGE_INVENTORY", inventory: total});
       }
     });
   }, [order]);
@@ -101,7 +100,7 @@ const Header = (props) => {
                       <li>
                         <Link to="/giohang" className="site-cart">
                         <i className="fa fa-shopping-cart"></i>
-                          <span className="count">{stateCart.inventory ? stateCart.inventory : inventory }</span>
+                          <span className="count">{stateCart.inventory ? stateCart.inventory : 0 }</span>
                         </Link>
                       </li>
                       <li className="d-inline-block d-md-none ml-md-0"><Link to="/" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></Link></li>

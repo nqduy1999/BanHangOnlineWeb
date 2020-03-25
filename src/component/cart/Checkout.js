@@ -9,15 +9,19 @@ import { useForm } from 'react-hook-form';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import Cookies from 'js-cookie';
+
 import Address from '../profile/Address';
 import { getAllCart } from '../../services/CartServices';
 import { payment } from '../../services/CheckoutServices';
+import { getProfile } from '../../services/UserServices';
 import { alertNotify } from '../../untils/alert';
 const Checkout = (props) => {
     const dispatch = useDispatch();
     const state = useSelector(state => state.auth);
     // React form
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit } = useForm();
+    const [profile, setProfile] = useState()
     const stateAddress = useSelector(state => state.address)
     const [note, setNote] = useState(""); // ghi chú
     const [paymentMethod, setPaymentMethod] = useState("Thanh toán khi nhận hàng")
@@ -26,16 +30,16 @@ const Checkout = (props) => {
         totalMoney: order.totalMoney,
         listOrderDetail: order.listOrderDetail,
         customer: state.user,
-        address: stateAddress.address ? stateAddress.address : order.customer.address,
+        address: profile.address ? profile.address : stateAddress.address,
         note: note,
         payMethod: paymentMethod
       }
-      if(orderCheckout.address) {
+      if(orderCheckout.address && order.address !== null) {
         payment(orderCheckout).then((res) => {
           if(res.error !== true && res.data.code === 0) {
-            props.history.push("/thongbao");
             dispatch({type: "CHANGE_INVENTORY", inventory: 0});
             dispatch({type: "SET_ADDRESS", address: ""});
+            props.history.push("/thongbao");
           } else {
             alertNotify("Thông báo", res.data.message, "error");
           }
@@ -55,6 +59,11 @@ const Checkout = (props) => {
       customer: null
     });
     useEffect(() => {
+      getProfile(Cookies.get("username")).then((res) => {
+        if(res.error !== true && res.data.code === 0) {
+          setProfile(res.data.result);
+        }
+      });
       getAllCart().then((res) => {
         if(res.error !== true && res.data.code === 0) {
           setOrder({...order,
