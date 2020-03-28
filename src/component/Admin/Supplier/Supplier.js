@@ -77,6 +77,9 @@ const Supplier = () => {
               <th className="column100 column3" data-column="column3">
                 Mô tả nhà cung cấp
               </th>
+              <th className="column100 column4" data-column="column">
+                Cập Nhật
+              </th>
             </tr>
           </thead>
           {supplier.map((item, i) => {

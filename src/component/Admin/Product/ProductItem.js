@@ -3,6 +3,7 @@ import { alertYesNo } from "../../../untils/alert";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Button } from "@material-ui/core";
 const ProductItem = props => {
   const [product, setProduct] = useState({
     id:"",
@@ -62,14 +63,12 @@ const ProductItem = props => {
               <td className="column100 column7" data-column="column7">
               </td>
               <td className="column100 column8" data-column="column8">
-              <button onClick={onClick} className=" btn-danger">
-            Xoá
-          </button>  
-          <button className="btn-primary" data-toggle="modal"
+          <Button variant="contained" color="secondary" onClick={onClick}>Xoá</Button>
+          <Button variant="contained" color="primary" data-toggle="modal"
                   data-target="#capnhat"
                   onClick={dispatchItem}>
             Sửa
-          </button>               
+          </Button>               
           </td>
             </tr>
     </tbody>
