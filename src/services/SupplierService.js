@@ -1,28 +1,9 @@
 import axios from "../untils/axios";
 import Cookies from "js-cookie";
-export const findALlCategory = () => {
-    return axios({
-        method: "GET",
-        url: `category/list`
-    })
-    .then((res) => {
-        return {
-            data: res.data,
-            error: false,
-            complete: true
-        };
-    }).catch((err) => {
-        return {
-            data: null,
-            error: true,
-            complete: true
-        };
-    });
-}
-export const getListCategory = index => {
+export const getListSupplier = index => {
     return axios({
       method: "GET",
-      url: `category/page?index=${index}`
+      url: `supplier/page?index=${index}`
     })
       .then(res => {
         return {
@@ -39,10 +20,10 @@ export const getListCategory = index => {
         };
       });
   };
-  export const addCategory = value => {
+  export const addSupplier = value => {
     return axios({
       method: "POST",
-      url: `admin/category/add`,
+      url: `admin/supplier/add`,
       data: value
     })
       .then(res => {
@@ -60,10 +41,10 @@ export const getListCategory = index => {
         };
       });
   };
-  export const deleteCategory = id => {
+  export const deleteSupplier = id => {
     return axios({
       method: "POST",
-      url: `admin/category/delete?id=${id}`
+      url: `admin/supplier/delete?id=${id}`
     })
       .then(res => {
         return {
@@ -80,10 +61,10 @@ export const getListCategory = index => {
         };
       });
   };
-  export const updateCategory = (id, value) => {
+  export const updateSupplier = (id, value) => {
     return axios({
       method: "POST",
-      url: `admin/category/update=${id}`,
+      url: `admin/supplier/update=${id}`,
       data: value,
       headers: { Authorization: `Bearer ${Cookies.get("authtoken")}` }
     })
@@ -102,10 +83,10 @@ export const getListCategory = index => {
         };
       });
   };
-  export const searchCategory = (index, keyword) => {
+  export const searchSupplier = (index, keyword) => {
     return axios({
       method: "POST",
-      url: `category/search?index=${index}&keyword=${keyword}`
+      url: `supplier/search?index=${index}&keyword=${keyword}`
     })
       .then(res => {
         return {
@@ -122,4 +103,3 @@ export const getListCategory = index => {
         };
       });
   };
-  

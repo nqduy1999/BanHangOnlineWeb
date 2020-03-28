@@ -14,8 +14,8 @@ const MainOrder = () => {
     });
   },[]);
   return (
-    <div className="table100 ver6 m-b-110">
-      <table data-vertable="ver6">
+    <div className="table100 ver1 m-b-110">
+      <table data-vertable="ver1">
         <thead>
           <tr className="row100 head">
             <th className="column100 column1" data-column="column1">

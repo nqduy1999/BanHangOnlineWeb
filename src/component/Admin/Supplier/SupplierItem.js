@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Button } from '@material-ui/core';
+import { alertYesNo } from '../../../untils/alert';
+import Swal from 'sweetalert2';
 
 const SupplierItem = (props) => {
     const [supplier, setSupplier] = useState({
@@ -10,6 +12,20 @@ const SupplierItem = (props) => {
       useEffect(() => {
         setSupplier(props.supplier);
       }, )
+      const deleteSupplier = () => {
+        alertYesNo("Thông báo", "Bạn có muốn xoá nhà cung cấp ", "warning", "Yes").then(
+          res => {
+            if (res.value) {
+              Swal.fire(
+                'Thành Công',
+                'Sản phẩm của bạn đã được xoá',
+                'success'
+              )
+              props.deleteSupplier(supplier.id);
+            }
+          }
+        );
+      };
     return (
         <tbody>
         <tr className="row100">
@@ -22,7 +38,8 @@ const SupplierItem = (props) => {
                   {supplier.description}
                 </td>
                 <td className="column100 column4" data-column="column3">
-                <Button variant="contained" color="primary">Xoá</Button>
+                <Button variant="contained" color="primary" onClick={deleteSupplier}>Xoá</Button>
+                <Button variant="contained" color="secondary">Cập Nhật</Button>
                 </td>
               </tr>
       </tbody>

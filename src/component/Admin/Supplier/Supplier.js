@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getListSupplier } from '../../../services/AdminService';
+import { getListSupplier, deleteSupplier } from '../../../services/SupplierService';
 import SupplierItem from './SupplierItem';
 const Supplier = () => {
     const [currentPage, setCurrentPage] = useState(0);
@@ -25,6 +25,19 @@ const Supplier = () => {
           description: "",
         }
       ]);
+      const removeSupplier = id => {
+        deleteSupplier(id)
+          .then(res => {
+            if (res.error !== true && res.data.code === 0) {
+              getListSupplier(currentPage).then(res=>{
+                setSupplier(res.data.result.content);
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      };
       useEffect(() => {
         getListSupplier(currentPage).then(res => {
           if (res.error !== true && res.data.code === 0) {
@@ -83,8 +96,9 @@ const Supplier = () => {
             </tr>
           </thead>
           {supplier.map((item, i) => {
-            return <SupplierItem key={i} supplier={item}/>;
-          })}        </table>
+            return <SupplierItem key={i} supplier={item} deleteSupplier={removeSupplier}/>;
+          })}        
+        </table>
         <div></div>
       </div>
       <div className="row" data-aos="fade-up">
@@ -98,7 +112,7 @@ const Supplier = () => {
                     setCurrentPage(handleMoveLeft());
                   }}
                 >
-                  <i class="fa fa-arrow-alt-circle-left"></i>
+                  <i className="fa fa-arrow-alt-circle-left"></i>
                 </Link>
               </li>
               {pages.map((item, i) => (
@@ -120,7 +134,7 @@ const Supplier = () => {
                     setCurrentPage(handleMoveRight());
                   }}
                 >
-                  <i class="fa fa-arrow-circle-right"></i>{" "}
+                  <i className="fa fa-arrow-circle-right"></i>{" "}
                 </Link>
               </li>
             </ul>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CategoryItem from './CategoryItem';
-import { getListCategory } from '../../../services/AdminService';
+import { getListCategory, deleteCategory } from '../../../services/CategoryServices';
 const Category = () => {
     const [category, setCategory] = useState([{}]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -20,6 +20,20 @@ const Category = () => {
       let handleMoveRight = () => {
         return currentPage + 1 > pages.length - 1 ? currentPage : currentPage + 1;
       }
+      const removeCategory = id => {
+        deleteCategory(id)
+          .then(res => {
+            if (res.error !== true && res.data.code === 0) {
+              getListCategory(currentPage).then(res=>{
+                setCategory(res.data.result.content);
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      };
+      
       useEffect(() => {
         getListCategory(currentPage).then(res => {
           if (res.error !== true && res.data.code === 0) {
@@ -70,10 +84,13 @@ const Category = () => {
               <th className="column100 column2" data-column="column2">
                 Tên loại sản phẩm
               </th>
+              <th className="column100 column3" data-column="column2">
+                  Cập Nhật
+              </th>
             </tr>
           </thead>
           {category.map((item, i) => {
-            return <CategoryItem key={i} category={item}/>;
+            return <CategoryItem key={i} category={item} deleteCategory={removeCategory}/>;
           })} 
           </table>
         <div></div>
@@ -90,7 +107,7 @@ const Category = () => {
                     setCurrentPage(handleMoveLeft());
                   }}
                 >
-                  <i class="fa fa-arrow-alt-circle-left"></i>
+                  <i className="fa fa-arrow-alt-circle-left"></i>
                 </Link>
               </li>
               {pages.map((item, i) => (
@@ -112,7 +129,7 @@ const Category = () => {
                     setCurrentPage(handleMoveRight());
                   }}
                 >
-                  <i class="fa fa-arrow-circle-right"></i>{" "}
+                  <i className="fa fa-arrow-circle-right"></i>{" "}
                 </Link>
               </li>
             </ul>

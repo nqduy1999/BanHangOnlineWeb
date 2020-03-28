@@ -17,7 +17,7 @@ const ProductItem = props => {
   useEffect(() => {
     setProduct(props.product);
   }, )
-  const onClick = () => {
+  const deleteProduct = () => {
     alertYesNo("Thông báo", "Bạn có muốn xoá sản phẩm ", "warning", "Yes").then(
       res => {
         if (res.value) {
@@ -42,12 +42,12 @@ const ProductItem = props => {
   return (
     <tbody>
       <tr className="row100">
-              <td className="column100 column1" data-column="column1">
+              <td className="column100 column8" data-column="column8">
                 {product.name}
               </td>
-              <td className="column100 column2" data-column="column2">
-                {product.id}              </td>
               <td className="column100 column3" data-column="column3">
+                {product.id}              </td>
+              <td className="column100 column2" data-column="column2">
                 {product.description}
               </td>
               <td className="column100 column4" data-column="column4">
@@ -62,8 +62,8 @@ const ProductItem = props => {
                </td>
               <td className="column100 column7" data-column="column7">
               </td>
-              <td className="column100 column8" data-column="column8">
-          <Button variant="contained" color="secondary" onClick={onClick}>Xoá</Button>
+              <td className="column100 column1" data-column="column1">
+          <Button variant="contained" color="secondary" onClick={deleteProduct}>Xoá</Button>
           <Button variant="contained" color="primary" data-toggle="modal"
                   data-target="#capnhat"
                   onClick={dispatchItem}>

@@ -107,7 +107,7 @@ const AsideAdmin = () => {
     const show = (nameComponent) => {
       setShowComponent(nameComponent);
     }
-    const [currentComponent, setCurrentComponent] = useState(<Product/>);
+    const [currentComponent, setCurrentComponent] = useState(<AboutUs/>);
     useEffect(() => {
       switch(showComponent) {
         case 'info':

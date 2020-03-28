@@ -134,7 +134,6 @@ const Update = (props) => {
                       required
                       ref={register}
                       className="md-text form-control"
-                      defaultVaulue={""}
                       onChange={handleInput}
                       placeholder="Nhập giá sản phẩm"
                       value={props.updateProduct? product.price :""}
@@ -157,7 +156,7 @@ const Update = (props) => {
                     className="btn btn-primary waves-effect waves-light"
                   >
                     {props.updateProduct ? "Sửa" : "Thêm"} 
-                    <i class="fa fa-plus"></i>                  
+                    <i className="fa fa-plus"></i>                  
                     </button>
                   <button
                     type="button"

@@ -5,15 +5,19 @@ import {
   getListProduct,
   removeProduct,
   addProduct,
-  updateProduct
+  updateProduct,
+  searchProduct
 } from "../../../services/AdminService";
 import ProductItem from "./ProductItem";
 import Update from "./UpdateProduct";
 import { Link } from "react-router-dom";
-const Product = (props) => {
+import { useForm } from "react-hook-form";
+const Product = () => {
+  const { register, handleSubmit } = useForm();
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [updatePro, getUpdateProduct]=useState(null)
+  const [updatePro, getUpdateProduct]=useState(null);
+  const [pageSearch, setPageSearch] = useState(null);
   let genPage = total => {
     let array = [];
     for (let index = 0; index < total; index++) {
@@ -38,7 +42,15 @@ const Product = (props) => {
       category: {}
     }
   ]);
-  let removePd = id => {
+  let Search = (data) => {
+    console.log(data);
+    searchProduct(0, data.keyword).then((res) => {
+      if(res.error !== true && res.data.code === 0) {
+        setPageSearch(res.data.result);
+      }
+    })
+  }
+  const removePd = id => {
     removeProduct(id)
       .then(res => {
         if (res.error !== true && res.data.code === 0) {
@@ -85,6 +97,13 @@ const Product = (props) => {
       }
     })	        
   }
+  useEffect(() =>{
+    if(pageSearch !== null){
+      console.log(pageSearch);
+      setData(pageSearch.content)
+      genPage(pageSearch.totalPages);
+    }
+  },[pageSearch])
   useEffect(() => {
     getListProduct(currentPage).then(res => {
       if (res.error !== true && res.data.code === 0) {
@@ -97,17 +116,17 @@ const Product = (props) => {
     <div>
       <div className="d-flex flex-row bd-highlight">
         <div className="p-2 bd-highlight ml-5  pl-5 pr-5">
-          <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" onSubmit={handleSubmit(Search)}>
             <div className="input-group">
               <input
                 type="text"
+                name="keyword"
+                ref={register}
                 className="form-control bg-light border-0 small"
                 placeholder="Tìm kiếm "
-                aria-label="Search"
-                aria-describedby="basic-addon2"
               />
               <div className="input-group-append">
-                <button className=" btn btn-primary" type="button">
+                <button className=" btn btn-primary" type="submit">
                   <i className="fas fa-search fa-sm" />
                 </button>
               </div>
@@ -129,13 +148,13 @@ const Product = (props) => {
         <table data-vertable="ver1">
           <thead>
             <tr className="row100 head">
-              <th className="column100 column1" data-column="column1">
+              <th className="column100 column8" data-column="column8">
                 Tên Sản phẩm
               </th>
-              <th className="column100 column2" data-column="column2">
+              <th className="column100 column3" data-column="column3">
                 Mã Sản Phẩm
               </th>
-              <th className="column100 column3" data-column="column3">
+              <th className="column100 column2" data-column="column2">
                 Mô Tả
               </th>
               <th className="column100 column4" data-column="column4">
@@ -153,7 +172,7 @@ const Product = (props) => {
               <th className="column100 column8" data-column="column8">
                 Loại{" "}
               </th>
-              <th className="column100 column9" data-column="column">
+              <th className="column100 column1" data-column="column1">
                 Cập Nhật
               </th>
             </tr>
@@ -164,9 +183,6 @@ const Product = (props) => {
         </table>
         <div></div>
       </div>
-      {listdata.map(item => {
-        return <div></div>;
-      })}
       <div className="row" data-aos="fade-up">
         <div className="col-md-12 text-center">
           <div className="site-block-27">
@@ -178,7 +194,7 @@ const Product = (props) => {
                     setCurrentPage(handleMoveLeft());
                   }}
                 >
-                  <i class="fa fa-arrow-alt-circle-left"></i>
+                  <i className="fa fa-arrow-alt-circle-left"></i>
                 </Link>
               </li>
               {pages.map((item, i) => (
@@ -200,7 +216,7 @@ const Product = (props) => {
                     setCurrentPage(handleMoveRight());
                   }}
                 >
-                  <i class="fa fa-arrow-circle-right"></i>{" "}
+                  <i className="fa fa-arrow-circle-right"></i>{" "}
                 </Link>
               </li>
             </ul>
