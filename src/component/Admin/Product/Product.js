@@ -173,7 +173,7 @@ const Product = (props) => {
             <ul>
               <li>
                 <Link
-                  to="danhsachsanpham"
+                  to="admin"
                   onClick={() => {
                     setCurrentPage(handleMoveLeft());
                   }}
@@ -184,7 +184,7 @@ const Product = (props) => {
               {pages.map((item, i) => (
                 <li key={i} className={currentPage === item ? "active" : ""}>
                   <Link
-                    to="danhsachsanpham"
+                    to="admin"
                     onClick={() => {
                       setCurrentPage(item);
                     }}
@@ -195,7 +195,7 @@ const Product = (props) => {
               ))}
               <li>
                 <Link
-                  to="danhsachsanpham"
+                  to="admin"
                   onClick={() => {
                     setCurrentPage(handleMoveRight());
                   }}
