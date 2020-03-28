@@ -32,7 +32,7 @@ const ProductItem = props => {
   };
   const dispatch = useDispatch();
   const dispatchItem = () =>{
-    props.getUpdateUser(props.product)
+    props.getUpdateProduct(props.product)
     dispatch({
       type: "CLICK",
         product: props.product
@@ -56,13 +56,10 @@ const ProductItem = props => {
                 {product.inventory}
               </td>
               <td className="column100 column6" data-column="column6">
-                {}
               </td>
               <td className="column100 column7" data-column="column7">
-                {product.supplier.name}
-              </td>
+               </td>
               <td className="column100 column7" data-column="column7">
-                {product.category.name}
               </td>
               <td className="column100 column8" data-column="column8">
               <button onClick={onClick} className=" btn-danger">
@@ -71,7 +68,6 @@ const ProductItem = props => {
           <button className="btn-primary" data-toggle="modal"
                   data-target="#capnhat"
                   onClick={dispatchItem}>
-            {/* <Link to={`danhsachsanpham/update/${props.product.id}`} className="text-white" onClick={dispatchItem}> */}            {/* </Link> */}
             Sửa
           </button>               
           </td>

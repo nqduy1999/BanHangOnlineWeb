@@ -8,12 +8,12 @@ import {
   updateProduct
 } from "../../../services/AdminService";
 import ProductItem from "./ProductItem";
-import Update from "./Update";
+import Update from "./UpdateProduct";
 import { Link } from "react-router-dom";
 const Product = (props) => {
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [updateUser, getUpdateUser]=useState(null)
+  const [updatePro, getUpdateProduct]=useState(null)
   let genPage = total => {
     let array = [];
     for (let index = 0; index < total; index++) {
@@ -57,26 +57,31 @@ const Product = (props) => {
         console.log(res);
         if (res.data.code === 0) {
           alertNotify("Thông báo", res.data.message, "success");
+          getListProduct(currentPage).then(res => {
+            setData(res.data.result.content);
+          });
         } else {
           alertNotify("Thông báo", res.data.message, "warning");
         }
-        getListProduct(currentPage).then(res => {
-          setData(res.data.result.content);
-        });
       })
       .catch(err => {
         console.log(err);
       });
   };
   const handleUpdateProduct=(id, value)=>{
+    console.log(value);
+    console.log(id);
     updateProduct(id, value)
     .then((res) => {
       console.log(res);
-      if(res.data !== null && res.error !== false){
-        alertNotify("Thông Báo", res.data.message,"success")
-      }  
-      else if(res.data ===null){
-        alertNotify("Thông Báo", "Bạn Nhập Sai", "warning")
+      if(res.error !== true){
+      alertNotify("Thông Báo", res.data.message, "success");
+      getListProduct(currentPage).then(res => {
+        setData(res.data.result.content);
+      });
+      }
+      else{
+        alertNotify("Thông Báo","Sai nhập liệu", "warning");
       }
     })	        
   }
@@ -114,7 +119,7 @@ const Product = (props) => {
             className="btn btn-primary"
             data-toggle="modal"
             data-target="#capnhat"
-            onClick={()=> getUpdateUser(null)}
+            onClick={()=> getUpdateProduct(null)}
           >
             Thêm sản phẩm
           </button>
@@ -154,7 +159,7 @@ const Product = (props) => {
             </tr>
           </thead>
           {listdata.map((item, i) => {
-            return <ProductItem key={i} product={item} removePd={removePd}  getUpdateUser={getUpdateUser}/>;
+            return <ProductItem key={i} product={item} removePd={removePd}  getUpdateProduct={getUpdateProduct}/>;
           })}
         </table>
         <div></div>
@@ -202,7 +207,7 @@ const Product = (props) => {
           </div>
         </div>
       </div>
-      <Update handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateUser={updateUser}/>
+      <Update handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateProduct={updatePro}/>
     </div>
   );
 };

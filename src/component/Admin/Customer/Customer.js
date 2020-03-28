@@ -16,7 +16,6 @@ const ListCustomer = () => {
   },[]);
   return (
     <div>
-      <h1>Danh sách khách hàng </h1>
       <div className="table100 ver5 m-b-110">
         <table data-vertable="ver5">
           <thead>

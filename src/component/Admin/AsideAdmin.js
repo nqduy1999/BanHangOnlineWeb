@@ -18,6 +18,7 @@ import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
 import DescriptionIcon from '@material-ui/icons/Description';
 import StoreIcon from '@material-ui/icons/Store';
 import InfoIcon from '@material-ui/icons/Info';
+import CategoryIcon from '@material-ui/icons/Category';
 import React, { useState, useEffect } from 'react';
 
 import clsx from 'clsx';
@@ -26,6 +27,7 @@ import Product from './Product/Product';
 import AboutUs from '../about/AboutMember';
 import MainOrder from './Order/Order';
 import Supplier from './Supplier/Supplier';
+import Category from './Category/Category';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -123,6 +125,9 @@ const AsideAdmin = () => {
         case 'supplier':
           setCurrentComponent(<Supplier/>);
           break;
+        case 'category':
+          setCurrentComponent(<Category/>);
+          break;
         default:
             setCurrentComponent("loading");
     }
@@ -187,11 +192,15 @@ const AsideAdmin = () => {
           </ListItem>
           <ListItem button onClick={() => {show("order")}}>
             <ListItemIcon><DescriptionIcon /></ListItemIcon>
-            <ListItemText primary="Danh sách đơn hàng" />
+            <ListItemText primary="Quản lý đơn hàng" />
           </ListItem>
           <ListItem button onClick={() => {show("supplier")}}>
             <ListItemIcon><StoreIcon /></ListItemIcon>
-            <ListItemText primary="Danh sách nhà cung cấp" />
+            <ListItemText primary="Quản lý nhà cung cấp" />
+          </ListItem>
+          <ListItem button onClick={() => {show("category")}}>
+            <ListItemIcon><CategoryIcon /></ListItemIcon>
+            <ListItemText primary="Quản lý mục lục" />
           </ListItem>
         </List>
         <Divider />

@@ -6,11 +6,14 @@ import { getDetailCus } from "../../../services/AdminService";
 
 const CustomerItem = props => {
   const { username, email } = props.customer.account;
-  const [customerUpdate, getCustomerUpdate] = useState({})
+  const [customerUpdate, setCustomerUpdate] = useState({})
   const dispatch = useDispatch();
-  const [edit, getEdit] = useState(false)
+  const [edit, setEdit] = useState(false)
   const DetailCustomer = () =>{
-      getEdit(false);
+      setEdit(false);
+      console.log(props.customer);
+      setCustomerUpdate(props.customer)
+      console.log(customerUpdate);
       dispatch({
         type: "CLICK_CUSTOMER",
           customer: props.customer
@@ -18,7 +21,7 @@ const CustomerItem = props => {
       ;
   }  
   const updateCustomer = () =>{
-      getEdit(true);
+      setEdit(true);
   }
   return (
     <tbody>
@@ -33,11 +36,11 @@ const CustomerItem = props => {
         </td>
         <td className="column100 column3" data-column="column3">
           {/* <Link to={`danhsachkhachhang/update/${username}`}> */}
-            <button className="btn-primary btn " data-toggle="modal" data-target="#xemchitiet" >Cập nhật</button>
+            <button className="btn-primary btn " data-toggle="modal" data-target="#xemchitiet"onClick={updateCustomer}>Cập nhật</button>
           {/* </Link> */}
         </td>
       </tr>
-      <CustomerProfile  customerUpdate={customerUpdate}/>
+      <CustomerProfile  customerUpdate={customerUpdate} setEdit={setEdit} edit={edit}/>
     </tbody>
   );
 };
