@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import HashLoader from "react-spinners/HashLoader";
 
+import Loading from '../loading/Loading';
 import { sendEmail } from '../../services/EmailSerivces';
 import { alertNotify } from '../../untils/alert';
 const ContactSection = () => {
@@ -27,21 +28,7 @@ const ContactSection = () => {
   useEffect(() => {
     setLoading(false);
   }, []);
-    return loading ?
-    (
-      <div className="container pl-5 pb-5">
-        <div className="row">
-          <div className="col-md-12 d-flex justify-content-center">
-            <HashLoader
-            size={300}
-            //size={"150px"} this also works
-            color={"#7971ea"}
-            loading={loading}
-            />
-          </div>
-        </div>
-      </div>
-    ): (
+    return loading ? <Loading loading={loading}/> : (
         <div className="site-section text-left">
         <div className="container">
           <div className="row">

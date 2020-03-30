@@ -10,6 +10,7 @@ import { Link, withRouter, useLocation } from "react-router-dom";
 
 import HashLoader from "react-spinners/HashLoader";
 
+import Loading from "../loading/Loading";
 import { login } from "../../services/UserServices";
 import { alertNotify } from "../../untils/alert";
 
@@ -55,20 +56,7 @@ const Login = props => {
       ? props.history.replace(from)
       : props.history.push("/dangnhap");
   }, []);
-  return loading ? (
-    <div className="container pl-5 pb-5">
-      <div className="row">
-        <div className="col-md-12 d-flex justify-content-center">
-          <HashLoader
-            size={300}
-            //size={"150px"} this also works
-            color={"#7971ea"}
-            loading={loading}
-          />
-        </div>
-      </div>
-    </div>
-  ) : (
+  return loading ? <Loading loading={loading}/>  : (
     <div className="container">
       <form className="form-medium shadow" onSubmit={handleSubmit(onSubmit)}>
         <div className="card">

@@ -67,7 +67,7 @@ const Header = (props) => {
                       <input name="keyword" type="text"  ref={register({ required: false })} className="form-control border-0" placeholder="Tìm Kiếm" />
                     </div>
                     <div className="col-2">
-                      <span type="submit"><i class="fas fa-search"></i></span>
+                      <span type="submit"><i className="fas fa-search"></i></span>
                     </div>
                   </form>
                 </div>
@@ -84,7 +84,7 @@ const Header = (props) => {
                       (
                         <span>
                         <Button aria-controls="simple-menu" className="btn shadow text-secondary" aria-haspopup="true" onClick={handleClick}>
-                        <i class="fas fa-user-cog fa-lg pr-1"></i>{stateAuth.user.account.username}
+                        <i className="fas fa-user-cog fa-lg pr-1"></i>{stateAuth.user.account.username}
                         </Button>
                         <Menu
                           id="simple-menu"
@@ -92,8 +92,8 @@ const Header = (props) => {
                           keepMounted
                           open={Boolean(anchorEl)}
                           onClose={handleClose}>
-                          <MenuItem><Link to={"/" + Cookies.get("username")}><i class="fas fa-user"></i> Tài khoản của tôi</Link></MenuItem>
-                          <MenuItem ><Link to="/dangnhap" onClick={() => {logout()}}><i class="fas fa-sign-out-alt"></i> Đăng xuất</Link></MenuItem>
+                          <MenuItem><Link to={"/" + Cookies.get("username")}><i className="fas fa-user"></i> Tài khoản của tôi</Link></MenuItem>
+                          <MenuItem ><Link to="/dangnhap" onClick={() => {logout()}}><i className="fas fa-sign-out-alt"></i> Đăng xuất</Link></MenuItem>
                         </Menu>
                         </span>
                       )

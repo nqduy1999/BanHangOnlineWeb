@@ -4,6 +4,7 @@ import { useLocation, withRouter } from 'react-router-dom';
 
 import HashLoader from "react-spinners/HashLoader";
 
+import Loading from '../loading/Loading';
 import { addProductToCart } from '../../services/CartServices';
 import { getProductDetail } from '../../services/ProductServices';
 import { alertNotify } from '../../untils/alert';
@@ -97,21 +98,7 @@ const ProductDetails = (props) => {
         });
       }
     }
-    return loading ?
-          (
-            <div className="container pl-5 pb-5">
-              <div className="row">
-                <div className="col-md-12 d-flex justify-content-center">
-                  <HashLoader
-                  size={300}
-                  //size={"150px"} this also works
-                  color={"#7971ea"}
-                  loading={loading}
-                  />
-                </div>
-              </div>
-            </div>
-          ) : (
+    return loading ? <Loading loading={loading}/>  : (
         <div>
           <div className="site-section">
             <div className="container">

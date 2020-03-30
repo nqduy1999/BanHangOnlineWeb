@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Cookies from 'js-cookie';
 
+import Loading from '../loading/Loading';
 import Address from '../profile/Address';
 import { getAllCart } from '../../services/CartServices';
 import { payment } from '../../services/CheckoutServices';
@@ -77,21 +78,7 @@ const Checkout = (props) => {
       });
       setLoading(false);
     }, []);
-    return loading ?
-        (
-          <div className="container pl-5 pb-5">
-            <div className="row">
-              <div className="col-md-12 d-flex justify-content-center">
-                <HashLoader
-                size={300}
-                //size={"150px"} this also works
-                color={"#7971ea"}
-                loading={loading}
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
+    return loading ? <Loading loading={loading}/>  : (
         <div className="container">
           <div className="row mb-5">
             <div className="col-md-12">
