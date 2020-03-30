@@ -10,9 +10,9 @@ import {
 } from "../../../services/AdminService";
 import ProductItem from "./ProductItem";
 import Update from "./UpdateProduct";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
-const Product = () => {
+const Product = (props) => {
   const { register, handleSubmit } = useForm();
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -45,6 +45,7 @@ const Product = () => {
   let Search = (data) => {
     console.log(data);
     searchProduct(0, data.keyword).then((res) => {
+      console.log(res.data);   
       if(res.error !== true && res.data.code === 0) {
         setPageSearch(res.data.result);
       }
@@ -64,6 +65,7 @@ const Product = () => {
       });
   };
   const handleAddProduct = value => {
+    console.log(value);
     addProduct(value)
       .then(res => {
         console.log(res);
@@ -72,6 +74,7 @@ const Product = () => {
           getListProduct(currentPage).then(res => {
             setData(res.data.result.content);
           });
+          getUpdateProduct(null);
         } else {
           alertNotify("Thông báo", res.data.message, "warning");
         }
@@ -214,8 +217,7 @@ const Product = () => {
                   to="admin"
                   onClick={() => {
                     setCurrentPage(handleMoveRight());
-                  }}
-                >
+                  }}>
                   <i className="fa fa-arrow-circle-right"></i>{" "}
                 </Link>
               </li>

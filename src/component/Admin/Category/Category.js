@@ -2,11 +2,18 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CategoryItem from './CategoryItem';
-import { getListCategory, deleteCategory } from '../../../services/CategoryServices';
+import { getListCategory, deleteCategory, searchCategory, addCategory, updateCategory } from '../../../services/CategoryServices';
+import { useForm } from 'react-hook-form';
+import { alertNotify } from '../../../untils/alert';
+import UpdateCategory from './UpdateCategory';
 const Category = () => {
     const [category, setCategory] = useState([{}]);
+    const [pageSearch, setPageSearch] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
+    const [hideButton, showButton]=useState(false);
+    const [updateCate, setUpdateCategory] = useState();
     const [pages, setPages] = useState([]);
+    const { register, handleSubmit } =useForm();
     let genPage = total => {
         let array = [];
         for (let index = 0; index < total; index++) {
@@ -19,6 +26,51 @@ const Category = () => {
       };
       let handleMoveRight = () => {
         return currentPage + 1 > pages.length - 1 ? currentPage : currentPage + 1;
+      }
+      let Search = (data) => {
+        console.log(data);
+        searchCategory(0, data.keyword).then((res) => {
+          console.log(res);
+          if(res.error !== true && res.data.code === 0) {
+            setPageSearch(res.data.result);
+          }
+      })
+      }
+      const handleAddCategory = value => {
+        addCategory(value)
+          .then(res => {
+            console.log(res);
+            if (res.data.code === 0) {
+              alertNotify("Thông báo", res.data.message, "success");
+              getListCategory(currentPage).then(res => {
+                setCategory(res.data.result.content);
+              });
+              showButton(true);
+            } else {
+              alertNotify("Thông báo", res.data.message, "warning");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      };
+      const handleUpdateCategory=(id, value)=>{
+        console.log(value);
+        console.log(id);
+        updateCategory(id, value)
+        .then((res) => {
+          console.log(res);
+          if(res.error !== true){
+          alertNotify("Thông Báo", res.data.message, "success");
+          getListCategory(currentPage).then(res => {
+            setCategory(res.data.result.content);
+          });
+          showButton(true);
+          }
+          else{
+            alertNotify("Thông Báo","Sai nhập liệu", "warning");
+          }
+        })	        
       }
       const removeCategory = id => {
         deleteCategory(id)
@@ -33,7 +85,13 @@ const Category = () => {
             console.log(err);
           });
       };
-      
+
+      useEffect(() =>{
+        if(pageSearch !== null){
+          setCategory(pageSearch.content)
+          genPage(pageSearch.totalPages);
+        }
+      },[pageSearch])
       useEffect(() => {
         getListCategory(currentPage).then(res => {
           if (res.error !== true && res.data.code === 0) {
@@ -46,17 +104,17 @@ const Category = () => {
     <div>
          <div className="d-flex flex-row bd-highlight">
         <div className="p-2 bd-highlight ml-5  pl-5 pr-5">
-          <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+        <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" onSubmit={handleSubmit(Search)}>
             <div className="input-group">
               <input
                 type="text"
                 className="form-control bg-light border-0 small"
                 placeholder="Tìm kiếm "
-                aria-label="Search"
-                aria-describedby="basic-addon2"
+                name="keyword"
+                ref={register}
               />
               <div className="input-group-append">
-                <button className=" btn btn-primary" type="button">
+                <button className=" btn btn-primary" type="submit">
                   <i className="fas fa-search fa-sm" />
                 </button>
               </div>
@@ -68,6 +126,10 @@ const Category = () => {
             className="btn btn-primary"
             data-toggle="modal"
             data-target="#capnhat"
+            onClick={()=>{
+              setUpdateCategory(null)
+              showButton(false)
+            }}
           >
             Thêm loại sản phẩm
           </button>
@@ -90,7 +152,7 @@ const Category = () => {
             </tr>
           </thead>
           {category.map((item, i) => {
-            return <CategoryItem key={i} category={item} deleteCategory={removeCategory}/>;
+            return <CategoryItem key={i} category={item} deleteCategory={removeCategory} showButton={showButton} setUpdateCategory={setUpdateCategory}/>;
           })} 
           </table>
         <div></div>
@@ -136,6 +198,7 @@ const Category = () => {
           </div>
         </div>
       </div> 
+      <UpdateCategory hideButton={hideButton} handleAddCategory={handleAddCategory} updateCategory={updateCate} handleUpdateCategory={handleUpdateCategory}/>
     </div>
     );
 };

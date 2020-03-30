@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 const Update = (props) => {
   const { register, handleSubmit } = useForm();
@@ -23,13 +24,24 @@ const Update = (props) => {
     })
     console.log(product); // qua kia
   }
-  const state = useSelector(state => state.admin);
+  const cancelButton = () =>{
+    setProduct({
+      ...product,
+      id:null,
+      name:"",
+      description:"",
+      price:"",
+      inventory:""
+    });
+    console.log(props.updateProduct);
+  }
   useEffect(() => {
-    if(state.product){
-      setProduct(state.product)
+    if(props.updateProduct){
+      setProduct(props.updateProduct)
       console.log(product);
     }
-  },[state]);
+  },[props.updateProduct]);
+
   const onSubmit = (data) =>{
     setProduct(
       {
@@ -40,9 +52,9 @@ const Update = (props) => {
         inventory:data.inventory,
       }
     )
-    if(state.product ){
+    if(props.updateProduct ){
       console.log("Bạn chọn sửa ");
-      props.handleUpdateProduct(state.product.id, product)
+      props.handleUpdateProduct(props.updateProduct.id, product)
     }
     else
     {
@@ -53,7 +65,7 @@ const Update = (props) => {
 
     return (
           <div
-            className="modal fade right"
+            className="modal hide right"
             id="capnhat"
             tabIndex={-1}
             role="dialog"
@@ -76,7 +88,7 @@ const Update = (props) => {
                     data-dismiss="modal"
                     aria-label="Close"
                   >
-                    <span aria-hidden="true" className="white-text">
+                    <span aria-hidden="true" className="white-text" onClick={cancelButton}>
                       ×
                     </span>
                   </button>
@@ -93,7 +105,7 @@ const Update = (props) => {
                       ref={register}
                       onChange={handleInput}
                       placeholder="Nhập tên sản phẩm"
-                      value={props.updateProduct? product.name :""}
+                      value={product.name}
                     />
                   <p>
                     <strong>Mô tả sản phẩm</strong>
@@ -106,7 +118,7 @@ const Update = (props) => {
                       className="md-text form-control"
                       onChange={handleInput}
                       placeholder="Nhập mô tả sản phẩm"
-                      value={props.updateProduct? product.description :""}
+                      value={product.description}
                     />
                   </div>
                   <p>
@@ -121,7 +133,7 @@ const Update = (props) => {
                       className="md-text form-control"
                       onChange={handleInput}
                       placeholder="Nhập số lượng sản phẩm"
-                      value={props.updateProduct? product.inventory :""}
+                      value={product.inventory}
                     />
                   </div>
                   <p>
@@ -136,7 +148,7 @@ const Update = (props) => {
                       className="md-text form-control"
                       onChange={handleInput}
                       placeholder="Nhập giá sản phẩm"
-                      value={props.updateProduct? product.price :""}
+                      value={product.price}
                     />
                   </div>
                   <p>
@@ -162,6 +174,7 @@ const Update = (props) => {
                     type="button"
                     className="btn btn-outline-primary waves-effect"
                     data-dismiss="modal"
+                    onClick={cancelButton}
                   >
                     Cancel
                   </button>
@@ -175,4 +188,4 @@ const Update = (props) => {
     );
 };
 
-export default Update;
+export default withRouter(Update);

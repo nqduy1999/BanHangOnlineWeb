@@ -64,7 +64,7 @@ export const getListSupplier = index => {
   export const updateSupplier = (id, value) => {
     return axios({
       method: "POST",
-      url: `admin/supplier/update=${id}`,
+      url: `admin/supplier/update?id=${id}`,
       data: value,
       headers: { Authorization: `Bearer ${Cookies.get("authtoken")}` }
     })
@@ -85,7 +85,7 @@ export const getListSupplier = index => {
   };
   export const searchSupplier = (index, keyword) => {
     return axios({
-      method: "POST",
+      method: "GET",
       url: `supplier/search?index=${index}&keyword=${keyword}`
     })
       .then(res => {

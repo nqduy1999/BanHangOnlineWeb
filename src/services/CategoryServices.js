@@ -83,7 +83,7 @@ export const getListCategory = index => {
   export const updateCategory = (id, value) => {
     return axios({
       method: "POST",
-      url: `admin/category/update=${id}`,
+      url: `admin/category/update?id=${id}`,
       data: value,
       headers: { Authorization: `Bearer ${Cookies.get("authtoken")}` }
     })
@@ -104,7 +104,7 @@ export const getListCategory = index => {
   };
   export const searchCategory = (index, keyword) => {
     return axios({
-      method: "POST",
+      method: "GET",
       url: `category/search?index=${index}&keyword=${keyword}`
     })
       .then(res => {

@@ -27,6 +27,7 @@ function App() {
       <BrowserRouter>
       <Switch>
         <Admin path="/admin"/>
+        <Admin path="/updateadmin"/>
         <Main path="/"></Main>
       </Switch>
       </BrowserRouter>
