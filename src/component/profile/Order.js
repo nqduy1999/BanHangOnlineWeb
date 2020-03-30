@@ -2,7 +2,7 @@ import React from 'react';
 
 const Order = (props) => {
     return (
-        <div className="card mr-5 mb-2">
+        <div className="card">
             <div className="container">
                 <div className="row">
                     <div className="col-md-3">

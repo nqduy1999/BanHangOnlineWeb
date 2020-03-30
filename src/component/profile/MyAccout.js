@@ -22,14 +22,14 @@ const MyAccount = () => {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-md-3 card">
-                    <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a className="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Thông tin cá nhân</a>
-                        <a className="nav-link" id="v-pills-order-tab" data-toggle="pill" href="#v-pills-order" role="tab" aria-controls="v-pills-order" aria-selected="false">Đơn hàng đã đặt mua</a>
+                <div className="col-md-3 card shadow">
+                    <div className="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a className="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true"><i className="fas fa-user-edit"></i> Thông tin cá nhân</a>
+                        <a className="nav-link" id="v-pills-order-tab" data-toggle="pill" href="#v-pills-order" role="tab" aria-controls="v-pills-order" aria-selected="false"><i className="fab fa-amazon-pay"></i> Đơn hàng đã đặt mua</a>
                     </div>
                 </div>
                 <div className="col-md-9">
-                    <div className="tab-content" id="v-pills-tabContent">
+                    <div className="tab-content shadow" id="v-pills-tabContent">
                         <div className="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                             <Profile/>
                         </div>

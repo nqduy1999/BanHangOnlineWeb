@@ -8,11 +8,11 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { useSelector, useDispatch } from 'react-redux';
 
+import Loading from '../loading/Loading';
 import { findALlCategory } from '../../services/CategoryServices';
 import { getALlProduct, sortByAsc, sortByDesc, findAllProductByCategory } from '../../services/ProductServices';
 
 import ProductCard from './ProductCard';
-import dataTest from './datatest.json';
 const ProductSection = (props) => {
   const state = useSelector(state => state.pageProduct);
   const dispatch = useDispatch();
@@ -96,21 +96,7 @@ const ProductSection = (props) => {
         dispatch({type: "DELETE_PAGEPRODUCT"});
       }
     }, []);
-    return loading ?
-        (
-          <div className="container pl-5 pb-5">
-            <div className="row">
-              <div className="col-md-12 d-flex justify-content-center">
-                <HashLoader
-                size={300}
-                //size={"150px"} this also works
-                color={"#7971ea"}
-                loading={loading}
-                />
-              </div>
-            </div>
-          </div>
-        ) :(
+    return loading ? <Loading loading={loading}/>  :(
         <div className="site-section">
         <div className="container">
           <div className="row mb-5">
@@ -122,7 +108,7 @@ const ProductSection = (props) => {
                     <div className="dropdown mr-1 ml-md-auto">
                     </div>
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Bộ lọc</button>
+                      <button type="button" className="btn btn-primary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Bộ lọc</button>
                       <div style={{cursor: "pointer"}} className="dropdown-menu" aria-labelledby="dropdownMenuReference">
                         <span onClick={() => {sortByASC(currentPage, "name");}} className="dropdown-item">Tên, từ A đến Z</span>
                         <span onClick={() => {sortByDESC(currentPage, "name");}} className="dropdown-item">Tên, từ Z đến A</span>
@@ -136,7 +122,7 @@ const ProductSection = (props) => {
               </div>
               <div className="row mb-5">
                 {listProduct.map((item, i) => (
-                    <ProductCard key={i} id={item.id} url={item.urlImage} content={item.description} name={item.name} description={item.description} price={item.price}/>
+                    <ProductCard key={i} id={item.id} url={item.urlImage} name={item.name} description={item.description} price={item.price}/>
                   ))}
               </div>
               <div className="row" data-aos="fade-up">

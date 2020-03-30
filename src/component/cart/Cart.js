@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import HashLoader from "react-spinners/HashLoader";
 
+import Loading from '../loading/Loading';
 import { getAllCart, update, remove } from '../../services/CartServices';
 import { alertYesNo } from '../../untils/alert';
 import but_bi from '../../resource/images/but_bi.jpg';
@@ -141,23 +142,9 @@ const Cart = (props) => {
     }, [isUpdated]);
     // [] chạy khi isUpdated thay đổi
 
-    return loading ?
-        (
-          <div className="container pl-5 pb-5">
-            <div className="row">
-              <div className="col-md-12 d-flex justify-content-center">
-                <HashLoader
-                size={300}
-                //size={"150px"} this also works
-                color={"#7971ea"}
-                loading={loading}
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
+    return loading ? <Loading loading={loading}/>  : (
         <div className="container">
-          <table className="table">
+          <table className="table shadow">
             <thead>
               <tr className="text-black">
                 <th scope="col">#</th>
@@ -203,7 +190,7 @@ const Cart = (props) => {
             <div className="col-md-6">
               <div className="row mb-5">
                 <div className="col-md-6">
-                  <Link to="/sanpham" className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</Link>
+                  <Link to="/sanpham" className="btn btn-outline-primary btn-sm btn-block shadow">Tiếp tục mua sắm</Link>
                 </div>
               </div>
             </div>
@@ -233,7 +220,7 @@ const Cart = (props) => {
                   </div>
                   <div className="row">
                     <div className="col-md-12">
-                   <button onClick={onPay} className="btn btn-primary btn-lg py-3 btn-block">Tiến Hành Kiểm TRA</button>
+                   <button onClick={onPay} className="btn btn-primary btn-lg py-3 btn-block shadow">Tiến Hành Kiểm TRA</button>
                     </div>
                   </div>
                 </div>

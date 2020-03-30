@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import HashLoader from "react-spinners/HashLoader";
 
+import Loading from '../loading/Loading';
 import { sendEmail } from '../../services/EmailSerivces';
 import { alertNotify } from '../../untils/alert';
 const ContactSection = () => {
@@ -27,21 +28,7 @@ const ContactSection = () => {
   useEffect(() => {
     setLoading(false);
   }, []);
-    return loading ?
-    (
-      <div className="container pl-5 pb-5">
-        <div className="row">
-          <div className="col-md-12 d-flex justify-content-center">
-            <HashLoader
-            size={300}
-            //size={"150px"} this also works
-            color={"#7971ea"}
-            loading={loading}
-            />
-          </div>
-        </div>
-      </div>
-    ): (
+    return loading ? <Loading loading={loading}/> : (
         <div className="site-section text-left">
         <div className="container">
           <div className="row">
@@ -50,7 +37,7 @@ const ContactSection = () => {
             </div>
             <div className="col-md-7">
               <form onSubmit={handleSubmit(onSubmit)} action="#" method="post">
-                <div className="p-3 p-lg-5 border">
+                <div className="p-3 p-lg-5 border shadow">
                   <div className="form-group row">
                     <div className="col-md-6">
                       <label htmlFor="c_fname" className="text-black">Tên <span className="text-danger">*</span></label>
@@ -92,15 +79,15 @@ const ContactSection = () => {
               </form>
             </div>
             <div className="col-md-5 ml-auto">
-              <div className="p-4 border mb-3">
+              <div className="p-4 border mb-3 shadow">
                 <span className="d-block text-primary h6 text-uppercase">Hồ Chí Minh</span>
                 <p className="mb-0">14 đường Nguyễn Văn Bảo, Phường 4, quận Gò Vấp</p>
               </div>
-              <div className="p-4 border mb-3">
+              <div className="p-4 border mb-3 shadow">
                 <span className="d-block text-primary h6 text-uppercase">Hà Nội</span>
                 <p className="mb-0">203 Nguyễn Chí Thanh, Láng Hạ, Đống Đa </p>
               </div>
-              <div className="p-4 border mb-3">
+              <div className="p-4 border mb-3 shadow">
                 <span className="d-block text-primary h6 text-uppercase">Cần Thơ </span>
                 <p className="mb-0">101 bến Ninh Kiều, phường Ninh Kiều</p>
               </div>

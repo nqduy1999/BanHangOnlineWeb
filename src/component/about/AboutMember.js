@@ -17,7 +17,7 @@ const AboutMember = () => {
                 <div className="block-38 text-center">
                 <div className="block-38-img">
                     <div className="block-38-header">
-                    <img className="mb-4" alt="" src={truongImg} />
+                    <img className="mb-4 shadow" alt="" src={truongImg} />
                     <h3 className="block-38-heading h4">Đặng Lê Minh Trường </h3>
                     <p className="block-38-subheading">Trưởng Nhóm</p>
                     <p className="block-38-subheading">17019711</p>
@@ -32,7 +32,7 @@ const AboutMember = () => {
                 <div className="block-38 text-center">
                 <div className="block-38-img">
                     <div className="block-38-header">
-                    <img src={duyImg} alt="Image placeholder" className="mb-4" />
+                    <img src={duyImg} alt="" className="mb-4 shadow"/>
                     <h3 className="block-38-heading h4">Nguyễn Quốc Duy</h3>
                     <p className="block-38-subheading">Thành Viên</p>
                     <p className="block-38-subheading">17018481</p>
@@ -47,7 +47,7 @@ const AboutMember = () => {
                 <div className="block-38 text-center">
                 <div className="block-38-img">
                     <div className="block-38-header">
-                    <img src={hungImg} alt="Image placeholder" className="mb-4" />
+                    <img className="mb-4 shadow" alt="" src={hungImg}/>
                     <h3 className="block-38-heading h4">Nguyễn Duy Hưng</h3>
                     <p className="block-38-subheading">Thành Viên</p>
                     <p className="block-38-subheading">17043131</p>
