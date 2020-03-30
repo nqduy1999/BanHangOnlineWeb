@@ -24,8 +24,8 @@ const MyAccount = () => {
             <div className="row">
                 <div className="col-md-3 card shadow">
                     <div className="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a className="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true"><i class="fas fa-user-edit"></i> Thông tin cá nhân</a>
-                        <a className="nav-link" id="v-pills-order-tab" data-toggle="pill" href="#v-pills-order" role="tab" aria-controls="v-pills-order" aria-selected="false"><i class="fab fa-amazon-pay"></i> Đơn hàng đã đặt mua</a>
+                        <a className="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true"><i className="fas fa-user-edit"></i> Thông tin cá nhân</a>
+                        <a className="nav-link" id="v-pills-order-tab" data-toggle="pill" href="#v-pills-order" role="tab" aria-controls="v-pills-order" aria-selected="false"><i className="fab fa-amazon-pay"></i> Đơn hàng đã đặt mua</a>
                     </div>
                 </div>
                 <div className="col-md-9">

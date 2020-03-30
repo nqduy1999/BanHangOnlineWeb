@@ -84,7 +84,7 @@ const Header = (props) => {
                       (
                         <span>
                         <Button aria-controls="simple-menu" className="btn shadow text-secondary" aria-haspopup="true" onClick={handleClick}>
-                        <i className="fas fa-user-cog fa-lg pr-1"></i>{stateAuth.user.account.username}
+                        <i className="fas fa-user-cog fa-lg pr-1"></i><span className="d-none d-lg-inline">{stateAuth.user.account.username}</span>
                         </Button>
                         <Menu
                           id="simple-menu"
@@ -98,17 +98,17 @@ const Header = (props) => {
                         </span>
                       )
                       : (
-                        <li><Link to="/dangnhap" className="btn shadow" ><i className="fas fa-user fa-lg pr-1"></i><span>Đăng nhập</span></Link></li>
+                        <li><Link to="/dangnhap" className="btn shadow" ><i className="fas fa-user fa-lg pr-1"></i><span className="d-none d-lg-inline">Đăng nhập</span></Link></li>
                       )
                     }
                       <li>
                         <Link to="/giohang" className="btn ml-3 site-cart shadow">
                         <i className="fas fa-shopping-cart"></i>
                           <span className="count">{stateCart.inventory ? stateCart.inventory : 0 }</span>
-                          <span> Giỏ hàng</span>
+                          <span className="d-inline-block d-md-none"> Giỏ hàng</span>
                         </Link>
                       </li>
-                      <li className="d-inline-block d-md-none ml-md-0"><Link to="/" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></Link></li>
+                      <li className="d-inline-block d-md-none ml-md-0"><a href="#" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></a></li>
                     </ul>
                   </div>
                 </div>
