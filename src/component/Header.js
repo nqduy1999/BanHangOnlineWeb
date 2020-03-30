@@ -108,7 +108,7 @@ const Header = (props) => {
                           <span className="d-inline-block d-md-none"> Giỏ hàng</span>
                         </Link>
                       </li>
-                      <li className="d-inline-block d-md-none ml-md-0"><a href="#" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></a></li>
+                      <li className="d-none"><a href="#" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></a></li>
                     </ul>
                   </div>
                 </div>
