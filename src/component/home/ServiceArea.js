@@ -1,7 +1,7 @@
 import React from 'react';
 const ServiceArea = () => {
   return (
-    <div className="site-section site-section-sm site-blocks-1">
+    <div className="site-section site-section-sm site-blocks-1 ">
     <div className="container">
       <div className="row">
         <div className="col-md-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay>

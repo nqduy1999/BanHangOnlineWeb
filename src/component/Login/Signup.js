@@ -66,16 +66,14 @@ const Signup = props => {
     </div>
   ) : (
       <div className="container">
+        <form className="form-medium shadow"
+                onSubmit={handleSubmit(onSubmit)}
+              >
         <div className="card">
-          <h5 className="card-header primary-color white-text text-center py-4 mb-3">
+          <h5 className="card-header text-white bg-info text-center py-4 mb-3">
             <strong>Đăng Ký</strong>
           </h5>
           <div className="card-body px-lg-5 pt-0">
-            <form className="form-medium"
-              className="text-center"
-              style={{ color: "#757575" }}
-              onSubmit={handleSubmit(onSubmit)}
-            >
               <div className="row">
                 { resutl ?
                   <div className="col-md-12">
@@ -209,11 +207,11 @@ const Signup = props => {
               <p>
                 Nhấn <em> <Link to="/dangnhap">Đăng nhập</Link> </em> nếu bạn đã có tài khoản.
               </p>
-            </form>
-            {/* Form */}
           </div>
         </div>
         {/* Material form register */}
+        </form>
+        {/* Form */}
       </div>
     );
 };

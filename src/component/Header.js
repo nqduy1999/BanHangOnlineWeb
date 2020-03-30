@@ -62,9 +62,13 @@ const Header = (props) => {
             <div className="container">
               <div className="row align-items-center">
                 <div className="col-md-4 order-2 order-md-1 site-search-icon text-left">
-                  <form onSubmit={handleSubmit(onSubmit)} className="site-block-top-search">
-                    <input name="keyword" type="text"  ref={register({ required: false })} className="form-control border-0" placeholder="Tìm Kiếm" />
-                    <span type="submit"><i className="fa fa-search"></i></span>
+                  <form onSubmit={handleSubmit(onSubmit)} className="row">
+                    <div className="col-10">
+                      <input name="keyword" type="text"  ref={register({ required: false })} className="form-control border-0" placeholder="Tìm Kiếm" />
+                    </div>
+                    <div className="col-2">
+                      <span type="submit"><i class="fas fa-search"></i></span>
+                    </div>
                   </form>
                 </div>
                 <div className="col-md-4 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
@@ -79,8 +83,8 @@ const Header = (props) => {
                       stateAuth.user ?
                       (
                         <span>
-                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                          {stateAuth.user.account.username}
+                        <Button aria-controls="simple-menu" className="btn shadow text-secondary" aria-haspopup="true" onClick={handleClick}>
+                        <i class="fas fa-user-cog fa-lg pr-1"></i>{stateAuth.user.account.username}
                         </Button>
                         <Menu
                           id="simple-menu"
@@ -88,19 +92,20 @@ const Header = (props) => {
                           keepMounted
                           open={Boolean(anchorEl)}
                           onClose={handleClose}>
-                          <MenuItem><Link to={"/" + Cookies.get("username")}>Tài khoản của tôi</Link></MenuItem>
-                          <MenuItem ><Link to="/dangnhap" onClick={() => {logout()}}>Đăng xuất</Link></MenuItem>
+                          <MenuItem><Link to={"/" + Cookies.get("username")}><i class="fas fa-user"></i> Tài khoản của tôi</Link></MenuItem>
+                          <MenuItem ><Link to="/dangnhap" onClick={() => {logout()}}><i class="fas fa-sign-out-alt"></i> Đăng xuất</Link></MenuItem>
                         </Menu>
                         </span>
                       )
                       : (
-                        <li><Link to="/dangnhap" ><i className="fa fa-user"></i></Link></li>
+                        <li><Link to="/dangnhap" className="btn shadow" ><i className="fas fa-user fa-lg pr-1"></i><span>Đăng nhập</span></Link></li>
                       )
                     }
                       <li>
-                        <Link to="/giohang" className="site-cart">
-                        <i className="fa fa-shopping-cart"></i>
+                        <Link to="/giohang" className="btn ml-3 site-cart shadow">
+                        <i className="fas fa-shopping-cart"></i>
                           <span className="count">{stateCart.inventory ? stateCart.inventory : 0 }</span>
+                          <span> Giỏ hàng</span>
                         </Link>
                       </li>
                       <li className="d-inline-block d-md-none ml-md-0"><Link to="/" className="site-menu-toggle js-menu-toggle"><span className="icon-menu" /></Link></li>

@@ -157,7 +157,7 @@ const Cart = (props) => {
           </div>
         ) : (
         <div className="container">
-          <table className="table">
+          <table className="table shadow">
             <thead>
               <tr className="text-black">
                 <th scope="col">#</th>
@@ -203,7 +203,7 @@ const Cart = (props) => {
             <div className="col-md-6">
               <div className="row mb-5">
                 <div className="col-md-6">
-                  <Link to="/sanpham" className="btn btn-outline-primary btn-sm btn-block">Tiếp tục mua sắm</Link>
+                  <Link to="/sanpham" className="btn btn-outline-primary btn-sm btn-block shadow">Tiếp tục mua sắm</Link>
                 </div>
               </div>
             </div>
@@ -233,7 +233,7 @@ const Cart = (props) => {
                   </div>
                   <div className="row">
                     <div className="col-md-12">
-                   <button onClick={onPay} className="btn btn-primary btn-lg py-3 btn-block">Tiến Hành Kiểm TRA</button>
+                   <button onClick={onPay} className="btn btn-primary btn-lg py-3 btn-block shadow">Tiến Hành Kiểm TRA</button>
                     </div>
                   </div>
                 </div>

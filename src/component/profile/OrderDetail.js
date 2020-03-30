@@ -40,7 +40,7 @@ const OrderDetail = (props) => {
         <div className="container">
             <div className="row">
                 <div className="col-md-12">
-                    <span type="button" onClick={props.onClick} className="text-info pb-3">Quay trở lại</span>
+                    <span type="button" onClick={props.onClick} className="btn btn-info"><i class="fas fa-arrow-circle-left"></i> Quay trở lại</span>
                 </div>
             </div>
             <div  className="row text-black">

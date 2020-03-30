@@ -70,9 +70,9 @@ const Login = props => {
     </div>
   ) : (
     <div className="container">
-      <form className="form-medium" onSubmit={handleSubmit(onSubmit)}>
+      <form className="form-medium shadow" onSubmit={handleSubmit(onSubmit)}>
         <div className="card">
-          <h5 className="card-header primary-color white-text text-center py-4 mb-3">
+          <h5 className="card-header text-white bg-info text-center py-4 mb-3">
             <strong>Đăng Nhập</strong>
           </h5>
           <div className="card-body px-lg-5 pt-0">

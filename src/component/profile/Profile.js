@@ -125,9 +125,9 @@ const Profile = () => {
             </div>
             {
                 isEdit ?
-                <button type="submit" onClick={() => setIsEdit(false)} className="btn btn-primary">Lưu lại</button>
+                <button type="submit" onClick={() => setIsEdit(false)} className="btn btn-primary mb-3">Lưu lại</button>
                     :
-                <button onClick={() => setIsEdit(true)} className="btn btn-primary">Chỉnh sửa</button>
+                <button onClick={() => setIsEdit(true)} className="btn btn-primary mb-3">Chỉnh sửa</button>
             }
         </form>
     );
