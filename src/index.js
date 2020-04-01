@@ -13,7 +13,7 @@ import { createLogger } from 'redux-logger';
 import App from './App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import RootReducer from './reducer/RootReducer';
+import RootReducer from './reducer/rootReducer';
 import './resource/js/navbar';
 const loggerMiddleware = createLogger();
 const store = createStore(

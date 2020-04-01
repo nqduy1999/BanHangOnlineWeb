@@ -20,6 +20,26 @@ export const getListSupplier = index => {
         };
       });
   };
+  export const ListSupplier = () => {
+    return axios({
+      method: "GET",
+      url: `supplier/list`
+    })
+      .then(res => {
+        return {
+          data: res.data,
+          error: false,
+          complete: true
+        };
+      })
+      .catch(() => {
+        return {
+          data: null,
+          error: true,
+          complete: true
+        };
+      });
+  };
   export const addSupplier = value => {
     return axios({
       method: "POST",
@@ -87,6 +107,26 @@ export const getListSupplier = index => {
     return axios({
       method: "GET",
       url: `supplier/search?index=${index}&keyword=${keyword}`
+    })
+      .then(res => {
+        return {
+          data: res.data,
+          error: false,
+          complete: true
+        };
+      })
+      .catch(() => {
+        return {
+          data: null,
+          error: true,
+          complete: true
+        };
+      });
+  };
+  export const detailSupplier = id => {
+    return axios({
+      method: "GET",
+      url: `supplier/detail?id=${id}`
     })
       .then(res => {
         return {

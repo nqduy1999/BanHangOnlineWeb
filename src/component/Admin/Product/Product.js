@@ -16,6 +16,7 @@ const Product = (props) => {
   const { register, handleSubmit } = useForm();
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [hideButton, showButton]=useState(false);
   const [updatePro, getUpdateProduct]=useState(null);
   const [pageSearch, setPageSearch] = useState(null);
   let genPage = total => {
@@ -75,6 +76,7 @@ const Product = (props) => {
             setData(res.data.result.content);
           });
           getUpdateProduct(null);
+          showButton(true);
         } else {
           alertNotify("Thông báo", res.data.message, "warning");
         }
@@ -141,7 +143,9 @@ const Product = (props) => {
             className="btn btn-primary"
             data-toggle="modal"
             data-target="#capnhat"
-            onClick={()=> getUpdateProduct(null)}
+            onClick={()=> {getUpdateProduct(null)
+              showButton(false);
+            }}
           >
             Thêm sản phẩm
           </button>
@@ -181,7 +185,7 @@ const Product = (props) => {
             </tr>
           </thead>
           {listdata.map((item, i) => {
-            return <ProductItem key={i} product={item} removePd={removePd}  getUpdateProduct={getUpdateProduct}/>;
+            return <ProductItem key={i} product={item} removePd={removePd} showButton={showButton} getUpdateProduct={getUpdateProduct}/>;
           })}
         </table>
         <div></div>
@@ -225,7 +229,7 @@ const Product = (props) => {
           </div>
         </div>
       </div>
-      <Update handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateProduct={updatePro}/>
+      <Update hideButton={hideButton} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateProduct={updatePro}/>
     </div>
   );
 };

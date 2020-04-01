@@ -8,8 +8,6 @@ import { useDispatch } from "react-redux";
 
 import { Link, withRouter, useLocation } from "react-router-dom";
 
-import HashLoader from "react-spinners/HashLoader";
-
 import Loading from "../loading/Loading";
 import { login } from "../../services/UserServices";
 import { alertNotify } from "../../untils/alert";

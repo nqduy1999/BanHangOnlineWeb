@@ -19,6 +19,26 @@ export const findALlCategory = () => {
         };
     });
 }
+export const ListCategory = () => {
+  return axios({
+    method: "GET",
+    url: `category/list`
+  })
+    .then(res => {
+      return {
+        data: res.data,
+        error: false,
+        complete: true
+      };
+    })
+    .catch(() => {
+      return {
+        data: null,
+        error: true,
+        complete: true
+      };
+    });
+};
 export const getListCategory = index => {
     return axios({
       method: "GET",
@@ -86,6 +106,26 @@ export const getListCategory = index => {
       url: `admin/category/update?id=${id}`,
       data: value,
       headers: { Authorization: `Bearer ${Cookies.get("authtoken")}` }
+    })
+      .then(res => {
+        return {
+          data: res.data,
+          error: false,
+          complete: true
+        };
+      })
+      .catch(() => {
+        return {
+          data: null,
+          error: true,
+          complete: true
+        };
+      });
+  };
+  export const detailCategory = (id) => {
+    return axios({
+      method: "GET",
+      url: `category/detail?id=${id}`,
     })
       .then(res => {
         return {

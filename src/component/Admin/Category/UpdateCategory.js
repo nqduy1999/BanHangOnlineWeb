@@ -68,7 +68,7 @@ const UpdateCategory = (props) => {
                 </h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <p>
-                    <strong>Tên nhà cung cấp</strong>
+                    <strong>Tên loại sản phẩm</strong>
                   </p>
                   <input
                     type="text"

@@ -16,10 +16,10 @@ const CategoryItem = props => {
     setCategory(props.category);
   });
   const deleteCategory = () => {
-    alertYesNo("Thông báo", "Bạn có muốn xoá sản phẩm ", "warning", "Yes").then(
+    alertYesNo("Thông báo", "Bạn có muốn xoá loại sản phẩm ", "warning", "Yes").then(
       res => {
         if (res.value) {
-          Swal.fire("Thành Công", "Sản phẩm của bạn đã được xoá", "success");
+          Swal.fire("Thành Công", "Loại sản phẩm của bạn đã được xoá", "success");
           props.deleteCategory(category.id);
         }
       }

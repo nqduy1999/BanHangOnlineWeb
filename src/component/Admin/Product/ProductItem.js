@@ -38,6 +38,7 @@ const ProductItem = props => {
       type: "CLICK",
         product: props.product
     });
+    props.showButton(false);
   }
   return (
     <tbody>
@@ -59,8 +60,10 @@ const ProductItem = props => {
               <td className="column100 column6" data-column="column6">
               </td>
               <td className="column100 column7" data-column="column7">
+                {product.supplier.name}
                </td>
               <td className="column100 column7" data-column="column7">
+                {product.category.name}
               </td>
               <td className="column100 column1" data-column="column1">
           <Button variant="contained" color="secondary" onClick={deleteProduct}>Xoá</Button>
