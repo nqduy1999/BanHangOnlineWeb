@@ -14,7 +14,7 @@ const CustomerItem = props => {
   }  
   const updateCustomer = () =>{
     dispatch({
-      type: "CLICK_CUSTOMER",
+      type: "CLICK_CUSTOMER_1",
         customer: props.customer
     })
       props.setEdit(true);

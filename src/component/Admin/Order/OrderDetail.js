@@ -17,6 +17,7 @@ const OrderDetail = props => {
   useEffect(() => {
     console.log(state.order);
     if (state.order) {
+      console.log(state.order.id);
       getOrderByUsername(state.order.id, props.username).then(async res => {
         if (res.error !== true && res.data.code === 0 && res.data.result !==null) {
           const result = await res.data.result;
@@ -52,9 +53,10 @@ const OrderDetail = props => {
             <div className="row text-black">
               <div className="col-md-12">
                 <h3>Địa chỉ nhận hàng</h3>
-                <p>{state.customer && state.customer.name}</p>
-                <p>{state.customer && state.customer.phone}</p>
+                <p>Tên người Nhận : {state.customer && state.customer.name}</p>
+                <p>Số điện thoại : {state.customer && state.customer.phone}</p>
                 <p>
+                  Địa chỉ
                   {order.address
                     ? order.address.street +
                       ", " +
@@ -86,7 +88,7 @@ const OrderDetail = props => {
               <table data-vertable="ver1">
                 <tbody>
                   {order.listOrderDetail.map((item, key) => (
-                    <tr>
+                    <tr key={key}>
                       <td className="column100 column1" data-column="column1">
                         {item.product.name}
                       </td>

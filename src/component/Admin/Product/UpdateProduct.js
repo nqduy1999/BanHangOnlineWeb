@@ -13,7 +13,8 @@ const Update = props => {
     description: "",
     price: "",
     inventory: "",
-    supplier:null
+    supplier:{},
+    category:{}
   });
   const [valueSupplier,setSupplierValue] = useState(null);
   function handleChangeSupplier(e){
@@ -25,12 +26,8 @@ const Update = props => {
         setProduct({...product,
           supplier:res.data.result
           })
-        props.getUpdateProduct({...props.updateProduct,
-          supplier:res.data.result
-        })
       })
     }    
-
   };
   const [valueCategory,setCategoryValue] = useState(null);
   function handleChangeCategory(e){
@@ -44,7 +41,8 @@ const Update = props => {
           })
       })
     }    
-
+    console.log(props.product);
+    
   };
 
   const handleInput = e => {
@@ -78,6 +76,7 @@ const Update = props => {
     });
   }, []);
   const onSubmit = data => {
+    console.log(product);
     setProduct({
       ...product,
       name: data.name,
