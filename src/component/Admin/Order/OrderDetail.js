@@ -18,9 +18,18 @@ const OrderDetail = props => {
     console.log(state.order);
     if (state.order) {
       getOrderByUsername(state.order.id, props.username).then(async res => {
-        if (res.error !== true && res.data.code === 0) {
+        if (res.error !== true && res.data.code === 0 && res.data.result !==null) {
           const result = await res.data.result;
-          setOrder(result);
+          setOrder({...order,
+            id: result.id,
+            billDate: result.billDate,
+            totalMoney: result.totalMoney,
+            listOrderDetail: result.listOrderDetail,
+            customer: result.customer,
+            address: result.address,
+            note: result.note,
+            payMethod: result.payMethod
+        });
         }
       });
     }
@@ -40,19 +49,11 @@ const OrderDetail = props => {
             <h5 class="modal-title" id="exampleModalLongTitle">
               Chi tiết đơn hàng
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
             <div className="row text-black">
               <div className="col-md-12">
                 <h3>Địa chỉ nhận hàng</h3>
-                <p>{order.customer && order.customer.name}</p>
-                <p>{order.customer && order.customer.phone}</p>
+                <p>{state.customer && state.customer.name}</p>
+                <p>{state.customer && state.customer.phone}</p>
                 <p>
                   {order.address
                     ? order.address.street +
@@ -72,7 +73,8 @@ const OrderDetail = props => {
                       ", " +
                       order.customer.address.district +
                       ", " +
-                      order.customer.address.city}
+                      order.customer.address.city 
+                      }
                 </p>
                 <span>Ngày thanh toán: {order.billDate}</span>
                 <hr className="text-info" />
