@@ -13,6 +13,13 @@ const AdminReducer = (state = initialState, action) => {
           ...state,
           customer: action.customer
         }
+      case "GET_ID_ORDER":
+          return {
+            ...state,
+            order: action.order
+          }
+      case "CANCEL":
+            return {};
     default:
       return state
   }

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { getListCus, getListOrderByUsername } from "../../../services/AdminService";
 import OrderItem from "./OrderItem";
 import OrderProfile from "./OrderProfile";
+import OrderDetail from "./OrderDetail";
 
 const MainOrder = () => {
   const [customer, setListCus] = useState([])
-  const [order, setOrder] = useState([])
   useEffect(() => {
     getListCus().then(res => {
       if (res.error !== true) {
@@ -31,7 +31,7 @@ const MainOrder = () => {
             Ngày Sinh
             </th>
             <th className="column100 column5" data-column="column5">
-          Hoá đơn đã đặt
+          Sản phẩm đã đặt
             </th>
           </tr>
         </thead>
@@ -39,7 +39,7 @@ const MainOrder = () => {
             return <OrderItem user={item} key={i}/>
         })}
       </table>
-      <OrderProfile/>
+      <OrderProfile />
     </div>
   );
 };

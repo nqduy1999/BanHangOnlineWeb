@@ -229,7 +229,7 @@ const Product = (props) => {
           </div>
         </div>
       </div>
-      <Update hideButton={hideButton} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateProduct={updatePro}/>
+      <Update hideButton={hideButton} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateProduct={updatePro} getUpdateProduct={getUpdateProduct}/>
     </div>
   );
 };

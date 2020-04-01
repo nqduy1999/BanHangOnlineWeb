@@ -1,11 +1,33 @@
 import React, { useState, useEffect } from "react";
 
 import CustomerItem from "./CustomerItem";
-import { getListCus } from "../../../services/AdminService";
+import { getListCus, updateCus } from "../../../services/AdminService";
 import Cookies from "js-cookie";
+import CustomerProfile from "./CustomerProfile";
+import { alertNotify } from "../../../untils/alert";
 const ListCustomer = () => {
   console.log(Cookies.get("authtoken"));
+  const [customerUpdate, setCustomerUpdate] = useState({})
+  const [hideButton, showButton]=useState(false);
   const [listCus, setListCus] = useState([]);
+  const [edit, setEdit] = useState(false);
+  const handleUpdateCustomer=(username, value)=>{
+    console.log(value);
+    console.log(username);
+    updateCus(username, value)
+    .then((res) => {
+      console.log(res);
+      if(res.error !== true){
+      alertNotify("Thông Báo", res.data.message, "success");
+      getListCus().then(res => {
+        setListCus(res.data.result);
+      });
+      }
+      else{
+        alertNotify("Thông Báo","Sai nhập liệu", "warning");
+      }
+    })	        
+  }
   useEffect(() => {
     getListCus().then(res => {
       if (res.error !== true) {
@@ -31,10 +53,11 @@ const ListCustomer = () => {
             </tr>
           </thead>
           {listCus.map((item, key) => (
-            <CustomerItem key={key} customer={item}/>
+            <CustomerItem  key={key} customer={item} setCustomerUpdate={setCustomerUpdate} customerUpdate={customerUpdate} setEdit={setEdit} showButton={showButton}/>
           ))}
         </table>
       </div>
+      <CustomerProfile hideButton={hideButton} edit={edit} setEdit={setEdit} handleUpdateCustomer={handleUpdateCustomer}/>
     </div>
   );
 };

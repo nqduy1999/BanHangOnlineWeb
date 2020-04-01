@@ -25,6 +25,9 @@ const Update = props => {
         setProduct({...product,
           supplier:res.data.result
           })
+        props.getUpdateProduct({...props.updateProduct,
+          supplier:res.data.result
+        })
       })
     }    
 
@@ -75,7 +78,6 @@ const Update = props => {
     });
   }, []);
   const onSubmit = data => {
-    console.log(product);
     setProduct({
       ...product,
       name: data.name,
@@ -193,8 +195,8 @@ const Update = props => {
                   onChange={handleChangeSupplier}
                   value={valueSupplier}
                   >
-                  {supplierRender.map((item ) => {
-                    return <option selected value={item.id}>{item.name}</option>;
+                  {supplierRender.map((item, i ) => {
+                    return <option key={i} value={item.id}>{item.name}</option>;
                   })}
                 </select>
               </div>
@@ -210,7 +212,6 @@ const Update = props => {
                   })}
                 </select>
               </div>
-              <hr />
               {props.hideButton === true ? (
                 <button
                   type="button"
@@ -222,6 +223,7 @@ const Update = props => {
                 </button>
               ) : (
               <div className="justify-content-center">
+                <hr />
                 <button
                   type="submit"
                   className="btn btn-primary waves-effect waves-light"

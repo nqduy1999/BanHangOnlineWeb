@@ -95,7 +95,7 @@ const AsideAdmin = () => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = useState(false);
-    const [showComponent, setShowComponent] = useState("product");
+    const [showComponent, setShowComponent] = useState("info");
     const handleDrawerOpen = () => {
       setOpen(true);
     };
@@ -178,7 +178,7 @@ const AsideAdmin = () => {
         </div>
         <Divider />
         <List>
-        <ListItem button onClick={() => {show("info")}}>
+        <ListItem button onClick={() => show("info")}>
             <ListItemIcon><InfoIcon /></ListItemIcon>
             <ListItemText primary="Thông tin Admin" />
           </ListItem>

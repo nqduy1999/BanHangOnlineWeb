@@ -1,70 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { getDetailCus, updateCus } from "../../../services/AdminService";
-import { useSelector } from "react-redux";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import { useForm } from "react-hook-form";
 import DateFnsUtils from "@date-io/date-fns";
-import { alertNotify } from "../../../untils/alert";
+import { useSelector } from "react-redux";
 import Address from "../../profile/Address";
 const CustomerProfile = props => {
   const [customer, setCustomer] = useState({
     id: "",
     name: "",
-    address: {},
     phone: "",
     identityCard: "",
-    birthday: ""
+    birthday: "",
+    address: {}
   });
-  const { register, handleSubmit, errors } = useForm();
-  const [selectedDate, setSelectedDate] = useState(
-    new Date("2014-08-18T21:11:54")
-  );
-  const state = useSelector(state => state.admin);
-  const stateAddress = useSelector(state => state.address);
-  const handleDateChange = date => {
-    setCustomer({ ...customer, birthday: date });
-    setSelectedDate(date);
-  };
-  useEffect(() => {
-    setCustomer({ ...customer,
-      address: stateAddress.address });
-  }, [stateAddress]);
-  useEffect(() => {
-     setSelectedDate(props.customerUpdate.birthday);
-      setCustomer({
-        ...customer,
-        id: props.customerUpdate.id,
-        name: props.customerUpdate.name,
-        address: props.customerUpdate.address,
-        phone: props.customerUpdate.phone,
-        identityCard: props.customerUpdate.identityCard,
-        birthday: props.customerUpdate.birthday
-      });
-  }, []);
   const handleInput = e => {
     setCustomer({ ...customer, [e.target.name]: e.target.value });
     console.log(customer);
   };
-  const onSubmit = value => {
-    console.log(value);
-    let customerUp = {
-      name: value.name,
-      phone: value.phone,
-      identityCard: value.identityCard,
-      birthday: value.birthday
-    };
-    updateCus(customer.account.username, customerUp).then(res => {
-      alertNotify("Trạng Thái", "Cập Nhật Thành Công ", "success");
-    });
+  const [selectedDate, setSelectedDate] = useState(
+    new Date("2014-08-18T21:11:54")
+  );
+  const { register, handleSubmit } = useForm();
+  const state = useSelector(state => state.admin);
+  const stateAddress = useSelector(state => state.address);
+  const handleDateChange = date => {
+    console.log(date);
+    setCustomer({ ...customer, birthday: date });
+    setSelectedDate(date);
   };
+  useEffect(() => {
+    setCustomer({ ...customer, address: stateAddress.address });
+  }, [stateAddress]);
+  const onSubmit = () => {
+    console.log(state.customer.account.username);
+    props.handleUpdateCustomer(state.customer.account.username, customer);
+  };
+  useEffect(() => {
+    console.log(state.customer);
+    if (state.customer) {
+      setSelectedDate(state.customer.birthday);
+      setCustomer({
+        ...customer,
+        id: state.customer.id,
+        name: state.customer.name,
+        address: state.customer.address,
+        phone: state.customer.phone,
+        identityCard: state.customer.identityCard,
+        birthday: state.customer.birthday
+      });
+    }
+  }, [state]);
   return (
     <div
       className="modal fade"
       id="xemchitiet"
-      tabIndex={-1}
       role="dialog"
       aria-hidden="true"
     >
@@ -83,7 +75,7 @@ const CustomerProfile = props => {
             <h5 className="text-center" id="xemchitiet">
               Thông tin khách hàng
             </h5>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
                 <label htmlFor="recipient-name" className="col-form-label">
                   Id:
@@ -91,6 +83,7 @@ const CustomerProfile = props => {
                 <input
                   type="text"
                   readOnly
+                  name="id"
                   className="form-control"
                   value={customer.id}
                 />
@@ -101,12 +94,13 @@ const CustomerProfile = props => {
                 </label>
                 <input
                   type="text"
+                  name="name"
                   readOnly={props.edit ? false : true}
                   className="form-control"
                   onChange={handleInput}
-                  value={
-                    customer.name ? customer.name : "Khách chưa cập nhật tên !"
-                  }
+                  ref={register}
+                  value={customer.name ? customer.name : ""}
+                  placeholder="Khách chưa cập nhật tên"
                 />
               </div>
               <div className="form-group">
@@ -121,7 +115,7 @@ const CustomerProfile = props => {
                     label="Date picker dialog"
                     format="MM/dd/yyyy"
                     value={selectedDate}
-                    readOnly={props.edit ? false : true}
+                    disabled={props.edit ? false : true}
                     onChange={handleDateChange}
                     KeyboardButtonProps={{
                       "aria-label": "change date"
@@ -137,11 +131,13 @@ const CustomerProfile = props => {
                   type="text"
                   readOnly={props.edit ? false : true}
                   className="form-control"
+                  onChange={handleInput}
+                  ref={register}
+                  name="identityCard"
                   value={
-                    customer.identityCard === null
-                      ? "Khách chưa cập nhật CMND !"
-                      : customer.identityCard
+                    customer.identityCard === null ? "" : customer.identityCard
                   }
+                  placeholder="Khách chưa cập nhật CMND"
                 />
               </div>
               <div className="form-group">
@@ -150,50 +146,69 @@ const CustomerProfile = props => {
                 </label>
                 <input
                   type="text"
+                  name="phone"
                   readOnly={props.edit ? false : true}
+                  onChange={handleInput}
+                  ref={register}
                   className="form-control"
-                  value={
-                    customer.phone === null
-                      ? "Khách chưa cập nhật số điện thoại !"
-                      : customer.phone
-                  }
+                  value={customer.phone === null ? "" : customer.phone}
+                  placeholder="Khách chưa cập nhật SĐT"
                 />
               </div>
-              <div className="form-group row">
-              {
-                    props.edit ?
-                    <div className="col-md-12">
-                        <div className="form-group">
-                            <Address/>
-                        </div>
-                    </div>
-                    :
-                    <div className="col-md-12">
-                        <div className="form-group">
-                            <label>Địa chỉ</label>
-                            <input readOnly type="text" className="form-control" id="ID" value={customer.address ? (customer.address.street + ", " + customer.address.town + ", " + customer.address.ward + ", " + customer.address.district + ", " + customer.address.city) : ""}  placeholder="Địa chỉ giao hàng"/>
-                        </div>
-                    </div>
-                }
-              </div>
+              {props.edit ? (
+                <div className="form-group">
+                  <Address />
+                </div>
+              ) : (
+                <div className="form-group">
+                  <label>Địa chỉ</label>
+                  <input
+                    readOnly
+                    type="text"
+                    className="form-control"
+                    id="ID"
+                    value={
+                      customer.address
+                        ? customer.address.street +
+                          ", " +
+                          customer.address.town +
+                          ", " +
+                          customer.address.ward +
+                          ", " +
+                          customer.address.district +
+                          ", " +
+                          customer.address.city
+                        : ""
+                    }
+                    placeholder="Địa chỉ giao hàng"
+                  />
+                </div>
+              )}
+              {props.hideButton === true ? (
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Đóng
+                  </button>
+                </div>
+              ) : (
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-primary">
+                    Cập Nhật
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Đóng
+                  </button>
+                </div>
+              )}
             </form>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              data-dismiss="modal"
-              readOnly={props.edit ? false : true}
-            >
-              Cập Nhật
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Đóng
-            </button>
           </div>
         </div>
       </div>
