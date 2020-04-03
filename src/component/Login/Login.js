@@ -66,7 +66,10 @@ const Login = props => {
                   <p className=" alert alert-danger">{resutl}</p>: ""
               }
             <form>
-              <div className="form-group">
+              <div className="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fas fa-user-circle"></i></span>
+                </div>
                 <input
                 className="form-control"
                   name="username"
@@ -78,7 +81,10 @@ const Login = props => {
               <div className="d-flex justify-content-around mt-3 mb-3">
                 {errors.username && <p>Tài Khoản không được để trống</p>}
               </div>
-              <div className="form-group">
+              <div className="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fas fa-key"></i></span>
+                </div>
                 <input
                   className="form-control"
                   type="password"

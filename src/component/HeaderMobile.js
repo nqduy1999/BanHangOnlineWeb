@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { Link } from 'react-router-dom';
 const HeaderMobile = () => {
     return (
@@ -18,10 +19,10 @@ const HeaderMobile = () => {
                 <span className="lines line-2" />
                 <span className="lines line-3" />
               </label>
-              <Link to="/gioithieu" className="menu-item blue"><i class="fab fa-accusoft"></i></Link>
-              <Link to="/sanpham" className="menu-item green"><i class="fas fa-cart-plus"></i></Link>
-              <Link to="/lienhe" className="menu-item orange"><i class="fas fa-phone"></i></Link>
-              <Link to="/trangchu" className="menu-item lightblue"><i class="fa fa-home"/></Link>
+              <Link to="/gioithieu" className="menu-item blue"><i className="fab fa-accusoft"></i></Link>
+              <Link to="/sanpham" className="menu-item green"><i className="fas fa-cart-plus"></i></Link>
+              <Link to="/lienhe" className="menu-item orange"><i className="fas fa-phone"></i></Link>
+              <Link to="/trangchu" className="menu-item lightblue"><i className="fa fa-home"/></Link>
             </nav>
           </div>
         </div>

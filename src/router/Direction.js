@@ -22,22 +22,6 @@ import MyAccount from '../component/profile/MyAccout';
 
 import PrivateRoute from './PrivateRoute';
 const Direction = () => {
-    const dispatch = useDispatch();
-    const profile = getProfile(Cookies.get("username"));
-    // kiểm tra token hết hạn
-    useEffect(() => {
-        // kiểm tra token hết hạn và tài khoản username có bị cheat ở cookie hay ko?
-        profile.then((res) => {
-                if(res.error !== true && res.data.code === 0) {
-                    dispatch({type: "SAVE", user: res.data.result});
-                } else if((res.error === true || res.data.code !== 0) && Cookies.get("authtoken")) {
-                    alertNotify("Thông báo", "Tài khoản hết hạn truy cập", "warning");
-                    Cookies.remove("authtoken");
-                    Cookies.remove("username");
-                    dispatch({type: "DELETE"}); // xoá tài khoản lưu trong store
-                }
-            });
-    }, [profile]);
     return (
         <Switch>
             <PrivateRoute path={"/" + Cookies.get("username")}>
