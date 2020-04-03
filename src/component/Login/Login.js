@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { Link, withRouter, useLocation } from "react-router-dom";
 
 import Loading from "../loading/Loading";
-import { login } from "../../services/UserServices";
+import { login, getProfile } from "../../services/UserServices";
 import { alertNotify } from "../../untils/alert";
 
 const Login = props => {
@@ -33,16 +33,13 @@ const Login = props => {
       } else {
         Cookies.set("authtoken", res.data.result); // mỗi khi thực thi đến server mà cần quyền truy cập phải kèm token
         Cookies.set("username", data.username); // lưu user name để tìm kiếm thông tin tài khoản dựa vào username
+        getProfile(Cookies.get("username")).then((res) => {
+          if(res.error !== true && res.data.code === 0) {
+              dispatch({type: "SAVE", user: res.data.result});
+          }
+      });
         //thông báo
         alertNotify("Thông báo", "Đăng nhập thành công", "success");
-        dispatch({
-          type: "SAVE",
-          user: {
-            account: {
-              username: data.username
-            }
-          }
-        });
         // chuyển hướng
         props.history.push("/trangchu");
       }
@@ -65,10 +62,9 @@ const Login = props => {
               { resutl ?
                   <p className=" alert alert-danger">{resutl}</p>: ""
               }
-            <form>
               <div className="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-user-circle"></i></span>
+                <div className="input-group-prepend">
+                  <span className="input-group-text"> <i className="fas fa-user-circle"></i></span>
                 </div>
                 <input
                 className="form-control"
@@ -82,8 +78,8 @@ const Login = props => {
                 {errors.username && <p>Tài Khoản không được để trống</p>}
               </div>
               <div className="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-key"></i></span>
+                <div className="input-group-prepend">
+                  <span className="input-group-text"> <i className="fas fa-key"></i></span>
                 </div>
                 <input
                   className="form-control"
@@ -106,7 +102,6 @@ const Login = props => {
                 Bạn chưa có tài khoản ?
                 <Link to="/dangky">Nhấn vào đây để đăng ký</Link>
               </p>
-            </form>
           </div>
         </div>
       </form>

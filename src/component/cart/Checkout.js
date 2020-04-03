@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 
 import { withRouter } from 'react-router-dom';
 
-import HashLoader from "react-spinners/HashLoader";
 
 import { useForm } from 'react-hook-form';
 
