@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 
 import { withCookies } from 'react-cookie';
 
-import HashLoader from "react-spinners/HashLoader";
-
 import { useSelector, useDispatch } from 'react-redux';
 
 import Loading from '../loading/Loading';

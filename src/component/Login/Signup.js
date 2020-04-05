@@ -69,8 +69,8 @@ const Signup = props => {
                 <div className="col">
                   {/* First name */}
                   <div className="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"> <i class="fas fa-user-circle"></i></span>
+                    <div className="input-group-prepend">
+                      <span className="input-group-text"> <i className="fas fa-user-circle"></i></span>
                     </div>
                     <input
                       id="username"
@@ -105,8 +105,8 @@ const Signup = props => {
                 </div>
               </div>
               <div className="input-group mt-0">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+                <div className="input-group-prepend">
+                  <span className="input-group-text"><i className="fas fa-envelope-square"></i></span>
                 </div>
                 <input
                   id="email"
@@ -136,8 +136,8 @@ const Signup = props => {
                 )}
               </div>
               <div className="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-key"></i></span>
+                <div className="input-group-prepend">
+                  <span className="input-group-text"> <i className="fas fa-key"></i></span>
                 </div>
                 <input
                   id="password"
@@ -166,8 +166,8 @@ const Signup = props => {
                 )}
               </div>
               <div className="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-key"></i></span>
+                <div className="input-group-prepend">
+                  <span className="input-group-text"> <i className="fas fa-key"></i></span>
                 </div>
                 <input
                   id="passwordConfirm"

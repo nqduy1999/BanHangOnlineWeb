@@ -16,11 +16,11 @@ import * as serviceWorker from './serviceWorker';
 
 import RootReducer from './reducer/RootReducer';
 import './resource/js/navbar';
-const loggerMiddleware = createLogger();
+// const loggerMiddleware = createLogger();
 const store = createStore(
     RootReducer,
     applyMiddleware(
-        thunkMiddleware
+        thunkMiddleware,
         // loggerMiddleware
     )
 );

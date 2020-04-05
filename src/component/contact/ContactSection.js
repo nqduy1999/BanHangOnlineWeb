@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 
-import HashLoader from "react-spinners/HashLoader";
-
 import Loading from '../loading/Loading';
 import { sendEmail } from '../../services/EmailSerivces';
 import { alertNotify } from '../../untils/alert';

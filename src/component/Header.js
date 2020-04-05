@@ -1,8 +1,4 @@
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -20,15 +16,6 @@ const Header = (props) => {
 
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
-  // các url api
-  const [anchorEl, setAnchorEl] = useState(null);
-  // xử lý dropdown của profile
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const order = getOrder();
   useEffect(() => {
     order.then((res) => {
@@ -40,7 +27,7 @@ const Header = (props) => {
         dispatch({type: "CHANGE_INVENTORY", inventory: total});
       }
     });
-  }, [order]);
+  }, []);
 
   let logout = ()  => {
     dispatch({type: "DELETE"});
@@ -82,19 +69,20 @@ const Header = (props) => {
                     {
                       stateAuth.user ?
                       (
-                        <span>
-                        <Button aria-controls="simple-menu" className="btn shadow text-secondary" aria-haspopup="true" onClick={handleClick}>
-                        <i className="fas fa-user-cog fa-lg pr-1"></i><span className="d-none d-lg-inline">{stateAuth.user.account.username}</span>
-                        </Button>
-                        <Menu
-                          id="simple-menu"
-                          anchorEl={anchorEl}
-                          keepMounted
-                          open={Boolean(anchorEl)}
-                          onClose={handleClose}>
-                          <MenuItem><Link to={"/" + Cookies.get("username")}><i className="fas fa-user"></i> Tài khoản của tôi</Link></MenuItem>
-                          <MenuItem ><Link to="/dangnhap" onClick={() => {logout()}}><i className="fas fa-sign-out-alt"></i> Đăng xuất</Link></MenuItem>
-                        </Menu>
+                        <span className="dropdown">
+                          <button className="btn btn-white shadow text-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i className="fas fa-user-cog fa-lg pr-1"></i><span className="d-none d-lg-inline">{stateAuth.user.account.username}</span>
+                          </button>
+                          <div className="dropdown-menu" style={{width: "100%"}} aria-labelledby="dropdownMenuButton">
+                            <Link className="pl-2" to={"/" + Cookies.get("username")}><i className="fas fa-user"></i> Tài khoản của tôi</Link> <br/>
+                            {
+                              stateAuth.user.account.roles ? stateAuth.user.account.roles.map((role, key) =>(
+                                role.name === 'ADMIN' ?  <Link className="pl-2" to={"/admin"}><i className="fas fa-user-shield"></i> Quản lý</Link>
+                                : ""
+                              )): ""
+                            } <br/>
+                            <Link className="pl-2" to="/dangnhap" onClick={() => {logout()}}><i className="fas fa-sign-out-alt"></i> Đăng xuất</Link>
+                          </div>
                         </span>
                       )
                       : (
