@@ -4,8 +4,7 @@ import { TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-
-import { getListDistrict, getListWard, getListCity } from '../../services/CheckoutServices';
+import { getListDistrict, getListWard, getListCity } from '../../services/AddressService';
 
 const Address = (props) => {
     const dispatch = useDispatch();
@@ -31,12 +30,8 @@ const Address = (props) => {
         setAddress({...address,
           city: values.name
         })
-        getListDistrict(values.code).then((res) => {
-          if(res.error !== true && res.data.code === 0) {
-            let objDistrict = JSON.parse(res.data.result);
-            let arrayDistrict = Object.keys(objDistrict).map(key => objDistrict[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
-            setDataDistrict(arrayDistrict);
-          }
+        getListDistrict(values.id).then((res) => {
+            setDataDistrict(res.data);
         });
       }
     }
@@ -46,12 +41,8 @@ const Address = (props) => {
         setAddress({...address,
           district: values.name
         })
-        getListWard(values.code).then((res) => {
-          if(res.error !== true && res.data.code === 0) {
-            let objWard = JSON.parse(res.data.result);
-            let arrayWard = Object.keys(objWard).map(key => objWard[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
-            setDataWard(arrayWard);
-          }
+        getListWard(values.id).then((res) => {
+          setDataWard(res.data);
         });
       }
     }
@@ -60,11 +51,7 @@ const Address = (props) => {
         setAddress({...state.user.address}); // nếu như người dùng muốn  cập nhật 1 field của địa chỉ thì ko cần phải nhập lại tất cả
       }
       getListCity().then((res) => {
-        if(res.error !== true && res.data.code === 0) {
-          let objCity = JSON.parse(res.data.result);
-          let arrayCity = Object.keys(objCity).map(key => objCity[key]); // cần phải chuyển về mảng vì dữ liệu là 1 object
-          setDataCity(arrayCity);
-        }
+        setDataCity(res.data);
       });
     }, [state]);
     return (
