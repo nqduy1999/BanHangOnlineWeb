@@ -8,14 +8,27 @@ const Update = props => {
   const { register, handleSubmit } = useForm();
   const [categoryRender, setCategory] = useState([{}]);
   const [supplierRender, setSupplier] = useState([{}]);
+  const [image, setImage] = useState (null);
   const [product, setProduct] = useState({
     name: "",
     description: "",
     price: "",
     inventory: "",
     supplier:{},
-    category:{}
+    category:{},
+    image:null
   });
+  const handleFile = (e) =>{
+    let file = e.target.file;
+    setProduct({...product,
+      image:file
+    })
+    console.log(product);
+    
+  }
+  const handleUploadfile = () =>{
+
+  }
   const [valueSupplier,setSupplierValue] = useState(null);
   function handleChangeSupplier(e){
      setSupplierValue(e.target.value);
@@ -184,6 +197,18 @@ const Update = props => {
                   placeholder="Nhập giá sản phẩm"
                   value={product.price}
                 />
+              </div>
+              <p>
+                <strong>Hình Ảnh</strong>
+              </p>
+              <div className="md-form form">
+                <input className="md-text form-control"
+                 onChange={(e)=>handleFile(e)}
+                 required
+                 name="image"
+                 type="file"
+                />
+
               </div>
               <p>
                 <strong>Nhà cung cấp</strong>

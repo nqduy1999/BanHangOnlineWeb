@@ -40,7 +40,7 @@ const Product = (props) => {
       price: "",
       inventory: "",
       supplier: {},
-      category: {}
+      category: {},
     }
   ]);
   let Search = (data) => {
