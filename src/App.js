@@ -28,9 +28,9 @@ function App() {
   return (
       <BrowserRouter>
       <Switch>
-        <AdminRoute path="/admin">
-          <Admin />
-        </AdminRoute>
+        <Admin path="/admin">
+          {/* <Admin /> */}
+        </Admin>
         <Main path="/"></Main>
       </Switch>
       </BrowserRouter>

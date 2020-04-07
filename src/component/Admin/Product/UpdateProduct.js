@@ -1,64 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { withRouter } from "react-router-dom";
-import { ListCategory, detailCategory } from "../../../services/CategoryServices";
-import { ListSupplier, detailSupplier } from "../../../services/SupplierService";
+import {
+  ListCategory,
+  detailCategory,
+} from "../../../services/CategoryServices";
+import {
+  ListSupplier,
+  detailSupplier,
+} from "../../../services/SupplierService";
+import { alertNotify } from "../../../untils/alert";
+import { uploadFile } from "../../../services/FileService";
+import axios from "axios";
 
-const Update = props => {
+const Update = (props) => {
   const { register, handleSubmit } = useForm();
   const [categoryRender, setCategory] = useState([{}]);
   const [supplierRender, setSupplier] = useState([{}]);
-  const [image, setImage] = useState (null);
+  const [filePath, setFilePath] = useState();
   const [product, setProduct] = useState({
     name: "",
     description: "",
     price: "",
     inventory: "",
-    supplier:{},
-    category:{},
-    image:null
+    supplier: {},
+    category: {},
+    urlImage: "",
   });
-  const handleFile = (e) =>{
-    let file = e.target.file;
-    setProduct({...product,
-      image:file
+  const handleChangeFile = (e) => {
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    uploadFile(formData).then((res)=>{
+      console.log(res.data.result);
+      setProduct({...product, urlImage:res.data.result})
     })
-    console.log(product);
-    
-  }
-  const handleUploadfile = () =>{
-
-  }
-  const [valueSupplier,setSupplierValue] = useState(null);
-  function handleChangeSupplier(e){
-     setSupplierValue(e.target.value);
-     console.log(valueSupplier);
-     if(valueSupplier !==null){
-      detailSupplier(valueSupplier)
-      .then((res)=>{
-        setProduct({...product,
-          supplier:res.data.result
-          })
-      })
-    }    
   };
-  const [valueCategory,setCategoryValue] = useState(null);
-  function handleChangeCategory(e){
-     setCategoryValue(e.target.value);
-     console.log(valueCategory);
-     if(valueCategory !==null){
-      detailCategory(valueCategory)
-      .then((res)=>{
-        setProduct({...product,
-          category:res.data.result
-          })
-      })
-    }    
-    console.log(props.product);
-    
-  };
+  function handleChangeSupplier(e) {
+    const supplierValue = e.target.value;
+    if (supplierValue !== null) {
+      detailSupplier(supplierValue).then((res) => {
+        setProduct({ ...product, supplier: res.data.result });
+      });
+    }
+  }
+  function handleChangeCategory(e) {
+    const cateValue = e.target.value;
+    if (cateValue !== null) {
+      detailCategory(cateValue).then((res) => {
+        setProduct({ ...product, category: res.data.result });
+      });
+    }
+  }
 
-  const handleInput = e => {
+  const handleInput = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
     console.log(product);
   };
@@ -69,7 +63,7 @@ const Update = props => {
       name: "",
       description: "",
       price: "",
-      inventory: ""
+      inventory: "",
     });
   };
   useEffect(() => {
@@ -79,24 +73,24 @@ const Update = props => {
     }
   }, [props.updateProduct]);
   useEffect(() => {
-    ListCategory().then(res => {
+    ListCategory().then((res) => {
       setCategory(res.data.result);
     });
   }, []);
   useEffect(() => {
-    ListSupplier().then(res => {
+    ListSupplier().then((res) => {
       setSupplier(res.data.result);
     });
   }, []);
-  const onSubmit = data => {
-    console.log(product);
+  const onSubmit = (data) => {
     setProduct({
       ...product,
       name: data.name,
       description: data.description,
       price: data.price,
-      inventory: data.inventory
+      inventory: data.inventory,
     });
+    console.log(product);
     if (props.updateProduct) {
       console.log("Bạn chọn sửa ");
       props.handleUpdateProduct(props.updateProduct.id, product);
@@ -202,13 +196,11 @@ const Update = props => {
                 <strong>Hình Ảnh</strong>
               </p>
               <div className="md-form form">
-                <input className="md-text form-control"
-                 onChange={(e)=>handleFile(e)}
-                 required
-                 name="image"
-                 type="file"
+                <input
+                  className="md-text form-control"
+                  type="file"
+                  onChange={handleChangeFile}
                 />
-
               </div>
               <p>
                 <strong>Nhà cung cấp</strong>
@@ -217,10 +209,13 @@ const Update = props => {
                 <select
                   className="md-text form-control"
                   onChange={handleChangeSupplier}
-                  value={valueSupplier}
-                  >
-                  {supplierRender.map((item, i ) => {
-                    return <option key={i} value={item.id}>{item.name}</option>;
+                >
+                  {supplierRender.map((item, i) => {
+                    return (
+                      <option key={i} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
                   })}
                 </select>
               </div>
@@ -228,10 +223,11 @@ const Update = props => {
                 <strong>Loại sản phẩm</strong>
               </p>
               <div className="md-form form">
-                <select className="md-text form-control"
-                 onChange={handleChangeCategory}
-                 value={valueCategory}>
-                  {categoryRender.map(item => {
+                <select
+                  className="md-text form-control"
+                  onChange={handleChangeCategory}
+                >
+                  {categoryRender.map((item) => {
                     return <option value={item.id}>{item.name}</option>;
                   })}
                 </select>
@@ -246,24 +242,24 @@ const Update = props => {
                   Đóng
                 </button>
               ) : (
-              <div className="justify-content-center">
-                <hr />
-                <button
-                  type="submit"
-                  className="btn btn-primary waves-effect waves-light"
-                >
-                  {props.updateProduct ? "Sửa" : "Thêm"}
-                  <i className="fa fa-plus"></i>
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-primary waves-effect"
-                  data-dismiss="modal"
-                  onClick={cancelButton}
-                >
-                  Cancel
-                </button>
-              </div>
+                <div className="justify-content-center">
+                  <hr />
+                  <button
+                    type="submit"
+                    className="btn btn-primary waves-effect waves-light"
+                  >
+                    {props.updateProduct ? "Sửa" : "Thêm"}
+                    <i className="fa fa-plus"></i>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary waves-effect"
+                    data-dismiss="modal"
+                    onClick={cancelButton}
+                  >
+                    Cancel
+                  </button>
+                </div>
               )}
             </form>
           </div>

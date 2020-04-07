@@ -12,7 +12,8 @@ const ProductItem = props => {
     price:"",
     inventory:"",
     supplier:{},
-    category:{}
+    category:{},
+    urlImage:""
   })
   useEffect(() => {
     setProduct(props.product);
@@ -58,6 +59,7 @@ const ProductItem = props => {
                 {product.inventory}
               </td>
               <td className="column100 column6" data-column="column6">
+                <img src={product.urlImage} alt="ko" />
               </td>
               <td className="column100 column7" data-column="column7">
                 {product.supplier.name}

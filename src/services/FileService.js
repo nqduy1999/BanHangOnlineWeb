@@ -1,29 +1,12 @@
-let formdata = new FormData()
-export const uploadFile = (formdata) => {
+import axios from "../untils/axios";
+export const uploadFile = (value) => {
     return axios({
         method: "POST",
         url: `file/uploadFile`,
-        data:formdata
-    })
-    .then((res) => {
-        return {
-            data: res.data,
-            error: false,
-            complete: true
-        };
-    }).catch((err) => {
-        return {
-            data: null,
-            error: true,
-            complete: true
-        };
-    });
-}
-
-export const downloadFile = (id) => {
-    return axios({
-        method: "GET",
-        url: `file/${id}`
+        data: value,
+        headers: {
+            "Content-Type": "multipart/form-data",
+         }
     })
     .then((res) => {
         return {
