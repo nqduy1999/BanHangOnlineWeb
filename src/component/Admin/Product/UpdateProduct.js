@@ -9,14 +9,14 @@ import {
   ListSupplier,
   detailSupplier,
 } from "../../../services/SupplierService";
-import { alertNotify } from "../../../untils/alert";
 import { uploadFile } from "../../../services/FileService";
-import axios from "axios";
+import { alertNotify } from "../../../untils/alert";
 
 const Update = (props) => {
   const { register, handleSubmit } = useForm();
   const [categoryRender, setCategory] = useState([{}]);
   const [supplierRender, setSupplier] = useState([{}]);
+  const [fileName, setFileName] = useState();
   const [filePath, setFilePath] = useState();
   const [product, setProduct] = useState({
     name: "",
@@ -27,13 +27,11 @@ const Update = (props) => {
     category: {},
     urlImage: "",
   });
+  let files;
   const handleChangeFile = (e) => {
-    const formData = new FormData();
-    formData.append('file', e.target.files[0]);
-    uploadFile(formData).then((res)=>{
-      console.log(res.data.result);
-      setProduct({...product, urlImage:res.data.result})
-    })
+    setFilePath(e.target.files[0]);
+    alertNotify("Thông Báo", "Chọn hình ảnh thành công", "success");
+    setFileName(e.target.files[0].name);
   };
   function handleChangeSupplier(e) {
     const supplierValue = e.target.value;
@@ -64,7 +62,11 @@ const Update = (props) => {
       description: "",
       price: "",
       inventory: "",
+      supplier: {},
+      category: {},
+      urlImage: null,
     });
+    setFileName("");
   };
   useEffect(() => {
     if (props.updateProduct) {
@@ -83,6 +85,8 @@ const Update = (props) => {
     });
   }, []);
   const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("file", filePath);
     setProduct({
       ...product,
       name: data.name,
@@ -90,13 +94,13 @@ const Update = (props) => {
       price: data.price,
       inventory: data.inventory,
     });
-    console.log(product);
     if (props.updateProduct) {
-      console.log("Bạn chọn sửa ");
       props.handleUpdateProduct(props.updateProduct.id, product);
     } else {
-      console.log(product);
-      props.handleAddSubmit(product);
+      uploadFile(formData).then((res) => {
+        props.handleAddSubmit({ ...product, urlImage: res.data.result });
+        console.log(product);
+      });
     }
   };
 
@@ -200,7 +204,11 @@ const Update = (props) => {
                   className="md-text form-control"
                   type="file"
                   onChange={handleChangeFile}
+                  style={{ display: "none" }}
+                  id="image"
                 />
+                <label className="form-control" for="image">Chọn Hình Ảnh</label>
+                <div>{fileName}</div>
               </div>
               <p>
                 <strong>Nhà cung cấp</strong>

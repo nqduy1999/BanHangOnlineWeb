@@ -9,7 +9,6 @@ import HashLoader from "react-spinners/HashLoader";
 import Loading from '../loading/Loading';
 import { getAllCart, update, remove } from '../../services/CartServices';
 import { alertYesNo } from '../../untils/alert';
-import but_bi from '../../resource/images/but_bi.jpg';
 const Cart = (props) => {
     //loading
     const [loading, setLoading] = useState(true);
@@ -162,7 +161,7 @@ const Cart = (props) => {
                   <tr key={i}>
                   <th scope="row">{i}</th>
                   <td>
-                    <img src={but_bi} alt="Image" className="img-fluid"/>
+                    <img src={item.product.urlImage} alt="Image" className="img-fluid"/>
                   </td>
                   <td>
                     <h2 className="h5 text-black font-weight-normal">{item.product.name}</h2>

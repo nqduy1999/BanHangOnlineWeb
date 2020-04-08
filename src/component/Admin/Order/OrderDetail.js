@@ -2,26 +2,39 @@ import React, { useState, useEffect } from "react";
 import { getOrderByUsername } from "../../../services/OrderServices";
 import { useSelector } from "react-redux";
 
-const OrderDetail = props => {
-  const state = useSelector(state => state.admin);
+const OrderDetail = (props) => {
+  const state = useSelector((state) => state.admin);
   const [order, setOrder] = useState({
     id: "",
     billDate: "",
     totalMoney: 0,
     listOrderDetail: [],
-    customer: null,
+    customer: {
+      id: null,
+      name: "",
+      address: "",
+      phone: "",
+      identityCard: "",
+      birthday: "",
+    },
     address: {},
     note: "",
-    payMethod: ""
+    payMethod: "",
   });
   useEffect(() => {
     console.log(state.order);
     if (state.order) {
-      console.log(state.order.id);
-      getOrderByUsername(state.order.id, props.username).then(async res => {
-        if (res.error !== true && res.data.code === 0 && res.data.result !==null) {
+      console.log(state.order.customer.account.username);
+      getOrderByUsername(state.order.id, state.order.customer.account.username).then(async (res) => {
+        console.log(res);
+        if (
+          res.error !== true &&
+          res.data.code === 0 &&
+          res.data.result !== null
+        ) {
           const result = await res.data.result;
-          setOrder({...order,
+          setOrder({
+            ...order,
             id: result.id,
             billDate: result.billDate,
             totalMoney: result.totalMoney,
@@ -29,8 +42,8 @@ const OrderDetail = props => {
             customer: result.customer,
             address: result.address,
             note: result.note,
-            payMethod: result.payMethod
-        });
+            payMethod: result.payMethod,
+          });
         }
       });
     }
@@ -44,7 +57,7 @@ const OrderDetail = props => {
       aria-labelledby="exampleModalCenterTitle"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">
@@ -75,8 +88,7 @@ const OrderDetail = props => {
                       ", " +
                       order.customer.address.district +
                       ", " +
-                      order.customer.address.city 
-                      }
+                      order.customer.address.city}
                 </p>
                 <span>Ngày thanh toán: {order.billDate}</span>
                 <hr className="text-info" />
@@ -92,6 +104,9 @@ const OrderDetail = props => {
                       <td className="column100 column1" data-column="column1">
                         {item.product.name}
                       </td>
+                      <td className="column100 column1" data-column="column1">
+                       <img  src={item.product.urlImage} alt="ko co"/>
+                      </td>
                       <td className="column100 column2" data-column="column2">
                         {item.quantity}
                       </td>
@@ -101,8 +116,10 @@ const OrderDetail = props => {
                       <td className="column100 column4" data-column="column4">
                         {item.product.unitPrice}
                       </td>
-                      <td className="column100 column5" data-column="column5">
-                      </td>
+                      <td
+                        className="column100 column5"
+                        data-column="column5"
+                      ></td>
                     </tr>
                   ))}
                 </tbody>

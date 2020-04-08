@@ -104,7 +104,7 @@ const ProductDetails = (props) => {
             <div className="container">
               <div className="row">
                 <div className="col-md-6">
-                  <img  alt="Image" className="img-fluid" />
+                  <img  alt="Image" src={product.urlImage} className="img-fluid" />
                 </div>
                 <div className="col-md-6">
                   <h2 className="text-black">{product.name}</h2>

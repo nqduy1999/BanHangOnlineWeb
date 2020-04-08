@@ -16,14 +16,13 @@ const OrderProfile = props => {
     if (state.customer) {
       getListOrderByUsername(state.customer.account.username).then(
         async res => {
-          console.log(res.data);
           const result = await res.data.result;
-          if (res.data.result === null) {
+          if (result === null) {
             alertNotify("Thông Báo", "Khách Hàng Chưa Mua Hàng", "warning");
             setOrderDetail(null)
           } else {
-            console.log(res.data.result);
-            setOrderDetail(res.data.result);
+            console.log(result);
+            setOrderDetail(result);
           }
         }
       );
