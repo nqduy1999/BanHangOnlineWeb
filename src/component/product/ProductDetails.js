@@ -13,7 +13,7 @@ const ProductDetails = (props) => {
     let useQuery = () => {
       return new URLSearchParams(useLocation().search);
     }
-    const id = useQuery();
+    const query = useQuery();
     // const [quantity, setQuantity] = useState(1);
     // thông báo
     const [message, setMessage] = useState("");
@@ -73,7 +73,7 @@ const ProductDetails = (props) => {
     }
     useEffect(() => {
       setLoading(false);
-      getProductDetail(id.get("id")).then((res) => {
+      getProductDetail(query.get("id")).then((res) => {
         if(res.error !== true && res.data.code === 0) {
           setProduct(res.data.result);
           setOrderDetail({...orderDetail,

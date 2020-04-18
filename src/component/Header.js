@@ -9,7 +9,6 @@ import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 
 import { getOrder } from '../services/CartServices';
-import { getProductByTextSearch } from '../services/ProductServices';
 const Header = (props) => {
   const stateAuth = useSelector(state => state.auth);
   const stateCart = useSelector(state => state.cart);
@@ -35,12 +34,7 @@ const Header = (props) => {
     Cookies.remove('authtoken');
   }
   let onSubmit = (data) => {
-    getProductByTextSearch(0, data.keyword).then((res) => {
-      if(res.error !== true && res.data.code === 0) {
-        dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
-        props.history.replace("/sanpham");
-      }
-    })
+      props.history.replace(`/sanpham?type=search&keyword=${data.keyword}&currentPage=0`);
   }
     return (
         <div>
@@ -113,7 +107,7 @@ const Header = (props) => {
                   <Link to="/gioithieu">Giới thiệu</Link>
                 </li>
                 <li>
-                  <Link to="/sanpham">Sản phẩm</Link>
+                  <Link to="/sanpham?currentPage=0">Sản phẩm</Link>
                 </li>
                 <li><Link to="/lienhe">Liên Hệ</Link></li>
               </ul>
