@@ -27,7 +27,6 @@ const Update = (props) => {
     category: {},
     urlImage: "",
   });
-  let files;
   const handleChangeFile = (e) => {
     setFilePath(e.target.files[0]);
     alertNotify("Thông Báo", "Chọn hình ảnh thành công", "success");
@@ -95,11 +94,17 @@ const Update = (props) => {
       inventory: data.inventory,
     });
     if (props.updateProduct) {
-      props.handleUpdateProduct(props.updateProduct.id, product);
+      uploadFile(formData).then((res) => {
+      if(res.data.result != null){
+      props.handleUpdateProduct(props.updateProduct.id,{...product, urlImage:res.data.result});
+      }
+      else {
+      props.handleUpdateProduct(props.updateProduct.id,product);
+      }
+      });
     } else {
       uploadFile(formData).then((res) => {
         props.handleAddSubmit({ ...product, urlImage: res.data.result });
-        console.log(product);
       });
     }
   };
