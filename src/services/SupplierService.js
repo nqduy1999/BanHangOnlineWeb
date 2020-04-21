@@ -44,7 +44,8 @@ export const getListSupplier = index => {
     return axios({
       method: "POST",
       url: `admin/supplier/add`,
-      data: value
+      data: value,
+      headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     })
       .then(res => {
         return {
@@ -64,7 +65,8 @@ export const getListSupplier = index => {
   export const deleteSupplier = id => {
     return axios({
       method: "POST",
-      url: `admin/supplier/delete?id=${id}`
+      url: `admin/supplier/delete?id=${id}`,
+      headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     })
       .then(res => {
         return {

@@ -63,7 +63,8 @@ export const getListCategory = index => {
     return axios({
       method: "POST",
       url: `admin/category/add`,
-      data: value
+      data: value,
+      headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
     })
       .then(res => {
         return {
@@ -83,7 +84,9 @@ export const getListCategory = index => {
   export const deleteCategory = id => {
     return axios({
       method: "POST",
-      url: `admin/category/delete?id=${id}`
+      url: `admin/category/delete?id=${id}`,
+      headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
+
     })
       .then(res => {
         return {

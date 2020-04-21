@@ -16,7 +16,7 @@ const Update = (props) => {
   const { register, handleSubmit } = useForm();
   const [categoryRender, setCategory] = useState([{}]);
   const [supplierRender, setSupplier] = useState([{}]);
-  const [fileName, setFileName] = useState();
+  const [fileName, setFileName] = useState("");
   const [filePath, setFilePath] = useState();
   const [product, setProduct] = useState({
     name: "",
@@ -28,9 +28,14 @@ const Update = (props) => {
     urlImage: "",
   });
   const handleChangeFile = (e) => {
-    setFilePath(e.target.files[0]);
-    alertNotify("Thông Báo", "Chọn hình ảnh thành công", "success");
-    setFileName(e.target.files[0].name);
+    if (e.target.files[0]) {
+      setFileName(e.target.files[0].name);
+      setFilePath(e.target.files[0]);
+    } else {
+      alertNotify("", "Bạn chưa chọn hình", "warning");
+      setFileName("");
+      setFilePath(null);
+    }
   };
   function handleChangeSupplier(e) {
     const supplierValue = e.target.value;
@@ -85,6 +90,7 @@ const Update = (props) => {
   }, []);
   const onSubmit = (data) => {
     const formData = new FormData();
+    console.log(filePath);
     formData.append("file", filePath);
     setProduct({
       ...product,
@@ -94,18 +100,24 @@ const Update = (props) => {
       inventory: data.inventory,
     });
     if (props.updateProduct) {
-      uploadFile(formData).then((res) => {
-      if(res.data.result != null){
-      props.handleUpdateProduct(props.updateProduct.id,{...product, urlImage:res.data.result});
+      if (filePath) {
+        uploadFile(formData).then((res) => {
+          props.handleUpdateProduct(props.updateProduct.id, {
+            ...product,
+            urlImage: res.data.result,
+          });
+        });
+      } else {
+        props.handleUpdateProduct(props.updateProduct.id, product);
       }
-      else {
-      props.handleUpdateProduct(props.updateProduct.id,product);
-      }
-      });
     } else {
-      uploadFile(formData).then((res) => {
-        props.handleAddSubmit({ ...product, urlImage: res.data.result });
-      });
+      if (filePath) {
+        uploadFile(formData).then((res) => {
+          props.handleAddSubmit({ ...product, urlImage: res.data.result });
+        });
+      } else {
+        props.handleAddSubmit(product);
+      }
     }
   };
 
@@ -212,7 +224,9 @@ const Update = (props) => {
                   style={{ display: "none" }}
                   id="image"
                 />
-                <label className="form-control" for="image">Chọn Hình Ảnh</label>
+                <label className="form-control" htmlFor="image">
+                  Chọn Hình Ảnh
+                </label>
                 <div>{fileName}</div>
               </div>
               <p>
@@ -240,8 +254,12 @@ const Update = (props) => {
                   className="md-text form-control"
                   onChange={handleChangeCategory}
                 >
-                  {categoryRender.map((item) => {
-                    return <option value={item.id}>{item.name}</option>;
+                  {categoryRender.map((item, key) => {
+                    return (
+                      <option key={key} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
                   })}
                 </select>
               </div>

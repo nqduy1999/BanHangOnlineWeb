@@ -23,7 +23,8 @@ export const getListProduct = index => {
 export const removeProduct = id => {
   return axios({
     method: "POST",
-    url: `admin/product/delete?id=${id}`
+    url: `admin/product/delete?id=${id}`,
+    headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
   })
     .then(res => {
       return {
@@ -44,7 +45,9 @@ export const addProduct = value => {
   return axios({
     method: "POST",
     url: `admin/product/add`,
-    data: value
+    data: value,
+    headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
+
   })
     .then(res => {
       return {
@@ -65,7 +68,8 @@ export const updateProduct = (id, value) => {
   return axios({
     method: "POST",
     url: `admin/product/update?id=${id}`,
-    data: value
+    data: value,
+    headers: {'Authorization': `Bearer ${Cookies.get("authtoken")}`}
   })
     .then(res => {
       return {

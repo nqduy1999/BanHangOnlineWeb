@@ -1,4 +1,5 @@
 import axios from "../untils/axios";
+import Cookies from "js-cookie";
 export const uploadFile = (value) => {
     return axios({
         method: "POST",
@@ -6,6 +7,7 @@ export const uploadFile = (value) => {
         data: value,
         headers: {
             "Content-Type": "multipart/form-data",
+            'Authorization': `Bearer ${Cookies.get("authtoken")}`
          }
     })
     .then((res) => {
