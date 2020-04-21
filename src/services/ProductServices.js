@@ -100,10 +100,10 @@ export const sortByDesc = (index, fieldSort) => {
     });
 }
 
-export const findAllProductByCategory = (index, id) => {
+export const findAllProductByCategory = (index, name) => {
     return axios({
         method: "GET",
-        url: `product/category?index=${index}&id=${id}`
+        url: `product/category?index=${index}&name=${name}`
     })
     .then((res) => {
         return {

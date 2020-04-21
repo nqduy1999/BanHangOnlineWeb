@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
+
 import { useForm } from "react-hook-form";
+
 import { withRouter } from "react-router-dom";
+
 import {
   ListCategory,
   detailCategory,
 } from "../../../services/CategoryServices";
+import { uploadFile } from "../../../services/FileService";
 import {
   ListSupplier,
   detailSupplier,
 } from "../../../services/SupplierService";
-import { uploadFile } from "../../../services/FileService";
 import { alertNotify } from "../../../untils/alert";
 
 const Update = (props) => {

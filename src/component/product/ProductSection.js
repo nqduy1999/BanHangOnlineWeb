@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { withCookies } from 'react-cookie';
 
-import { useSelector, useDispatch } from 'react-redux';
+import {  useDispatch } from 'react-redux';
 
 import Loading from '../loading/Loading';
 import { findALlCategory } from '../../services/CategoryServices';
-import { getALlProduct, sortByAsc, sortByDesc, findAllProductByCategory } from '../../services/ProductServices';
+import { getALlProduct, sortByAsc, sortByDesc, findAllProductByCategory, getProductByTextSearch } from '../../services/ProductServices';
 
 import ProductCard from './ProductCard';
 const ProductSection = (props) => {
-  const state = useSelector(state => state.pageProduct);
+    // lấy query String
+    let useQuery = () => {
+      return new URLSearchParams(useLocation().search);
+    }
+    const query = useQuery();
   const dispatch = useDispatch();
     const [pages, setPages] = useState([]);
     // lấy page hiện tại đang hiển thị
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(query.get("currentPage"));
     //loading
     const [loading, setLoading] = useState(true);
     // danh sách category
@@ -44,7 +48,8 @@ const ProductSection = (props) => {
     const sortByASC = (index, fieldSort) => {
       sortByAsc(index, fieldSort).then((res) => {
         if(res.error !== true && res.data.code === 0) {
-          dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
+          setListProduct(res.data.result.content)
+          genPage(res.data.result.totalPages);
         }
       })
     }
@@ -52,7 +57,8 @@ const ProductSection = (props) => {
     const sortByDESC = (index, fieldSort) => {
       sortByDesc(index, fieldSort).then((res) => {
         if(res.error !== true && res.data.code === 0) {
-          dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
+          setListProduct(res.data.result.content)
+          genPage(res.data.result.totalPages);
         }
       })
     }
@@ -60,26 +66,36 @@ const ProductSection = (props) => {
     const getALLProductByCategory = (index, id) => {
       findAllProductByCategory(index, id).then((res) => {
         if(res.error !== true && res.data.code === 0) {
-          dispatch({type: "SET_PAGEPRODUCT", pageProduct: res.data.result});
+          setListProduct(res.data.result.content)
+          genPage(res.data.result.totalPages);
         }
       })
     }
     // lấy tổng số page
     useEffect(() => {
-      if(state.pageProduct) { // state cho tìm kiếm và sắp xếp
-        setListProduct(state.pageProduct.content)
-        genPage(state.pageProduct.totalPages);
-      }
-    }, [state]);
-    // lấy tổng số page
-    useEffect(() => {
+      let type = query.get("type");
+      if(type === "search") {
+        getProductByTextSearch(currentPage, query.get("keyword")).then((res) => {
+          if(res.error !== true && res.data.code === 0) {
+            setListProduct(res.data.result.content)
+            genPage(res.data.result.totalPages);
+          }
+        })
+      } else if(type === "sortASC") {
+        sortByASC(currentPage, query.get('keyword'));
+      } else if(type === "sortDESC") {
+        sortByDESC(currentPage, query.get('keyword'));
+      } else if(type === "category") {
+        getALLProductByCategory(currentPage, query.get("keyword"));
+      } else {
         getALlProduct(currentPage).then((res) => { // set khi ko có state
           if(res.error !== true && res.data.code === 0) {
             setListProduct(res.data.result.content)
             genPage(res.data.result.totalPages);
           }
         });
-    }, [currentPage]);
+      }
+    }, [currentPage, query.get("keyword"), query.get("type")]);
 
     useEffect(() => {
       setLoading(false);
@@ -108,11 +124,11 @@ const ProductSection = (props) => {
                     <div className="btn-group">
                       <button type="button" className="btn btn-primary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Bộ lọc</button>
                       <div style={{cursor: "pointer"}} className="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                        <span onClick={() => {sortByASC(currentPage, "name");}} className="dropdown-item">Tên, từ A đến Z</span>
-                        <span onClick={() => {sortByDESC(currentPage, "name");}} className="dropdown-item">Tên, từ Z đến A</span>
+                        <span className="dropdown-item"><Link to={`sanpham?type=sortASC&keyword=name&currentPage=${currentPage}`}>Tên, từ A đến Z</Link></span>
+                        <span className="dropdown-item"><Link to={`sanpham?type=sortDESC&keyword=name&currentPage=${currentPage}`}>Tên, từ Z đến A</Link></span>
                         <div className="dropdown-divider" />
-                        <span onClick={() => {sortByASC(currentPage, "price");}} className="dropdown-item">Giá, thấp đến cao</span>
-                        <span onClick={() => {sortByDESC(currentPage, "price");}} className="dropdown-item">Giá, cao đến thấp</span>
+                        <span className="dropdown-item"><Link to={`sanpham?type=sortASC&keyword=price&currentPage=${currentPage}`}>Giá, thấp đến cao</Link></span>
+                        <span className="dropdown-item"><Link to={`sanpham?type=sortDESC&keyword=price&currentPage=${currentPage}`}>Giá, cao đến thấp</Link></span>
                       </div>
                     </div>
                   </div>
@@ -127,13 +143,13 @@ const ProductSection = (props) => {
                 <div className="col-md-12 text-center">
                   <div className="site-block-27">
                     <ul>
-                      <li><Link to="sanpham" onClick={() => {setCurrentPage(handleMoveLeft())}}>&lt;</Link></li>
+                      <li><Link to={`sanpham?type=${query.get("type")}&keyword=${query.get("keyword")}&currentPage=${currentPage}`} onClick={() => {setCurrentPage(handleMoveLeft())}}>&lt;</Link></li>
                       {
                         pages.map((item, i) => (
-                          <li key={i} className={currentPage === item ? 'active' : ''}><Link to="sanpham" onClick={() => {setCurrentPage(item)}}>{item}</Link></li>
+                          <li key={i} className={currentPage === item ? 'active' : ''}><Link to={`sanpham?type=${query.get("type")}&keyword=${query.get("keyword")}&currentPage=${currentPage}`} onClick={() => {setCurrentPage(item)}}>{item}</Link></li>
                         ))
                       }
-                      <li><Link to="sanpham"
+                      <li><Link to={`sanpham?type=${query.get("type")}&keyword=${query.get("keyword")}&currentPage=${currentPage}`}
                       onClick={() => {setCurrentPage(handleMoveRight());
                       }}>&gt;</Link></li>
                     </ul>
@@ -147,7 +163,7 @@ const ProductSection = (props) => {
                 <ul className="list-unstyled mb-0 text-primary"  style={{cursor: "pointer"}}>
                       {
                         listCategory.map((item, key) => (
-                          <li key={key} className="mb-1" onClick={() => getALLProductByCategory(currentPage, item.id)}><span>{item.name}</span></li>
+                          <Link to={`/sanpham?type=category&keyword=${item.name}&currentPage=0`}><li key={key} className="mb-1"><span>{item.name}</span></li></Link>
                         ))
                       }
                 </ul>
