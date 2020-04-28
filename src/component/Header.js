@@ -71,7 +71,7 @@ const Header = (props) => {
                             <Link className="pl-2" to={"/" + Cookies.get("username")}><i className="fas fa-user"></i> Tài khoản của tôi</Link> <br/>
                             {
                               stateAuth.user.account.roles ? stateAuth.user.account.roles.map((role, key) =>(
-                                role.name === 'ADMIN' ?  <Link className="pl-2" to={"/admin"}><i className="fas fa-user-shield"></i> Quản lý</Link>
+                                role.name === 'ADMIN' ?  <Link key={key} className="pl-2" to={"/admin"}><i className="fas fa-user-shield"></i> Quản lý</Link>
                                 : ""
                               )): ""
                             } <br/>

@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import About from '../pages/About';
 import Contact from '../pages/Contact';

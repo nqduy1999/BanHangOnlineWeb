@@ -10,13 +10,13 @@ import "aos/dist/aos.css";
 
 import './App.css';
 
+import AdminRoute from './router/AdminRoute';
 import Main from './router/Main';
 import Admin from './component/Admin/Admin';
 import "./resource/css/magnific-popup.css";
 import "./resource/css/main.css";
 import "./resource/css/style.css";
 import "./resource/icomoon/style.css";
-import AdminRoute from './router/AdminRoute';
 
 function App() {
   useEffect(() => {
@@ -28,9 +28,9 @@ function App() {
   return (
       <BrowserRouter>
       <Switch>
-        <Admin path="/admin">
-          {/* <Admin /> */}
-        </Admin>
+        <AdminRoute path="/admin">
+          <Admin />
+        </AdminRoute>
         <Main path="/"></Main>
       </Switch>
       </BrowserRouter>

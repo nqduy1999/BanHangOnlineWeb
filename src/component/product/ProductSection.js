@@ -163,7 +163,7 @@ const ProductSection = (props) => {
                 <ul className="list-unstyled mb-0 text-primary"  style={{cursor: "pointer"}}>
                       {
                         listCategory.map((item, key) => (
-                          <Link to={`/sanpham?type=category&keyword=${item.name}&currentPage=0`}><li key={key} className="mb-1"><span>{item.name}</span></li></Link>
+                          <Link key={key} to={`/sanpham?type=category&keyword=${item.name}&currentPage=0`}><li className="mb-1"><span>{item.name}</span></li></Link>
                         ))
                       }
                 </ul>
