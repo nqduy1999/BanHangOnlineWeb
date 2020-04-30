@@ -14,8 +14,11 @@ import {
   detailSupplier,
 } from "../../../services/SupplierService";
 import { alertNotify } from "../../../untils/alert";
+import { useSelector, useDispatch } from "react-redux";
 
 const Update = (props) => {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.admin);
   const { register, handleSubmit } = useForm();
   const [categoryRender, setCategory] = useState([{}]);
   const [supplierRender, setSupplier] = useState([{}]);
@@ -59,7 +62,6 @@ const Update = (props) => {
 
   const handleInput = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
-    console.log(product);
   };
   const cancelButton = () => {
     setProduct({
@@ -78,7 +80,6 @@ const Update = (props) => {
   useEffect(() => {
     if (props.updateProduct) {
       setProduct(props.updateProduct);
-      console.log(product);
     }
   }, [props.updateProduct]);
   useEffect(() => {
@@ -240,6 +241,7 @@ const Update = (props) => {
                   className="md-text form-control"
                   onChange={handleChangeSupplier}
                 >
+                  <option>Chọn</option>
                   {supplierRender.map((item, i) => {
                     return (
                       <option key={i} value={item.id}>
@@ -257,6 +259,7 @@ const Update = (props) => {
                   className="md-text form-control"
                   onChange={handleChangeCategory}
                 >
+                  <option>Chọn</option>
                   {categoryRender.map((item, key) => {
                     return (
                       <option key={key} value={item.id}>
@@ -266,6 +269,7 @@ const Update = (props) => {
                   })}
                 </select>
               </div>
+              <hr />
               {props.hideButton === true ? (
                 <button
                   type="button"
@@ -277,7 +281,6 @@ const Update = (props) => {
                 </button>
               ) : (
                 <div className="justify-content-center">
-                  <hr />
                   <button
                     type="submit"
                     className="btn btn-primary waves-effect waves-light"

@@ -8,7 +8,6 @@ const UpdateSupplier = props => {
   });
   const handleInput = e => {
     setSupplier({ ...supplier, [e.target.name]: e.target.value });
-    console.log(supplier);
   };
   const cancelButton = () => {
     setSupplier({

@@ -12,7 +12,7 @@ import ProductItem from "./ProductItem";
 import Update from "./UpdateProduct";
 import { Link, withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
-const Product = (props) => {
+const Product = () => {
   const { register, handleSubmit } = useForm();
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -80,6 +80,7 @@ const Product = (props) => {
         } else {
           alertNotify("Thông báo", res.data.message, "warning");
         }
+        showButton(true);
       })
       .catch(err => {
         console.log(err);
@@ -96,6 +97,7 @@ const Product = (props) => {
       getListProduct(currentPage).then(res => {
         setData(res.data.result.content);
       });
+      showButton(true);
       }
       else{
         alertNotify("Thông Báo","Sai nhập liệu", "warning");

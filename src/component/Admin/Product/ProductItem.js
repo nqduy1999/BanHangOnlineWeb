@@ -47,10 +47,11 @@ const ProductItem = props => {
               <td className="column100 column8" data-column="column8">
                 {product.name}
               </td>
-              <td className="column100 column3" data-column="column3">
-                {product.id}              </td>
-              <td className="column100 column2" data-column="column2">
-                {product.description}
+              <td className="column100 column9" data-column="column9">
+              {product.id}            
+              </td>
+              <td className="column100 column1" data-column="column1">
+              {product.description}            
               </td>
               <td className="column100 column4" data-column="column4">
                 {product.price}
