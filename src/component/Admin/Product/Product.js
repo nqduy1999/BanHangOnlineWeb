@@ -19,6 +19,7 @@ const Product = () => {
   const [hideButton, showButton]=useState(false);
   const [updatePro, getUpdateProduct]=useState(null);
   const [pageSearch, setPageSearch] = useState(null);
+  const [addButton, setAddButton] = useState(false);
   let genPage = total => {
     let array = [];
     for (let index = 0; index < total; index++) {
@@ -87,11 +88,8 @@ const Product = () => {
       });
   };
   const handleUpdateProduct=(id, value)=>{
-    console.log(value);
-    console.log(id);
     updateProduct(id, value)
     .then((res) => {
-      console.log(res);
       if(res.error !== true){
       alertNotify("Thông Báo", res.data.message, "success");
       getListProduct(currentPage).then(res => {
@@ -147,6 +145,7 @@ const Product = () => {
             data-target="#capnhat"
             onClick={()=> {getUpdateProduct(null)
               showButton(false);
+              setAddButton(true);
             }}
           >
             Thêm sản phẩm
@@ -187,7 +186,7 @@ const Product = () => {
             </tr>
           </thead>
           {listdata.map((item, i) => {
-            return <ProductItem key={i} product={item} removePd={removePd} showButton={showButton} getUpdateProduct={getUpdateProduct}/>;
+            return <ProductItem key={i} product={item} removePd={removePd} showButton={showButton} getUpdateProduct={getUpdateProduct} setAddButton={setAddButton}/>;
           })}
         </table>
         <div></div>
@@ -231,7 +230,7 @@ const Product = () => {
           </div>
         </div>
       </div>
-      <Update hideButton={hideButton} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateProduct={updatePro} getUpdateProduct={getUpdateProduct}/>
+      <Update addButton={addButton} hideButton={hideButton} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateProduct={updatePro} getUpdateProduct={getUpdateProduct}/>
     </div>
   );
 };

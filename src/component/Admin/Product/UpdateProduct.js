@@ -55,7 +55,9 @@ const Update = (props) => {
     const cateValue = e.target.value;
     if (cateValue !== null) {
       detailCategory(cateValue).then((res) => {
-        setProduct({ ...product, category: res.data.result });
+        setProduct({ ...product, category: res.data.result,
+          caterogy:res.data.result
+         });
       });
     }
   }
@@ -63,7 +65,7 @@ const Update = (props) => {
   const handleInput = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
-  const cancelButton = () => {
+  useEffect(() => {
     setProduct({
       ...product,
       id: null,
@@ -76,12 +78,14 @@ const Update = (props) => {
       urlImage: null,
     });
     setFileName("");
-  };
-  useEffect(() => {
     if (props.updateProduct) {
-      setProduct(props.updateProduct);
+      if(props.addButton === true){
+      }
+      else{
+        setProduct(props.updateProduct);
+      }
     }
-  }, [props.updateProduct]);
+  },[props.updateProduct]);
   useEffect(() => {
     ListCategory().then((res) => {
       setCategory(res.data.result);
@@ -94,7 +98,6 @@ const Update = (props) => {
   }, []);
   const onSubmit = (data) => {
     const formData = new FormData();
-    console.log(filePath);
     formData.append("file", filePath);
     setProduct({
       ...product,
@@ -106,6 +109,7 @@ const Update = (props) => {
     if (props.updateProduct) {
       if (filePath) {
         uploadFile(formData).then((res) => {
+          console.log(product);
           props.handleUpdateProduct(props.updateProduct.id, {
             ...product,
             urlImage: res.data.result,
@@ -116,6 +120,7 @@ const Update = (props) => {
       }
     } else {
       if (filePath) {
+        console.log(product);
         uploadFile(formData).then((res) => {
           props.handleAddSubmit({ ...product, urlImage: res.data.result });
         });
@@ -151,7 +156,6 @@ const Update = (props) => {
               <span
                 aria-hidden="true"
                 className="white-text"
-                onClick={cancelButton}
               >
                 ×
               </span>
@@ -275,7 +279,6 @@ const Update = (props) => {
                   type="button"
                   className="btn btn-outline-primary waves-effect"
                   data-dismiss="modal"
-                  onClick={cancelButton}
                 >
                   Đóng
                 </button>
@@ -292,7 +295,6 @@ const Update = (props) => {
                     type="button"
                     className="btn btn-outline-primary waves-effect"
                     data-dismiss="modal"
-                    onClick={cancelButton}
                   >
                     Cancel
                   </button>

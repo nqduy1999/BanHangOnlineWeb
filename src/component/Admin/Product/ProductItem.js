@@ -34,6 +34,7 @@ const ProductItem = props => {
   };
   const dispatch = useDispatch();
   const dispatchItem = () =>{
+    props.setAddButton(false);
     props.getUpdateProduct(props.product)
     dispatch({
       type: "CLICK",
