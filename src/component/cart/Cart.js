@@ -161,7 +161,7 @@ const Cart = (props) => {
                   <tr key={i}>
                   <th scope="row">{i}</th>
                   <td>
-                    <img src={item.product.urlImage} alt="Image" className="img-fluid"/>
+                    <img style={{height: "8rem", width: "8rem"}} src={item.product.urlImage} alt="Image" className="img-fluid"/>
                   </td>
                   <td>
                     <h2 className="h5 text-black font-weight-normal">{item.product.name}</h2>
