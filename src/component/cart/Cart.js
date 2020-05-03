@@ -44,6 +44,9 @@ const Cart = (props) => {
                 quantity: item.quantity + 1
               } : item)
             });
+            order.listOrderDetail.map(item => item.product.id === id ? item.unitPrice = price * (item.quantity + 1) : "")
+            order.listOrderDetail.map(item => item.product.id === id ? item.quantity += 1 : "")
+            order.listOrderDetail.map(item => item.product.id === id ? order.totalMoney = total + price : "")
           }
         } else if(action === "giam") { /// dấu -
           if(quantity > 1) {
@@ -54,6 +57,9 @@ const Cart = (props) => {
                 quantity: item.quantity - 1
               } : item)
             });
+            order.listOrderDetail.map(item => item.product.id === id ? item.unitPrice = price * (item.quantity - 1) : "")
+            order.listOrderDetail.map(item => item.product.id === id ? item.quantity -= 1 : "")
+            order.listOrderDetail.map(item => item.product.id === id ? order.totalMoney = total - price : "")
           }
         } else if(action === ""){ /// nhập vào input
             if(quantity >= 1 && quantity <= inventory) { //trong khoản từ 1 - tồn kho
@@ -63,6 +69,8 @@ const Cart = (props) => {
                 unitPrice: price * Number(quantity),
                 quantity: quantity} : item)
               });
+              order.listOrderDetail.map(item => item.product.id === id ? item.quantity = quantity : "")
+              order.listOrderDetail.map(item => item.product.id === id ? item.unitPrice = price * quantity : "")
             } else { // nhập ít hơn 1 hoặc nhiêu hơn số lượng có sẵn
               update({...order,
                 tongTien: total,
@@ -70,7 +78,10 @@ const Cart = (props) => {
                 unitPrice: price * inventory,
                 quantity: inventory} : item)
               });
+              order.listOrderDetail.map(item => item.product.id === id ? item.quantity = inventory : "")
+              order.listOrderDetail.map(item => item.product.id === id ? item.unitPrice = price * inventory : "")
             }
+            order.listOrderDetail.map(item => item.product.id === id ? order.totalMoney = total : "")
         }
     };
     // xoá sản phẩm
@@ -138,8 +149,20 @@ const Cart = (props) => {
         });
         setIsUpdated(false);
       }
-    }, [isUpdated]);
+    }, []);
     // [] chạy khi isUpdated thay đổi
+
+    useEffect(() => {
+      setLoading(false);
+      if(isUpdated === true) {
+        getAllCart().then((res) => {
+          if(res.error !== true && res.data.code === 0) {
+            changeInventoryOnHeader(res.data.result)
+          }
+        });
+        setIsUpdated(false);
+      }
+    }, [isUpdated]);
 
     return loading ? <Loading loading={loading}/>  : (
         <div className="container">
@@ -178,7 +201,7 @@ const Cart = (props) => {
                       </div>
                     </div>
                   </td>
-                  <td>{item.unitPrice}</td>
+                  <td>{item.unitPrice.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')}</td>
                   <td><span onClick={() => {removeProductFromCart(item.product.id);}} className="btn btn-primary btn-sm">X</span></td>
                 </tr>
               ))
@@ -206,7 +229,7 @@ const Cart = (props) => {
                       <span className="text-black">Tổng Tiền</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">{order.totalMoney} vnd</strong>
+                      <strong className="text-black">{order.totalMoney.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')} vnd</strong>
                     </div>
                   </div>
                   <div className="row mb-5">
@@ -214,7 +237,7 @@ const Cart = (props) => {
                       <span className="text-black">Tiền phải trả</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">{order.totalMoney} vnd</strong>
+                      <strong className="text-black">{order.totalMoney.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')} vnd</strong>
                     </div>
                   </div>
                   <div className="row">

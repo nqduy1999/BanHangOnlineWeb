@@ -107,7 +107,7 @@ const Header = (props) => {
                   <Link to="/gioithieu">Giới thiệu</Link>
                 </li>
                 <li>
-                  <Link to="/sanpham?currentPage=0">Sản phẩm</Link>
+                  <Link to="/sanpham?type=&keyword=&currentPage=0">Sản phẩm</Link>
                 </li>
                 <li><Link to="/lienhe">Liên Hệ</Link></li>
               </ul>

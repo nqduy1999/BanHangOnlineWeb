@@ -71,6 +71,9 @@ const ProductSection = (props) => {
         }
       })
     }
+    let run = () => {
+
+    }
     // lấy tổng số page
     useEffect(() => {
       let type = query.get("type");
@@ -88,14 +91,14 @@ const ProductSection = (props) => {
       } else if(type === "category") {
         getALLProductByCategory(currentPage, query.get("keyword"));
       } else {
-        getALlProduct(currentPage).then((res) => { // set khi ko có state
+        getALlProduct(query.get("currentPage")).then((res) => { // set khi ko có state
           if(res.error !== true && res.data.code === 0) {
             setListProduct(res.data.result.content)
             genPage(res.data.result.totalPages);
           }
         });
       }
-    }, [currentPage, query.get("keyword"), query.get("type")]);
+    }, [query.get("keyword"), query.get("type"), query.get("currentPage")]);
 
     useEffect(() => {
       setLoading(false);
@@ -146,7 +149,7 @@ const ProductSection = (props) => {
                       <li><Link to={`sanpham?type=${query.get("type")}&keyword=${query.get("keyword")}&currentPage=${currentPage}`} onClick={() => {setCurrentPage(handleMoveLeft())}}>&lt;</Link></li>
                       {
                         pages.map((item, i) => (
-                          <li key={i} className={currentPage === item ? 'active' : ''}><Link to={`sanpham?type=${query.get("type")}&keyword=${query.get("keyword")}&currentPage=${currentPage}`} onClick={() => {setCurrentPage(item)}}>{item}</Link></li>
+                          <li key={i} className={currentPage === item ? 'active' : ''}><Link to={`sanpham?type=${query.get("type")}&keyword=${query.get("keyword")}&currentPage=${item}`} onClick={() => {setCurrentPage(item)}}>{item}</Link></li>
                         ))
                       }
                       <li><Link to={`sanpham?type=${query.get("type")}&keyword=${query.get("keyword")}&currentPage=${currentPage}`}
@@ -163,7 +166,7 @@ const ProductSection = (props) => {
                 <ul className="list-unstyled mb-0 text-primary"  style={{cursor: "pointer"}}>
                       {
                         listCategory.map((item, key) => (
-                          <Link key={key} to={`/sanpham?type=category&keyword=${item.name}&currentPage=0`}><li className="mb-1"><span>{item.name}</span></li></Link>
+                          <Link key={key} to={`/sanpham?type=category&keyword=${item.name}&currentPage=0`}  onClick={() => {setCurrentPage(0)}}><li className="mb-1"><span>{item.name}</span></li></Link>
                         ))
                       }
                 </ul>
