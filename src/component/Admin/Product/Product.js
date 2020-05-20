@@ -12,6 +12,7 @@ import ProductItem from "./ProductItem";
 import Update from "./UpdateProduct";
 import { Link, withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
+// import ProductDetail from "./ProductDetail";
 const Product = () => {
   const { register, handleSubmit } = useForm();
   const [pages, setPages] = useState([]);
@@ -156,31 +157,19 @@ const Product = () => {
         <table data-vertable="ver1">
           <thead>
             <tr className="row100 head">
-              <th className="column100 column8" data-column="column8">
+              <th className="column100 column1" data-column="column1">
                 Tên Sản phẩm
               </th>
-              <th className="column100 column3" data-column="column3">
-                Mã Sản Phẩm
-              </th>
               <th className="column100 column2" data-column="column2">
-                Mô Tả
-              </th>
-              <th className="column100 column4" data-column="column4">
-                Giá
-              </th>
-              <th className="column100 column5" data-column="column5">
-                Số Lượng
-              </th>
-              <th className="column100 column6" data-column="column6">
                 Hình Ảnh
               </th>
-              <th className="column100 column7" data-column="column7">
-                Nhà cung cấp
+              <th className="column100 column3" data-column="column3">
+                Giá
               </th>
-              <th className="column100 column8" data-column="column8">
-                Loại{" "}
+              <th className="column100 column4" data-column="column4">
+                Xem chi tiết 
               </th>
-              <th className="column100 column1" data-column="column1">
+              <th className="column100 column5" data-column="column5">
                 Cập Nhật
               </th>
             </tr>
@@ -231,6 +220,7 @@ const Product = () => {
         </div>
       </div>
       <Update addButton={addButton} hideButton={hideButton} handleAddSubmit={handleAddProduct} handleUpdateProduct={handleUpdateProduct} updateProduct={updatePro} getUpdateProduct={getUpdateProduct}/>
+      {/* <ProductDetail /> */}
     </div>
   );
 };
