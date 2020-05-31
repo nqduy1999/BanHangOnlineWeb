@@ -64,7 +64,7 @@ const Header = (props) => {
                       stateAuth.user ?
                       (
                         <span className="dropdown">
-                          <button className="btn btn-white shadow text-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <button className="btn btn-white mr-2 mb-1 mt-1 text-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <i className="fas fa-user-cog fa-lg pr-1"></i><span className="d-none d-lg-inline">{stateAuth.user.account.username}</span>
                           </button>
                           <div className="dropdown-menu" style={{width: "100%"}} aria-labelledby="dropdownMenuButton">
@@ -80,11 +80,11 @@ const Header = (props) => {
                         </span>
                       )
                       : (
-                        <li><Link to="/dangnhap" className="btn shadow" ><i className="fas fa-user fa-lg pr-1"></i><span className="d-none d-lg-inline">Đăng nhập</span></Link></li>
+                        <li><Link to="/dangnhap" className="btn btn-primary mb-1 " ><i className="fas fa-user fa-lg pr-1"></i><span className="d-none d-lg-inline">Đăng nhập</span></Link></li>
                       )
                     }
                       <li>
-                        <Link to="/giohang" className="btn ml-3 site-cart shadow">
+                        <Link to="/giohang" className="btn site-cart btn-primary mb-1 mt-1">
                         <i className="fas fa-shopping-cart"></i>
                           <span className="count">{stateCart.inventory ? stateCart.inventory : 0 }</span>
                           <span className="d-inline-block d-md-none"> Giỏ hàng</span>

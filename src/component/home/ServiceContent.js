@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import bia from '../../resource/images/bia.jpg';
 const ServiceContent = () => {
   return (
-      <div className="site-blocks-cover card rounded-lg shadow" style={{ backgroundImage: `url(${bia})`}} data-aos="fade">
+      <div className="site-blocks-cover rounded-lg shadow" style={{ backgroundImage: `url(${bia})`}} data-aos="fade">
       <div className="container">
         <div className="row align-items-start align-items-md-center justify-content-end">
           <div className="col-md-5 text-center text-md-left pt-5 pt-md-0">

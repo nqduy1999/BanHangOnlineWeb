@@ -1,5 +1,6 @@
 const initialState = {
-  product: null
+  product: null,
+  image: null
 };
 
 const AdminReducer = (state = initialState, action) => {
@@ -27,8 +28,13 @@ const AdminReducer = (state = initialState, action) => {
     case "CANCEL":
       state.product = action.product;
       return {
-        ...state,
+        ...state
       };
+    case "IMAGE" : 
+    state.image = action.image;
+    return {
+      ...state
+    }
     default:
       return state;
   }

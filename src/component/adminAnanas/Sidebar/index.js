@@ -1,6 +1,6 @@
 import React from 'react';
 
-const sidebar = () => {
+const SideBar = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const sidebar = () => {
     );
 };
 
-export default sidebar;
+export default SideBar;

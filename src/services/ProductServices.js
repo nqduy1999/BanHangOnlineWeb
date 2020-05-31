@@ -19,7 +19,25 @@ export const getALlProduct = (index) => {
         };
     });
 }
-
+export const getSoProduct = () =>{
+    return axios({
+        method:"GET",
+        url:`product/list`
+    })
+    .then((res) => {
+        return {
+            data: res.data,
+            error: false,
+            complete: true
+        };
+    }).catch((err) => {
+        return {
+            data: null,
+            error: true,
+            complete: true
+        };
+    });
+}
 export const getProductDetail = (id) => {
     return axios({
         method: "GET",

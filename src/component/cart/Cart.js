@@ -242,7 +242,7 @@ const Cart = (props) => {
                   </div>
                   <div className="row">
                     <div className="col-md-12">
-                   <button onClick={onPay} className="btn btn-primary btn-lg py-3 btn-block shadow">Tiến Hành Kiểm TRA</button>
+                   <button onClick={onPay} className="btn btn-primary btn-lg py-3 btn-block shadow">Tiến hành kiểm tra</button>
                     </div>
                   </div>
                 </div>
