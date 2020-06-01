@@ -10,7 +10,7 @@ import {
 } from "../../../services/AdminService";
 import ProductItem from "./ProductItem";
 import Update from "./UpdateProduct";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 // import ProductDetail from "./ProductDetail";
 const Product = () => {

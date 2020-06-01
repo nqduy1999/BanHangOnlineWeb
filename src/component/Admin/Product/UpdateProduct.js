@@ -24,15 +24,7 @@ const Update = (props) => {
   const [supplierRender, setSupplier] = useState([{}]);
   const [fileName, setFileName] = useState("");
   const [filePath, setFilePath] = useState();
-  const [product, setProduct] = useState({
-    name: "",
-    description: "",
-    price: "",
-    inventory: "",
-    supplier: {},
-    category: {},
-    urlImage: "",
-  });
+  const [product, setProduct] = useState({});
   const handleChangeFile = (e) => {
     if (e.target.files[0]) {
       setFileName(e.target.files[0].name);
@@ -108,6 +100,7 @@ const Update = (props) => {
     });
     if (props.updateProduct) {
       if (filePath) {
+        console.log(formData);
         uploadFile(formData).then((res) => {
           console.log(product);
           props.handleUpdateProduct(props.updateProduct.id, {

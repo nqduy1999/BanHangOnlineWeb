@@ -2,10 +2,17 @@ import React, { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { useForm } from "react-hook-form";
-import { ListCategory, detailCategory } from "../../../services/CategoryServices";
-import { ListSupplier, detailSupplier } from "../../../services/SupplierService";
+import {
+  ListCategory,
+  detailCategory,
+} from "../../../services/CategoryServices";
+import {
+  ListSupplier,
+  detailSupplier,
+} from "../../../services/SupplierService";
 import { useEffect } from "react";
 import { alertNotify } from "../../../untils/alert";
+import { uploadFile } from "../../../services/FileService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,52 +31,63 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    width: 600,
+    width: 800,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    margin:"0px auto",
-    marginTop:"5px"
+    margin: "0px auto",
+    marginTop: "5px",
   },
 }));
 const img = {
-    width: "100px",
-    height: "100px"
-  };
+  width: "100px",
+  height: "100px",
+};
 const AddProduct = (props) => {
   const { register, handleSubmit } = useForm();
   const classes = useStyles();
   const rootRef = useRef(null);
   const [filePath, setFilePath] = useState();
-  const [product, setProduct] = useState();
+  const [product, setProduct] = useState({
+    name: "",
+    description: "",
+    price: "",
+    inventory: "",
+    supplier: {},
+    category: {},
+    urlImage: "",
+  });
   const [categoryRender, setCategory] = useState([{}]);
   const [supplierRender, setSupplier] = useState([{}]);
   const [imageReview, setImageReview] = useState();
-  const wrapperRef = useRef(null)
-  // lay gia tri nha cung cap 
-  const  handleChangeSupplier = (e) =>{
+  const wrapperRef = useRef(null);
+  // lay gia tri nha cung cap
+  const handleChangeSupplier = (e) => {
     const supplierValue = e.target.value;
     if (supplierValue !== null) {
       detailSupplier(supplierValue).then((res) => {
         setProduct({ ...product, supplier: res.data.result });
       });
     }
-  }
+  };
   // lay gia tri loai hang
   const handleChangeCategory = (e) => {
     const cateValue = e.target.value;
     if (cateValue !== null) {
       detailCategory(cateValue).then((res) => {
-        setProduct({ ...product, category: res.data.result,
-          caterogy:res.data.result
-         });
+        setProduct({
+          ...product,
+          category: res.data.result,
+          caterogy: res.data.result,
+        });
       });
     }
-  }
+  };
   // lay gia tri file
-  const handleChangeFile =async (e) => {
+  const handleChangeFile = async (e) => {
     const newFiles = {};
     if (e.target.files[0]) {
+      console.log(e.target.files[0]);
       setFilePath(e.target.files[0]);
       var reader = new FileReader();
       reader.onload = loadImageContent(e.target.files[0].name, newFiles);
@@ -82,36 +100,50 @@ const AddProduct = (props) => {
   const loadImageContent = (name, newFiles) => {
     return (e) => {
       setImageReview(e.target.result);
-      console.log(e.target.result);
-      
     };
-  }
-  //
+  };
   const handleInput = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
-  //
-  const onSubmit = () =>{
-
-  }
-  const cancel = () =>{
-    
+  const cancel = () => {
     setProduct({
-        ...product,
-        id: null,
-        name: "",
-        description: "",
-        price: "",
-        inventory: "",
-        supplier: {},
-        category: {},
-        urlImage: null,
+      ...product,
+      id: null,
+      name: "",
+      description: "",
+      price: "",
+      inventory: "",
+      supplier: {},
+      category: {},
+      urlImage: null,
+    });
+    setFilePath(null);
+    setImageReview("");
+    props.setOpen(false);
+  };
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    console.log(filePath);
+    formData.append("file", filePath);
+    setProduct({
+      ...product,
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      inventory: data.inventory,
+    });
+    if (filePath) {
+      console.log(formData);
+      uploadFile(formData).then((res) => {
+        props.themSanPham({ ...product, urlImage: res.data.result });
+        props.setOpen(false);
       });
-      setFilePath(null);
-      setImageReview("");
+    } else {
+      props.themSanPham(product);
       props.setOpen(false);
-  }
-  // Goi danh sach loai hang 
+    }
+  };
+  // Goi danh sach loai hang
   useEffect(() => {
     ListCategory().then((res) => {
       setCategory(res.data.result);
@@ -130,106 +162,15 @@ const AddProduct = (props) => {
         onClose={props.handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
-        
       >
-          <div className={classes.paper}>
-              {console.log(imageReview)}
-              
-          {/*Body*/}
+        <div className={classes.paper}>
           <div className="modal-body">
-        
             <form onSubmit={handleSubmit(onSubmit)}>
-              {/* Radio */}
-              <p>
-                <strong>Tên sản phẩm</strong>
-              </p>
-              <input
-                type="text"
-                className="md-text form-control"
-                name="name"
-                ref={register}
-                placeholder="Nhập tên sản phẩm"
-              />
-              <p>
-                <strong>Mô tả sản phẩm</strong>
-              </p>
-              <div className="md-form form">
-                <input
-                  type="text"
-                  name="description"
-                  ref={register}
-                  className="md-text form-control"
-                  placeholder="Nhập mô tả sản phẩm"
-                />
-              </div>
-              <p>
-                <strong>Số Lượng</strong>
-              </p>
-              <div className="md-form form">
-                <input
-                  type="text"
-                  name="inventory"
-                  required
-                  ref={register}
-                  className="md-text form-control"
-                  placeholder="Nhập số lượng sản phẩm"
-                />
-              </div>
-              <p>
-                <strong>Giá</strong>
-              </p>
-              <div className="md-form form">
-                <input
-                ype="text"
-                name="price"
-                required
-                ref={register}
-                className="md-text form-control"
-                onChange={handleInput}
-                placeholder="Nhập giá sản phẩm"
-                />
-              </div>
-              <p>
-                <strong>Hình Ảnh</strong>
-              </p>
-              <div className="md-form form">
-                <input
-                  className="md-text form-control"
-                  onChange={handleChangeFile}
-                  style={{ display: "none" }}
-                  id="image"
-                  type="file" name="fileUploader" id="fileUploader"
-                  accept="image/*"
-                />
-                <label className="form-control" htmlFor="fileUploader">
-                  Chọn Hình Ảnh
-                </label>
-                  <div>  <img style={img} src={imageReview} alt="Chọn ảnh" />
-        </div>
-              </div>
-              <p>
-                <strong>Nhà cung cấp</strong>
-              </p>
-              <div className="md-form form">
-              <select
-                  className="md-text form-control"
-                  onChange={handleChangeSupplier}
-                >
-                  <option>Chọn</option>
-                  {supplierRender.map((item, i) => {
-                    return (
-                      <option key={i} value={item.id}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
               <p>
                 <strong>Loại sản phẩm</strong>
               </p>
               <div className="md-form form">
-              <select
+                <select
                   className="md-text form-control"
                   onChange={handleChangeCategory}
                 >
@@ -243,6 +184,114 @@ const AddProduct = (props) => {
                   })}
                 </select>
               </div>
+              <div className="row mt-3">
+              <div className="col-lg-4">
+                <p>
+                  <strong>Tên sản phẩm</strong>
+                </p>
+                <input
+                  type="text"
+                  className="md-text form-control"
+                  name="name"
+                  ref={register}
+                  onChange={handleInput}
+                  placeholder="Nhập tên sản phẩm"
+                />
+              </div>
+              <div className="col-lg-4">
+                <p>
+                  <strong>Số Lượng</strong>
+                </p>
+                <div className="md-form form">
+                  <input
+                    type="text"
+                    name="inventory"
+                    required
+                    ref={register}
+                    onChange={handleInput}
+                    className="md-text form-control"
+                    placeholder="Nhập số lượng sản phẩm"
+                  />
+                </div>
+                </div>
+                <div className="col-lg-4">
+                <p>
+                  <strong>Giá</strong>
+                </p>
+                <div className="md-form form">
+                  <input
+                    ype="text"
+                    name="price"
+                    required
+                    ref={register}
+                    onChange={handleInput}
+                    className="md-text form-control"
+                    placeholder="Nhập giá sản phẩm"
+                  />
+                </div>
+                </div>
+              </div>
+              <div className="mt-3">
+              <p>
+                <strong>Mô tả sản phẩm</strong>
+              </p>
+              <div className="md-form form">
+                <textarea
+                  name="description"
+                  ref={register}
+                  onChange={handleInput}
+                  className="md-text form-control"
+                  placeholder="Nhập mô tả sản phẩm"
+                />
+              </div>
+              </div>
+              <div className="mt-3">
+              <p>
+                <strong>Nhà cung cấp</strong>
+              </p>
+              <div className="md-form form">
+                <select
+                  className="md-text form-control"
+                  onChange={handleChangeSupplier}
+                >
+                  <option>Chọn</option>
+                  {supplierRender.map((item, i) => {
+                    return (
+                      <option key={i} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              </div>
+              <div className="mt-3 row">
+              <div className="col-lg-4">
+              <p>
+                <strong>Hình Ảnh</strong>
+              </p>
+              <div className="md-form form">
+                <input
+                  className="md-text form-control"
+                  onChange={handleChangeFile}
+                  style={{ display: "none" }}
+                  id="image"
+                  type="file"
+                  name="fileUploader"
+                  id="fileUploader"
+                  accept="image/*"
+                />
+                <label className="form-control" htmlFor="fileUploader">
+                  Chọn Hình Ảnh
+                </label>
+                </div>
+                </div>
+                <div className="col-lg-6">
+                  {" "}
+                  <img style={img} src={imageReview} />
+                </div>
+              </div>
+
               <hr />
               {props.hideButton === true ? (
                 <button

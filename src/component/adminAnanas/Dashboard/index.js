@@ -11,6 +11,7 @@ import { getListCus } from "../../../services/AdminService";
 import { ListSupplier } from "../../../services/SupplierService";
 import CountUp from "react-countup";
 import { getListOrderByUsername } from "../../../services/OrderServices";
+import { Link } from "react-router-dom";
 const DashBoard = () => {
   const [soSanPham, setSoSanPham] = useState(null);
   const [soKhachHang, setSoKhachHang] = useState(null);
@@ -18,6 +19,7 @@ const DashBoard = () => {
   const [khachdathang, setKhachDatHang] = useState(null);
   const [order, setOrder] = useState(null);
   let tongdoanhthu = 0;
+  let key = 0;
   useEffect(() => {
     getSoProduct().then((res) => {
       setSoSanPham(res.data.result.length);
@@ -77,9 +79,9 @@ const DashBoard = () => {
           <div className="col-lg-3 col-md-6 col-sm-6">
             <div className="card card-stats">
               <div className="card-header card-header-warning card-header-icon">
-                <div className="card-icon">
+                <Link to="quanly/sanpham" className="card-icon text-white">
                   <StoreIcon />
-                </div>
+                </Link>
                 <p className="card-category">Số sản phẩm</p>
                 <CountUp start={0} end={soSanPham} redraw={true}>
                   {({ countUpRef }) => (
@@ -169,15 +171,16 @@ const DashBoard = () => {
                   </thead>
                   <tbody>
                     {order &&
-                      order.map((item, i) =>
-                        item.listOrderDetail.map((orderdetail, i) => (
-                          <tr key={i}>
+                      order.map((item, i) =>{
+                       return item.listOrderDetail.map((orderdetail, i) => (
+                          <tr>
                             <td>{orderdetail.product.name}</td>
                             <td>{orderdetail.quantity}</td>
                             <td>{orderdetail.unitPrice}</td>
                             <td>{item.totalMoney}</td>
                           </tr>
                         ))
+                        }
                       )}
                   </tbody>
                 </table>

@@ -38,13 +38,13 @@ const MainAdmin = () => {
         <div className="sidebar-wrapper">
         <MenuList className="nav">
             <MenuList className="nav-item ">
-              <a className="nav-link sidebar-hover" href="./dashboard.html">
+              <Link to="/quanly" className="nav-link sidebar-hover" >
                   <DashboardIcon className="text-center"/>
                 <span>Dashboard</span>
-              </a>
+              </Link>
             </MenuList>
             <MenuList className="nav-item ">
-              <Link to="/quanly/sanpham" className="nav-link sidebar-hover text-black">
+            <Link to="quanly/sanpham" className="nav-link sidebar-hover text-black">
                 <AllInboxIcon/>
                 <span>Quản lý sản phẩm</span>
               </Link>

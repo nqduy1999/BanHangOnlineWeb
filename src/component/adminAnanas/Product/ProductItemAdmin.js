@@ -19,7 +19,7 @@ const ProductItemAdmin = (props) => {
     if (props.sanpham) {
       setSanpham(props.sanpham);
     }
-  }, []);
+  });
   const deleteProduct = () => {
     alertYesNo("Thông báo", "Bạn có muốn xoá sản phẩm ", "warning", "Yes").then(
       (res) => {
@@ -40,6 +40,7 @@ const ProductItemAdmin = (props) => {
   };
   return (
     <tr>
+      <td>{props.stt}</td>
       <td>{sanpham.name}</td>
       <td>{sanpham.price}</td>
       <td>
@@ -51,7 +52,7 @@ const ProductItemAdmin = (props) => {
         </Link>
       </td>
       <td>
-        <Link className="text-danger mr-2" onClick={deleteProduct}>
+        <Link to="" className="text-danger mr-2" onClick={deleteProduct}>
           Xoá
         </Link>
         <Link
