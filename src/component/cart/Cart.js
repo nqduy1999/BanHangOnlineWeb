@@ -60,6 +60,8 @@ const Cart = (props) => {
             order.listOrderDetail.map(item => item.product.id === id ? item.unitPrice = price * (item.quantity - 1) : "")
             order.listOrderDetail.map(item => item.product.id === id ? item.quantity -= 1 : "")
             order.listOrderDetail.map(item => item.product.id === id ? order.totalMoney = total - price : "")
+          } else {
+            removeProductFromCart(id);
           }
         } else if(action === ""){ /// nhập vào input
             if(quantity >= 1 && quantity <= inventory) { //trong khoản từ 1 - tồn kho
