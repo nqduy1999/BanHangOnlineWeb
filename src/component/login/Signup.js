@@ -7,7 +7,6 @@ import Cookies from "js-cookie";
 import { withRouter, Link, useLocation } from "react-router-dom";
 
 import Loading from "../loading/Loading";
-import { sendEmail } from "../../services/EmailSerivces";
 import { signup } from "../../services/UserServices";
 import { alertNotify } from "../../untils/alert";
 const Signup = props => {
@@ -28,14 +27,6 @@ const Signup = props => {
       if (res.error !== true && res.data.code !== 0) {
         setResutl(res.data.message);
       } else {
-        // gửi mail
-        const contentEmail = {
-          emailTo: data.email,
-          subject: "ANANAS Đăng Ký",
-          content:
-            "Chúc mừng quý khách đã đăng đăng ký thành công tài khoản ANANAS và trở thành 1 khách hàng tiềm năng của chúng tôi. Cảm ơn quý khách"
-        };
-        sendEmail(contentEmail);
         // thông báo
         alertNotify("Thông báo", "Đăng ký thành công", "success");
         // chuyển hướng
