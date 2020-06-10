@@ -111,10 +111,10 @@ const ProductDetails = (props) => {
                   <p>Mô tả sản phẩm: {product.description}</p>
                   <div>
                   </div>
-                  <p className="mb-4">Nhà cung cấp: {product.supplier && product.supplier.name}</p>
-                  <p className="mb-4">Mô tả: {product.supplier && product.supplier.description}</p>
-                  <p className="mb-4">Số lượng còn: {product.inventory}</p>
-                  <p><strong className="text-primary h4">Giá sản phẩm: {product.price}đ</strong></p>
+                  <p className="mb-4"> Nhà cung cấp: <span className="text-warning">{product.supplier && product.supplier.name}</span></p>
+                  <p className="mb-4">Mô tả:  <span className="text-warning">{product.supplier && product.supplier.description}</span></p>
+                  <p className="mb-4">Số lượng còn: <span className="text-warning">{product.inventory}</span></p>
+                  <p>Giá sản phẩm:<strong className="text-warning h4"> {product.price && product.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</strong></p>
                   <div className="mb-5 ml-5">
                     <div className="input-group mb-3" style={{maxWidth: 120}}>
                       <div className="input-group-prepend">

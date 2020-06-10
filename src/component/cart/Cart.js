@@ -111,7 +111,7 @@ const Cart = (props) => {
         alertYesNo("Thông báo", "Không có sản phẩm để thanh toán", "warning", "Mua sắm")
           .then((result) => {
             if (result.value) {
-              props.history.push("/sanpham?index=0");
+              props.history.push("/sanpham?type=&keyword=&currentPage=0");
             }
           });
           return;
@@ -191,7 +191,7 @@ const Cart = (props) => {
                   <td>
                     <h2 className="h5 text-black font-weight-normal">{item.product.name}</h2>
                   </td>
-                  <td>{item.product.price}</td>
+                  <td>{item.product.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</td>
                   <td>
                     <div className="input-group mb-3" style={{maxWidth: '120px'}}>
                       <div className="input-group-prepend">
@@ -203,7 +203,7 @@ const Cart = (props) => {
                       </div>
                     </div>
                   </td>
-                  <td>{item.unitPrice.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')}</td>
+                  <td><p className="text-warning">{item.unitPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p></td>
                   <td><span onClick={() => {removeProductFromCart(item.product.id);}} className="btn btn-primary btn-sm">X</span></td>
                 </tr>
               ))
@@ -214,7 +214,7 @@ const Cart = (props) => {
             <div className="col-md-6">
               <div className="row mb-5">
                 <div className="col-md-6">
-                  <Link to="/sanpham" className="btn btn-outline-primary btn-sm btn-block shadow">Tiếp tục mua sắm</Link>
+                  <Link to="/sanpham?type=&keyword=&currentPage=0" className="btn btn-outline-primary btn-sm btn-block shadow">Tiếp tục mua sắm</Link>
                 </div>
               </div>
             </div>
@@ -231,7 +231,7 @@ const Cart = (props) => {
                       <span className="text-black">Tổng Tiền</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">{order.totalMoney.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')} vnd</strong>
+                      <strong className="text-warning">{order.totalMoney.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})} vnd</strong>
                     </div>
                   </div>
                   <div className="row mb-5">
@@ -239,7 +239,7 @@ const Cart = (props) => {
                       <span className="text-black">Tiền phải trả</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">{order.totalMoney.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')} vnd</strong>
+                      <strong className="text-warning">{order.totalMoney.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})} vnd</strong>
                     </div>
                   </div>
                   <div className="row">

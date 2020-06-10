@@ -11,7 +11,9 @@ const ProductCard = (props) => {
           </figure>
           <div className="block-4-text">
             <h3><Link to={"/chitiet?id="+ props.id}>{props.name}</Link></h3>
-            <p className="text-primary font-weight-bold">{props.price}</p>
+            <div className="d-inline">
+            <p className="text-warning font-weight-bold">{props.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
+            </div>
           </div>
         </div>
       </div>

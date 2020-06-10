@@ -4,7 +4,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 
 import React, { useState, useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useForm } from 'react-hook-form';
 
@@ -19,6 +19,7 @@ const Profile = () => {
     const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
     const { register, handleSubmit } = useForm();
     const [isEdit, setIsEdit] = useState(false);
+    const dispatch = useDispatch();
     const handleDateChange = date => {
         setUser({...user,
             birthday: date
@@ -71,8 +72,16 @@ const Profile = () => {
                 birthday: state.user.birthday,
                 account: state.user.account
             });
+            dispatch({type: "SAVE", user: {...user,
+                name: state.user.name,
+                address: state.user.address,
+                phone: state.user.phone,
+                identityCard: state.user.identityCard,
+                birthday: state.user.birthday,
+                account: state.user.account
+            }});
         }
-    }, [state]);
+    }, [selectedDate]);
     return (
         <form className="container card" onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
