@@ -176,7 +176,7 @@ const ProductAdmin = () => {
               <tbody>
                 {sanpham.map((item, i) => {
                   key=i+1;
-                  return <ProductItemAdmin stt={key} sanpham={item} />;
+                  return <ProductItemAdmin stt={key} sanpham={item} xoaSanpham={xoaSanpham} />;
                 })}
               </tbody>
             </table>

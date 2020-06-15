@@ -7,7 +7,7 @@ const ProductCard = (props) => {
         <div className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
         <div className="block-4 text-center border">
           <figure className="block-4-image">
-          <Link to={"/chitiet?id="+ props.id}><img style={{width: '100%', height: "10rem"}} src={props.url} alt={props.content} className="img-fluid" /></Link>
+          <Link to={"/chitiet?id="+ props.id}><img style={{width: '100%', height: "30%"}} src={props.url} alt={props.content} className="img-fluid" /></Link>
           </figure>
           <div className="block-4-text">
             <h3><Link to={"/chitiet?id="+ props.id}>{props.name}</Link></h3>

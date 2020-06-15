@@ -25,7 +25,7 @@ const ProductItemAdmin = (props) => {
       (res) => {
         if (res.value) {
           Swal.fire("Thành Công", "Sản phẩm của bạn đã được xoá", "success");
-          props.removePd(sanpham.id);
+          props.xoaSanpham(props.sanpham.id)
         }
       }
     );
@@ -52,7 +52,7 @@ const ProductItemAdmin = (props) => {
         </Link>
       </td>
       <td>
-        <Link to="" className="text-danger mr-2" onClick={deleteProduct}>
+        <Link to="sanpham" className="text-danger mr-2" onClick={deleteProduct}>
           Xoá
         </Link>
         <Link

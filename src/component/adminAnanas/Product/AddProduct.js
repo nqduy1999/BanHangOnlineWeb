@@ -40,9 +40,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const img = {
-  width: "100px",
-  height: "100px",
+  width: "200px",
+  height: "200px",
 };
+const styleTop={
+  marginTop:"21px",
+}
 const AddProduct = (props) => {
   const { register, handleSubmit } = useForm();
   const classes = useStyles();
@@ -185,113 +188,115 @@ const AddProduct = (props) => {
                 </select>
               </div>
               <div className="row mt-3">
-              <div className="col-lg-4">
-                <p>
-                  <strong>Tên sản phẩm</strong>
-                </p>
-                <input
-                  type="text"
-                  className="md-text form-control"
-                  name="name"
-                  ref={register}
-                  onChange={handleInput}
-                  placeholder="Nhập tên sản phẩm"
-                />
-              </div>
-              <div className="col-lg-4">
-                <p>
-                  <strong>Số Lượng</strong>
-                </p>
-                <div className="md-form form">
+                <div className="col-lg-4">
+                  <p>
+                    <strong>Tên sản phẩm</strong>
+                  </p>
                   <input
                     type="text"
-                    name="inventory"
-                    required
+                    className="md-text form-control"
+                    name="name"
                     ref={register}
                     onChange={handleInput}
-                    className="md-text form-control"
-                    placeholder="Nhập số lượng sản phẩm"
+                    placeholder="Nhập tên sản phẩm"
                   />
-                </div>
                 </div>
                 <div className="col-lg-4">
+                  <p>
+                    <strong>Số Lượng</strong>
+                  </p>
+                  <div className="md-form form">
+                    <input
+                      type="text"
+                      name="inventory"
+                      required
+                      ref={register}
+                      onChange={handleInput}
+                      className="md-text form-control"
+                      placeholder="Nhập số lượng sản phẩm"
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <p>
+                    <strong>Giá</strong>
+                  </p>
+                  <div className="md-form form">
+                    <input
+                      ype="text"
+                      name="price"
+                      required
+                      ref={register}
+                      onChange={handleInput}
+                      className="md-text form-control"
+                      placeholder="Nhập giá sản phẩm"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 ">
                 <p>
-                  <strong>Giá</strong>
+                  <strong>Mô tả sản phẩm</strong>
                 </p>
                 <div className="md-form form">
-                  <input
-                    ype="text"
-                    name="price"
-                    required
+                  <textarea
+                    name="description"
                     ref={register}
                     onChange={handleInput}
                     className="md-text form-control"
-                    placeholder="Nhập giá sản phẩm"
+                    placeholder="Nhập mô tả sản phẩm"
                   />
-                </div>
-                </div>
-              </div>
-              <div className="mt-3">
-              <p>
-                <strong>Mô tả sản phẩm</strong>
-              </p>
-              <div className="md-form form">
-                <textarea
-                  name="description"
-                  ref={register}
-                  onChange={handleInput}
-                  className="md-text form-control"
-                  placeholder="Nhập mô tả sản phẩm"
-                />
-              </div>
-              </div>
-              <div className="mt-3">
-              <p>
-                <strong>Nhà cung cấp</strong>
-              </p>
-              <div className="md-form form">
-                <select
-                  className="md-text form-control"
-                  onChange={handleChangeSupplier}
-                >
-                  <option>Chọn</option>
-                  {supplierRender.map((item, i) => {
-                    return (
-                      <option key={i} value={item.id}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              </div>
-              <div className="mt-3 row">
-              <div className="col-lg-4">
-              <p>
-                <strong>Hình Ảnh</strong>
-              </p>
-              <div className="md-form form">
-                <input
-                  className="md-text form-control"
-                  onChange={handleChangeFile}
-                  style={{ display: "none" }}
-                  id="image"
-                  type="file"
-                  name="fileUploader"
-                  id="fileUploader"
-                  accept="image/*"
-                />
-                <label className="form-control" htmlFor="fileUploader">
-                  Chọn Hình Ảnh
-                </label>
-                </div>
-                </div>
-                <div className="col-lg-6">
-                  {" "}
-                  <img style={img} src={imageReview} />
                 </div>
               </div>
 
+              <div className="row">
+                <div className="mt-3 col-sm-6 col-lg-6 col-md-6">
+                  <p>
+                    <strong>Nhà cung cấp</strong>
+                  </p>
+                  <div className="md-form form">
+                    <select
+                      className="md-text form-control"
+                      onChange={handleChangeSupplier}
+                    >
+                      <option>Chọn</option>
+                      {supplierRender.map((item, i) => {
+                        return (
+                          <option key={i} value={item.id}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div className="mt-3 row col-sm-6 col-lg-6 col-md-6">
+                  <div className="col-lg-4">
+                    <p>
+                      <strong>Hình Ảnh</strong>
+                    </p>
+                    <div className="md-form form">
+                      <input
+                        className="md-text form-control"
+                        onChange={handleChangeFile} 
+                        style={{ display: "none" }}
+                        id="image"
+                        type="file"
+                        name="fileUploader"
+                        id="fileUploader"
+                        accept="image/*"
+                      />
+                      <label style={styleTop} className="form-control" htmlFor="fileUploader">
+                        Chọn
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    
+                    <img style={img} src={imageReview} />
+                  </div>
+                </div>
+              </div>
               <hr />
               {props.hideButton === true ? (
                 <button
