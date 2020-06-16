@@ -100,7 +100,7 @@ const DashBoard = () => {
                 <div className="card-icon">
                   <AssignmentIcon />
                 </div>
-                <p className="card-category">Số đơn hàng được đặt</p>
+                <p className="card-category">Số đơn hàng</p>
                 <h3 className="card-title">5</h3>
               </div>
               <div className="card-footer">
@@ -114,7 +114,7 @@ const DashBoard = () => {
                 <div className="card-icon">
                   <GroupIcon />
                 </div>
-                <p className="card-category">Khách của chúng tôi</p>
+                <p className="card-category">Số khách hàng </p>
                 <CountUp end={soKhachHang}>
                   {({ countUpRef }) => (
                     <h3 className="card-title" ref={countUpRef} />

@@ -17,6 +17,7 @@ import ProductItemAdmin from "./ProductItemAdmin";
 import { alertNotify } from "../../../untils/alert";
 import AddProduct from "./AddProduct";
 import { MenuList, MenuItem } from "@material-ui/core";
+import ProductProfile from "./ProductProfile";
 const ProductAdmin = () => {
   const [hideButton, setHideButton] = useState(false);
   const [soSanPham, setSoSanPham] = useState(null);
@@ -25,6 +26,7 @@ const ProductAdmin = () => {
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -176,12 +178,12 @@ const ProductAdmin = () => {
               <tbody>
                 {sanpham.map((item, i) => {
                   key=i+1;
-                  return <ProductItemAdmin stt={key} sanpham={item} xoaSanpham={xoaSanpham} />;
+                  return <ProductItemAdmin stt={key} sanpham={item} xoaSanpham={xoaSanpham} setOpenUpdate={setOpenUpdate}/>;
                 })}
               </tbody>
             </table>
           </div>
-          <div className="row" data-aos="fade-up">
+          <div className="row">
             <div className="col-md-12 text-center">
               <div className="site-block-27">
                 <MenuList>
@@ -227,6 +229,7 @@ const ProductAdmin = () => {
         </div>
       </div>
       <AddProduct open={open} setOpen={setOpen} themSanPham={themSanPham} />
+      <ProductProfile open={openUpdate} setOpen={setOpenUpdate}/>
     </div>
   );
 };

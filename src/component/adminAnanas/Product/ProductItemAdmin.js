@@ -4,6 +4,7 @@ import { alertYesNo } from "../../../untils/alert";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import ProductProfile from "./ProductProfile";
 const ProductItemAdmin = (props) => {
   const [sanpham, setSanpham] = useState({
     id: "",
@@ -38,13 +39,22 @@ const ProductItemAdmin = (props) => {
       product: props.sanpham,
     });
   };
+  const xemchitiet = ()=>{
+    props.setOpenUpdate(true);
+    console.log("Xem chi tiết sản phẩm");
+    dispatch({
+      type: "CLICK",
+      product: props.sanpham,
+    });
+  }
   return (
     <tr>
       <td>{props.stt}</td>
       <td>{sanpham.name}</td>
       <td>{sanpham.price}</td>
       <td>
-        <Link to=""
+        <Link 
+          onClick={xemchitiet}
           data-toggle="modal"
           data-target="#xemchitietsanpham"
         >
@@ -64,6 +74,7 @@ const ProductItemAdmin = (props) => {
         </Link>
       </td>
     </tr>
+
   );
 };
 
