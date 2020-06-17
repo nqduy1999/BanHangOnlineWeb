@@ -9,7 +9,7 @@ const ProductCard = (props) => {
           <figure className="block-4-image">
           <Link to={"/chitiet?id="+ props.id}><img style={{width: '100%', height: "15rem"}} src={props.url} alt={props.content} className="img-fluid" /></Link>
           </figure>
-          <div className="block-4-text">
+          <div className="block-4-text" style={{height: "7rem"}}>
             <h3><Link to={"/chitiet?id="+ props.id}>{props.name}</Link></h3>
             <div className="d-inline">
             <p className="text-warning font-weight-bold">{props.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
