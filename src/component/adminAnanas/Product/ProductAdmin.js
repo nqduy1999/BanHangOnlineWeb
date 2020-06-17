@@ -26,7 +26,8 @@ const ProductAdmin = () => {
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [open, setOpen] = useState(false);
-  const [openUpdate, setOpenUpdate] = useState(false);
+  const [openView, setOpenView] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState({});
   const handleOpen = () => {
     setOpen(true);
   };
@@ -178,7 +179,7 @@ const ProductAdmin = () => {
               <tbody>
                 {sanpham.map((item, i) => {
                   key=i+1;
-                  return <ProductItemAdmin stt={key} sanpham={item} xoaSanpham={xoaSanpham} setOpenUpdate={setOpenUpdate}/>;
+                  return <ProductItemAdmin stt={key} sanpham={item} xoaSanpham={xoaSanpham} setOpenView={setOpenView} setOpenUpdate={setOpenUpdate}/>;
                 })}
               </tbody>
             </table>
@@ -229,7 +230,7 @@ const ProductAdmin = () => {
         </div>
       </div>
       <AddProduct open={open} setOpen={setOpen} themSanPham={themSanPham} />
-      <ProductProfile open={openUpdate} setOpen={setOpenUpdate}/>
+      <ProductProfile open={openView} setOpen={setOpenView} openUpdate={openUpdate}/>
     </div>
   );
 };

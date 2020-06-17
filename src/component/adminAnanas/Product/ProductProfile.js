@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Modal, makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 500,
+    height: 300,
     flexGrow: 1,
     minWidth: 300,
     transform: "translateZ(0)",
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    width: 800,
+    width: 650,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
@@ -28,24 +29,36 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "5px",
   },
 }));
-const styleImge ={
-  width:"200px",
-  height:"200px"
-}
+const styleImge = {
+  width: "80%",
+  height: "250px",
+  float: "right",
+};
 const ProductProfile = (props) => {
+  const { register, handleSubmit } = useForm();
   const state = useSelector((state) => state.admin);
-  console.log(state);
   const classes = useStyles();
   const rootRef = useRef(null);
-  const [product, setProduct] = useState({ });
-  const cancel = () =>{
-    props.setOpen(false)
-  }
+  const [product, setProduct] = useState({});
+  const cancel = () => {
+    props.setOpen(false);
+  };
+  const handleInput = (e) => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
+  };
   useEffect(() => {
-    if(state.product){
-    setProduct(state.product);
+    if(props.openUpdate){
+    setProduct(props.openUpdate);
     }
-  }, [state.product]);
+  }, [props.openUpdate])
+  useEffect(() => {
+    if(props.open){
+    if (state.product) {
+      console.log(state.product)
+      setProduct(state.product);
+    }
+  }
+  },[state.product]);
   return (
     <div className={classes.root} ref={rootRef}>
       <Modal
@@ -56,15 +69,22 @@ const ProductProfile = (props) => {
       >
         <div className={classes.paper}>
           <div className="modal-body">
-          <form >
-              <p>
-                <strong>Hình ảnh sản phẩm</strong>
-              </p>
-              <div className="md-form form">
-                <img src={product.urlImage} style={styleImge} />
-              </div>
+            <button
+              type="button"
+              className="btn btn-danger"
+              style={{ marginLeft: "550px" }}
+              onClick={cancel}
+            >
+              x
+            </button>
+            <form>
               <div className="row mt-3">
-                <div className="col-lg-4">
+                <div className="col-lg-6">
+                  <div className="md-form form">
+                    <img src={product.urlImage} style={styleImge} />
+                  </div>
+                </div>
+                <div className="col-lg-6">
                   <p>
                     <strong>Tên sản phẩm</strong>
                   </p>
@@ -72,10 +92,13 @@ const ProductProfile = (props) => {
                     type="text"
                     className="md-text form-control"
                     name="name"
-                    value={product.name}                   
+                    value={product.name}
+                    onChange={handleInput}
                   />
                 </div>
-                <div className="col-lg-4">
+              </div>
+              <div className="row mt-3">
+                <div className="col-lg-6">
                   <p>
                     <strong>Số Lượng</strong>
                   </p>
@@ -84,13 +107,13 @@ const ProductProfile = (props) => {
                       type="text"
                       name="inventory"
                       required
-                      
                       className="md-text form-control"
                       placeholder="Nhập số lượng sản phẩm"
+                      value={product.inventory}
                     />
                   </div>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-lg-6">
                   <p>
                     <strong>Giá</strong>
                   </p>
@@ -99,9 +122,9 @@ const ProductProfile = (props) => {
                       ype="text"
                       name="price"
                       required
-                  
                       className="md-text form-control"
                       placeholder="Nhập giá sản phẩm"
+                      value={product.price}
                     />
                   </div>
                 </div>
@@ -110,9 +133,12 @@ const ProductProfile = (props) => {
                 <p>
                   <strong>Mô tả sản phẩm</strong>
                 </p>
-                <div className="md-form form">
-            
-                </div>
+                <textarea
+                  name="description"
+                  value={product.description}
+                  className="form form-control"
+                />
+                <div className="md-form form"></div>
               </div>
 
               <div className="row">
@@ -121,52 +147,27 @@ const ProductProfile = (props) => {
                     <strong>Nhà cung cấp</strong>
                   </p>
                   <div className="md-form form">
-                    <select
-                      className="md-text form-control"
-                    >
-                      <option>Chọn</option>
-                
+                    <select className="md-text form-control">
+                      <option>
+                        {product.supplier ? product.supplier.name : ""}
+                      </option>
                     </select>
                   </div>
                 </div>
-                <div className="mt-3 row col-sm-6 col-lg-6 col-md-6">
-                  <div className="col-lg-4">
-                    <p>
-                      <strong>Hình Ảnh</strong>
-                    </p>
-                    <div className="md-form form">
-                      <input
-                        className="md-text form-control"
-                      
-                        id="image"
-                        type="file"
-                        name="fileUploader"
-                        id="fileUploader"
-                        accept="image/*"
-                      />
-                      <label className="form-control" htmlFor="fileUploader">
-                        Chọn
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-lg-6">
-                    
-                    <img />
+                <div className="mt-3 col-sm-6 col-lg-6 col-md-6">
+                  <p>
+                    <strong>Loại sản phẩm</strong>
+                  </p>
+                  <div className="md-form form">
+                    <select className="md-text form-control">
+                      <option>
+                        {product.category ? product.category.name : ""}
+                      </option>
+                    </select>
                   </div>
                 </div>
               </div>
-              <hr />
-              
-                <div className="justify-content-center">
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={cancel}
-                  >
-                    x Cancel
-                  </button>
-                </div>
-            
+              <br />
             </form>
           </div>
         </div>

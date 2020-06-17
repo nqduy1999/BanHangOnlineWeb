@@ -32,15 +32,18 @@ const ProductItemAdmin = (props) => {
     );
   };
   const dispatch = useDispatch();
+  
   const dispatchItem = () => {
-    props.getUpdateProduct(props.sanpham);
+    props.setOpenView(true);
+    props.setOpenUpdate(props.sanpham);
     dispatch({
-      type: "CLICK",
-      product: props.sanpham,
-    });
+      type:"UPDATE",
+      product:null
+    })
   };
   const xemchitiet = ()=>{
-    props.setOpenUpdate(true);
+    props.setOpenView(true);
+
     console.log("Xem chi tiết sản phẩm");
     dispatch({
       type: "CLICK",

@@ -107,6 +107,8 @@ const AddProduct = (props) => {
   };
   const handleInput = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
+    console.log(product);
+    
   };
   const cancel = () => {
     setProduct({
