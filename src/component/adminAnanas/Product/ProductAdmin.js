@@ -77,6 +77,7 @@ const ProductAdmin = () => {
   };
   const capNhatSanPham = (id, value) => {
     updateProduct(id, value).then((res) => {
+      console.log(value);
       if (res.error !== true) {
         alertNotify("Thông Báo", res.data.message, "success");
         getListProduct(currentPage).then((res) => {
@@ -230,7 +231,7 @@ const ProductAdmin = () => {
         </div>
       </div>
       <AddProduct open={open} setOpen={setOpen} themSanPham={themSanPham} />
-      <ProductProfile open={openView} setOpen={setOpenView} openUpdate={openUpdate}/>
+      <ProductProfile open={openView} setOpen={setOpenView} openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} updateProduct={capNhatSanPham}/>
     </div>
   );
 };

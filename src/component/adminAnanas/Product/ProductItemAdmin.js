@@ -42,9 +42,8 @@ const ProductItemAdmin = (props) => {
     })
   };
   const xemchitiet = ()=>{
-    props.setOpenView(true);
-
-    console.log("Xem chi tiết sản phẩm");
+    props.setOpenView(true)
+    props.setOpenUpdate(null)
     dispatch({
       type: "CLICK",
       product: props.sanpham,
