@@ -9,6 +9,10 @@ import { Link } from 'react-router-dom';
 import { MenuList } from "@material-ui/core";
 import ProductAdmin from "./Product/ProductAdmin";
 import DirectionAdmin from "./DirectionAdmin";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import StoreIcon from "@material-ui/icons/Store";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+
 const MainAdmin = () => {
   const [showComponent, setShowComponent] = useState("dashboard");
   const [currentComponent, setCurrentComponent] = useState(<ProductAdmin/>);
@@ -44,16 +48,34 @@ const MainAdmin = () => {
               </Link>
             </MenuList>
             <MenuList className="nav-item ">
-            <Link to="quanly/sanpham" className="nav-link sidebar-hover text-black">
+            <Link to="/quanly/sanpham" className="nav-link sidebar-hover text-black">
                 <AllInboxIcon/>
                 <span>Quản lý sản phẩm</span>
               </Link>
             </MenuList>
             <MenuList className="nav-item ">
-              <a className="nav-link sidebar-hover" href="./tables.html">
+              <Link className="nav-link sidebar-hover" to="/quanly/khachhang">
                   <PersonIcon/>
                   <span>Quản lý khách hàng</span>
-              </a>
+              </Link>
+            </MenuList>
+            <MenuList className="nav-item ">
+              <Link className="nav-link sidebar-hover" to="/quanly/donhang">
+                  <AttachMoneyIcon/>
+                  <span>Quản lý đơn hàng</span>
+              </Link>
+            </MenuList>
+            <MenuList className="nav-item ">
+              <Link className="nav-link sidebar-hover" to="/quanly/nhacungcap">
+                  <StoreIcon/>
+                  <span >Quản lý nhà cung cấp</span>
+              </Link>
+            </MenuList>
+            <MenuList className="nav-item ">
+              <Link className="nav-link sidebar-hover" to="/quanly/lo">
+                  <AssignmentIcon/>
+                  <span>Quản lý loại sản phẩm</span>
+              </Link>
             </MenuList>
           </MenuList>
         </div>

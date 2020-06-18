@@ -57,8 +57,6 @@ const ProductItemAdmin = (props) => {
       <td>
         <Link 
           onClick={xemchitiet}
-          data-toggle="modal"
-          data-target="#xemchitietsanpham"
         >
           Xem Chi Tiết
         </Link>
@@ -68,8 +66,6 @@ const ProductItemAdmin = (props) => {
           Xoá
         </Link>
         <Link
-          data-toggle="modal"
-          data-target="#capnhat"
           onClick={dispatchItem}
         >
           Update
