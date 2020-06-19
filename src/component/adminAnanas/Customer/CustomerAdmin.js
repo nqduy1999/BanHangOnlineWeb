@@ -68,23 +68,10 @@ const CustomerAdmin = () => {
             </div>
           </div>
           <div className="card-body table-responsive">
-            <table className="table table-hover">
-              <thead className="text-danger">
-                <tr>
-                  <th>STT</th>
-                  <th>Tài khoản</th>
-                  <th>Tên khách hàng</th>
-                  <th>Chi tiết</th>
-                  <th>Cập nhật </th>
-                </tr>
-              </thead>
-              <tbody>
                 {khachHang.map((kh, i) => {
                   key=i+1;
                   return <CustomerItem stt={key} khachhang={kh}/>;
                 })}
-              </tbody>
-            </table>
           </div>
         </div>
       </div>

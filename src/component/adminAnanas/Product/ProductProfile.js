@@ -197,12 +197,11 @@ const ProductProfile = (props) => {
                       onChange={handleInput}
                     />
                   ) : (
-                    <input
-                      type="text"
-                      className="md-text form-control"
-                      name="name"
-                      value={product.name}
-                    />
+                    <span
+                      className="md-text form-control"                      
+                    >
+                      {product.name}
+                    </span>
                   )}
                 </div>
               </div>
@@ -277,13 +276,11 @@ const ProductProfile = (props) => {
                           onChange={handleInput}
                         />
                       ) : (
-                        <input
-                          type="text"
-                          name="inventory"
-                          required
-                          className="md-text form-control"
-                          value={product.inventory}
-                        />
+                        <span
+                        className="md-text form-control"                      
+                      >
+                        {product.inventory}
+                      </span>
                       )}
                     </div>
                   </div>
@@ -303,12 +300,11 @@ const ProductProfile = (props) => {
                           onChange={handleInput}
                         />
                       ) : (
-                        <input
-                          ype="text"
-                          name="price"
-                          className="md-text form-control"
-                          value={product.price}
-                        />
+                        <span
+                        className="md-text form-control"                      
+                      >
+                        {product.price}
+                      </span>
                       )}
                     </div>
                   </div>
