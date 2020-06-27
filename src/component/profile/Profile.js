@@ -16,7 +16,7 @@ import Address from './Address';
 const Profile = () => {
     const state = useSelector(state => state.auth);
     const stateAddress = useSelector(state => state.address);
-    const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
+    const [selectedDate, setSelectedDate] = useState(null);
     const { register, handleSubmit } = useForm();
     const [isEdit, setIsEdit] = useState(false);
     const dispatch = useDispatch();
@@ -40,7 +40,6 @@ const Profile = () => {
         setUser({...user,
             [e.target.name]: e.target.value
         })
-        console.log(user);
     }
     let onSubmit = () => {
         if(isEdit === false) {
@@ -49,6 +48,14 @@ const Profile = () => {
                 if(res.error !== true && res.data.code === 0) {
                     alertNotify("Thông báo", "Cập nhật thành công", "success");
                     //state.user dc update bên phía direction nên ko cần cập nhật lại ở đây
+                    dispatch({type: "SAVE", user: {...user,
+                        name: user.name,
+                        address: user.address,
+                        phone: user.phone,
+                        identityCard: user.identityCard,
+                        birthday: user.birthday,
+                        account: user.account
+                    }});
                 } else {
                     alertNotify("Thông báo", res.data.message, "error");
                 }
@@ -61,9 +68,10 @@ const Profile = () => {
             address: stateAddress.address
         });
     }, [stateAddress]);
+
     useEffect(() => {
         if(state.user) {
-            setSelectedDate(state.user.birthday);
+            setSelectedDate(state.user.birthday)
             setUser({...user,
                 name: state.user.name,
                 address: state.user.address,
@@ -72,16 +80,8 @@ const Profile = () => {
                 birthday: state.user.birthday,
                 account: state.user.account
             });
-            dispatch({type: "SAVE", user: {...user,
-                name: state.user.name,
-                address: state.user.address,
-                phone: state.user.phone,
-                identityCard: state.user.identityCard,
-                birthday: state.user.birthday,
-                account: state.user.account
-            }});
         }
-    }, [selectedDate]);
+    }, []);
     return (
         <form className="container card" onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
@@ -104,14 +104,11 @@ const Profile = () => {
                         <KeyboardDatePicker className="form-control"
                             margin="normal"
                             id="date-picker-dialog"
-                            label="Date picker dialog"
+                            label="Chọn ngày sinh"
                             format="MM/dd/yyyy"
                             value={selectedDate}
                             disabled={isEdit ? false : true}
                             onChange={handleDateChange}
-                            KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                            }}
                         />
                         </MuiPickersUtilsProvider>
                     </div>
