@@ -41,7 +41,7 @@ const MyAccount = () => {
                                 listOrder && listOrder.map((order, key) => (
                                     order.listOrderDetail.map((orderDetail, key) => (
                                         key === 0 ?
-                                            <Order turnOnBtn={true} onClick={() => {setIsDetail(true); setIdOrder(order.id)}} key={key} productName={orderDetail.product.name} inventory={order.listOrderDetail.length} price={orderDetail.product.unitPrice} total={order.totalMoney}/> : ""
+                                            <Order turnOnBtn={true} onClick={() => {setIsDetail(true); setIdOrder(order.id)}} key={key} productName={orderDetail.product.name} urlImage={orderDetail.product.urlImage} inventory={order.listOrderDetail.length} price={orderDetail.product.unitPrice} total={order.totalMoney}/> : ""
                                     ))
                                 ))
                             }

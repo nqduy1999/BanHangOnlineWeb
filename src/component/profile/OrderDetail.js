@@ -57,7 +57,7 @@ const OrderDetail = (props) => {
                 <div className="col-md-12">
                     {
                         order.listOrderDetail.map((orderDetail, key) =>
-                        <Order turnOnBtn={false} key={key} productName={orderDetail.product.name} inventory={orderDetail.quantity} price={orderDetail.product.price} total={orderDetail.unitPrice}/>
+                        <Order turnOnBtn={false} key={key} productName={orderDetail.product.name} urlImage={orderDetail.product.urlImage} inventory={orderDetail.quantity} price={orderDetail.product.price} total={orderDetail.unitPrice}/>
                         )
                     }
                 </div>
@@ -67,8 +67,8 @@ const OrderDetail = (props) => {
                 <div className="col-md-9">
                     <span className="text-uppercase font-weight-bold">Phương thức thanh toán: </span>{order.payMethod}
                 </div>
-                <div className="col-md-3 text-info font-weight-bold">
-                    Tổng tiền: {order.totalMoney}
+                <div className="col-md-3 text-warning font-weight-bold">
+                    Tổng tiền: {order.totalMoney.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}
                 </div>
             </div>
         </div>
