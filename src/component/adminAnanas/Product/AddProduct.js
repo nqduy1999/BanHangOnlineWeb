@@ -126,7 +126,6 @@ const AddProduct = (props) => {
   };
   const onSubmit = (data) => {
     const formData = new FormData();
-    console.log(filePath);
     formData.append("file", filePath);
     setProduct({
       ...product,
@@ -136,8 +135,8 @@ const AddProduct = (props) => {
       inventory: data.inventory,
     });
     if (filePath) {
-      console.log(formData);
       uploadFile(formData).then((res) => {
+        console.log(res.data);
         props.themSanPham({ ...product, urlImage: res.data.result });
         props.setOpen(false);
       });
@@ -312,7 +311,7 @@ const AddProduct = (props) => {
                     type="submit"
                     className="btn btn-primary waves-effect waves-light"
                   >
-                    {props.updateProduct ? "Sửa" : "Thêm"}
+                     Thêm
                     <i className="fa fa-plus"></i>
                   </button>
                   <button

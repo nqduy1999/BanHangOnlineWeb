@@ -32,16 +32,18 @@ const ProductItemAdmin = (props) => {
     );
   };
   const dispatch = useDispatch();
+  
   const dispatchItem = () => {
-    props.getUpdateProduct(props.sanpham);
+    props.setOpenView(true);
+    props.setOpenUpdate(props.sanpham);
     dispatch({
-      type: "CLICK",
-      product: props.sanpham,
-    });
+      type:"UPDATE",
+      product:null
+    })
   };
   const xemchitiet = ()=>{
-    props.setOpenUpdate(true);
-    console.log("Xem chi tiết sản phẩm");
+    props.setOpenView(true)
+    props.setOpenUpdate(null)
     dispatch({
       type: "CLICK",
       product: props.sanpham,
@@ -55,8 +57,6 @@ const ProductItemAdmin = (props) => {
       <td>
         <Link 
           onClick={xemchitiet}
-          data-toggle="modal"
-          data-target="#xemchitietsanpham"
         >
           Xem Chi Tiết
         </Link>
@@ -66,8 +66,6 @@ const ProductItemAdmin = (props) => {
           Xoá
         </Link>
         <Link
-          data-toggle="modal"
-          data-target="#capnhat"
           onClick={dispatchItem}
         >
           Update

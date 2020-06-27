@@ -35,6 +35,11 @@ const AdminReducer = (state = initialState, action) => {
     return {
       ...state
     }
+    case "UPDATE":
+      state.product = action.product;
+      return {
+        ...state
+      }
     default:
       return state;
   }

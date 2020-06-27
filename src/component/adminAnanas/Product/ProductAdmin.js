@@ -26,7 +26,8 @@ const ProductAdmin = () => {
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [open, setOpen] = useState(false);
-  const [openUpdate, setOpenUpdate] = useState(false);
+  const [openView, setOpenView] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState({});
   const handleOpen = () => {
     setOpen(true);
   };
@@ -76,6 +77,7 @@ const ProductAdmin = () => {
   };
   const capNhatSanPham = (id, value) => {
     updateProduct(id, value).then((res) => {
+      console.log(value);
       if (res.error !== true) {
         alertNotify("Thông Báo", res.data.message, "success");
         getListProduct(currentPage).then((res) => {
@@ -87,9 +89,6 @@ const ProductAdmin = () => {
       }
     });
   };
-  const renderSanPham = () =>{
-    
-  }
   useEffect(() => {
     getSoProduct().then((res) => {
       setSoSanPham(res.data.result.length);
@@ -148,15 +147,20 @@ const ProductAdmin = () => {
                     <div className="ripple-container"></div>
                   </button>
                 </div>
-                <div className="nav-item col-lg-4 col-md-4 col-sm-6">
+                <div className="nav-item col-lg-3 col-md-4 col-sm-6">
                   <div className="nav-link " href="#profile" data-toggle="tab">
                     <input
                       type="text"
-                      className="form-group pb-1 mr-1"
+                      className="pb-1 form-control"
                       placeholder="Nhập từ khoá ...."
                     />
-                    <button className="btn btn-warning pt-1 pr-1 pl-1 pb-1">
-                      <SearchIcon className="pb-1 mr-2" />
+                    <div className="ripple-container"></div>
+                  </div>
+                </div>
+                <div className="nav-item col-lg-1 col-md-4 col-sm-6 row">
+                  <div className="nav-link row"  data-toggle="tab">
+                      <button className="btn btn-warning">
+                    <i class="fa fa-search"></i>
                     </button>
                     <div className="ripple-container"></div>
                   </div>
@@ -178,7 +182,7 @@ const ProductAdmin = () => {
               <tbody>
                 {sanpham.map((item, i) => {
                   key=i+1;
-                  return <ProductItemAdmin stt={key} sanpham={item} xoaSanpham={xoaSanpham} setOpenUpdate={setOpenUpdate}/>;
+                  return <ProductItemAdmin stt={key} sanpham={item} xoaSanpham={xoaSanpham} setOpenView={setOpenView} setOpenUpdate={setOpenUpdate}/>;
                 })}
               </tbody>
             </table>
@@ -229,7 +233,7 @@ const ProductAdmin = () => {
         </div>
       </div>
       <AddProduct open={open} setOpen={setOpen} themSanPham={themSanPham} />
-      <ProductProfile open={openUpdate} setOpen={setOpenUpdate}/>
+      <ProductProfile open={openView} setOpen={setOpenView} openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} updateProduct={capNhatSanPham}/>
     </div>
   );
 };
