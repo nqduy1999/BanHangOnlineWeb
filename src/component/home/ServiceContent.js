@@ -13,7 +13,7 @@ const ServiceContent = () => {
             <div className="intro-text text-center text-md-left">
               <p className="mb-4" />
               <p>
-                <Link to="/sanpham" className="btn btn-sm btn-primary"><i className="fas fa-shopping-cart"></i> Mua Ngay</Link>
+                <Link to="/sanpham?type=&keyword=&currentPage=0" className="btn btn-sm btn-primary"><i className="fas fa-shopping-cart"></i> Mua Ngay</Link>
               </p>
             </div>
           </div>
